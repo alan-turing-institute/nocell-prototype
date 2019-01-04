@@ -10,11 +10,11 @@ An abstract representation of spreadsheets
 
 ;; A sheet is:
 ;; - a two-dimensional array? of cells; 
-;; - a list of names (of ranges); and
+;; - a list of names (of ranges &c); and
 ;; - some metadata (including a human-readable name) 
 
 ;; cells : Array? (specifically, a non-empty array one shape has length 2)
-;; names : List-of range-name? 
+;; names : (assoc? name? cell-expr?) 
 (struct sheet (cells names meta))
 
 ;; A cell is:
@@ -22,38 +22,51 @@ An abstract representation of spreadsheets
 ;; - some metadata (including, perhaps, whatever is used to decide the
 ;;   formatting of the cell)
 
-;; value : cell-value?
+;; content : cell-content?
 ;; meta : cell-meta?
-(struct cell (value meta))
+(struct cell (content meta))
 
-;; A cell value is either:
+;; The cell content is either:
 ;; - empty (represented by #f); or
 ;; - a cell expression
 
+(define (is-content? v)
+  (or (not v) (cell-expr? v)))
+
+(struct cell-expr ())
+
 ;; A cell expression is either:
-;; - a literal; 
-;; - a range;
-;; - a reference;
-;; - an error; or
+;; - a value; 
+;; - a name; or
 ;; - a function application
 
-(struct cell-expression ())
+(struct cell-value   cell-expr ())
+(struct cell-name    cell-expr (id))           ; id      : string?
+(struct cell-app     cell-expr (builtin args)) ; builtin : builtin?
+                                               ; args    : List-of cell-expr?
 
-(struct cell-literal   cell-expression (value))   ; value : cell-literal-value?
-(struct cell-range     cell-expression (address)) ; address : (or/c? cell-address? range-address?)
-(struct cell-ref       cell-expression (name))    ; name : string?
-(struct cell-error     cell-expression (type))    ; type : cell-error-type? 
-(struct cell-app       cell-expression (builtin args)) ; builtin : builtin?
-                                                       ; args    : List-of cell-expression?
+;; A cell value is either
+;; - an atomic value;
+;; - an array of atomic values;
+;; - a reference
 
-(define (cell-value? v)
-  (or (not v) (cell-expression? v)))
+(struct cell-atomic  cell-value (value))       ; value   : is-atomic?
+(struct cell-ref     cell-value (address))     ; address : or/c? cell-address? range-address?   
+(struct cell-array   cell-value (cells))       ; cells   : (Array is-atomic?) 
 
-(define (cell-literal-value? v)
-  (or (number? v) (string? v) (boolean? v)))
+;; An atomic value is either
+;; - a number;
+;; - a boolean;
+;; - a string; or
+;; - an error
 
-(define (cell-error-type? err)
+(define (is-atomic? v)
+  (or (number? v) (string? v) (boolean? v) (is-error? v)))
+
+(define (is-error? err)
   (memq err '(NA DIV/0)))
+
+;; A cell reference is an address, which is either a cell or a range
 
 ;; A cell-address is a pair of integers (i, j) and for each a boolean which is
 ;; true if the corresponding reference is relative
@@ -75,9 +88,53 @@ An abstract representation of spreadsheets
 ;;; Builtins
 ;;; --------------------------------------------------------------------------------
 
+(define (is-builtin? id)
+  (assq id builtins))
 
+;; -> sequence-of symbol?
+(define (builtins)
+  (in-dict-keys builtins0))
 
+(define (builtin-min-args id)
+  (let ([nargs (cdr (assq id builtins))])
+    (if (cons? nargs)
+        (car nargs)
+        nargs)))
 
+;; Returns null if max args is unbounded
+(define (builtin-max-args id)
+  (let ([nargs (cdr (assq id builtins))])
+    (if (cons? nargs)
+        (cdr nargs)
+        nargs)))
+
+(define (unary-builtin id)
+  (cons id 1))
+
+(define (binary-builtin id)
+  (cons id 2))
+
+(define number-builtins
+  (append
+   '([+ . (1)]
+     [- . (1)]
+     [log . (1 . 2)])
+   (map binary-builtin
+        '(* /
+          quotient remainder modulo
+          expt))
+   (map unary-builtin
+        '(abs max min floor ceiling truncate 
+          sin cos tan
+          asin acos atan
+          random
+          sqrt exp log10))))
+
+(define builtins0
+  (append
+   number-builtins
+   ;; more go here ...
+   ))
 
 ;;; TODO
 ;;; --------------------------------------------------------------------------------
