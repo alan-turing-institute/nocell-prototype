@@ -1,7 +1,7 @@
 #lang racket
 (require math/array)
 
-(require "grid.rkt")
+(require "sheet.rkt")
 
 (provide sheet-eval
          list->sheet
