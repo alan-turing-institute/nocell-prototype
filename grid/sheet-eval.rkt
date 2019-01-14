@@ -3,7 +3,9 @@
 
 (require "grid.rkt")
 
-(provide sheet-eval)
+(provide sheet-eval
+         list->sheet
+         cell-value-return)
 
 ;; cell-ref->vector : cell-ref? (Vector fixnum) -> (Vector fixnum)
 (define (cell-ref->vector target [offset #(0 0)])
@@ -147,18 +149,3 @@
          ls)
     cell-expr?)
    '() '()))
-
-;;; some manually constructed sheets (for testing)
-;;;
-(define example-sheet-1
-  (list->sheet
-   `((1 ,(cell-app 'builtin-foo (list (cell-ref 0 -1 #t #t) (cell-value-return 100))) 3)
-     (4 5 6))))
-
-(define example-sheet-2
-  (list->sheet
-   `((1
-      2
-      3
-      ,(cell-app 'builtin-foo (list (cell-range (cell-ref 0 -2 #f #t) (cell-ref 1 3 #f #f)) (cell-value-return -5)))
-      ,(cell-range (cell-ref 0 0 #f #f) (cell-ref 1 2 #f #f))))))
