@@ -73,6 +73,26 @@ An abstract representation of spreadsheets
 (define (is-empty? v)
   (eq? v 'empty))
 
+;;; Cell Utilities
+;;; --------------------------------------------------------------------------------
+
+;; cell-ref->vector : cell-ref? (Vector fixnum) -> (Vector fixnum)
+(define (cell-ref->vector target [offset #(0 0)])
+  (let ((col (if (cell-ref-col-rel? target)
+                 (+ (vector-ref offset 0) (cell-ref-col target))
+                 (cell-ref-col target)))
+        (row (if (cell-ref-row-rel? target)
+                 (+ (vector-ref offset 1) (cell-ref-row target))
+                 (cell-ref-row target))))
+    (vector col row)))
+
+;; cell-ref? vector? -> cell-ref?
+(define (cell-ref-vector/+ r v)
+  (struct-copy cell-ref r
+               [col (+ (cell-ref-col r) (vector-ref v 0))]
+               [row (+ (cell-ref-row r) (vector-ref v 1))]))
+
+
 
 ;;; Indexing
 ;;; --------------------------------------------------------------------------------
@@ -84,6 +104,17 @@ An abstract representation of spreadsheets
 ;; sheet-ref : sheet? non-negative-integer? non-negative-integer? -> cell-value?
 (define (sheet-ref sh i j)
   (array-ref (sheet-cells sh) (list i j)))
+
+;; sheet-get-cell : sheet? cell-ref? [vector?] -> cell-expr?
+(define (sheet-get-cell sheet target [offset #(0 0)])
+  (array-ref (sheet-cells sheet) (cell-ref->vector target offset)))
+
+;; resolve-name : sheet? string? -> cell-expr?
+;;
+;; takes a name and tries to resolve it to its expression within the
+;; sheet.  If name is undefined, returns #f
+(define (sheet-resolve-name sheet name)
+  (cdr (assoc name (sheet-names sheet))))
 
 
 ;;; Builtins

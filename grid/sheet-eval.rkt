@@ -7,39 +7,6 @@
          list->sheet
          cell-value-return)
 
-;; cell-ref->vector : cell-ref? (Vector fixnum) -> (Vector fixnum)
-(define (cell-ref->vector target [offset #(0 0)])
-  (let ((col (if (cell-ref-col-rel? target)
-                 (+ (vector-ref offset 0) (cell-ref-col target))
-                 (cell-ref-col target)))
-        (row (if (cell-ref-row-rel? target)
-                 (+ (vector-ref offset 1) (cell-ref-row target))
-                 (cell-ref-row target))))
-    (vector col row)))
-
-;; cell-ref? vector? -> cell-ref?
-(define (cell-ref-vector/+ r v)
-  (struct-copy cell-ref r
-               [col (+ (cell-ref-col r) (vector-ref v 0))]
-               [row (+ (cell-ref-row r) (vector-ref v 1))]))
-
-(define (sheet-get-cell sheet target [offset #(0 0)])
-  (array-ref (sheet-cells sheet) (cell-ref->vector target offset)))
-
-;; resolve-name : sheet? string? -> cell-expr?
-;; takes a name and resolves it to its expression within the sheet
-;; undefined returns #f
-(define (sheet-resolve-name sheet name)
-  (cdr (assoc name (sheet-names sheet))))
-
-;; ;; an example builtin function
-;; (define (builtin-foo sheet vals origin arg)
-;;   (match arg
-;;     [(cell-atomic v) v]  ;; atomics/arrays evaluate to themselves 
-;;     [(cell-array v) v]
-;;     ;; references are followed in the value map (error if not present)
-;;     [(cell-ref addr) (array-ref vals (address->vector addr origin))]))
-
 ;; take a simple value v and wrap it in a 1x1 array with a single cell
 (define (cell-value-return v)
   (cell-value (list->array #(1 1) (list v))))
