@@ -1,0 +1,13 @@
+language: minimal
+
+dist: xenial
+addons:
+  apt:
+    sources:
+      - sourceline: 'ppa:plt/racket'
+    packages:
+      - racket
+
+script:
+  - raco pkg install
+  - raco test .
