@@ -23,6 +23,22 @@ An abstract representation of spreadsheets
        (equal? (array-dims cs) 2)
        (> (array-size cs) 0)))
 
+;; Construct a sheet from a (once) nested list with the same shape as
+;; the intended sheet. The innermost lists varying along the columns
+;; of the sheet.  If a value in the list is given as an atomic, it is
+;; wrapped as a cell-value.
+(define (list->sheet ls)
+  (sheet
+   (list*->array
+    (map (lambda (col)
+           (map (lambda (elt)
+                  (if (is-atomic? elt)
+                      (cell-value-return elt)
+                      elt))
+                col))
+         ls)
+    cell-expr?)
+   '() '()))
 
 ;; A cell is:
 ;; - A cell value; and 
@@ -73,8 +89,18 @@ An abstract representation of spreadsheets
 (define (is-empty? v)
   (eq? v 'empty))
 
+
 ;;; Cell Utilities
 ;;; --------------------------------------------------------------------------------
+
+;; take an atomic value v and wrap it in a cell-value containing a 1x1
+;; array
+(define (cell-value-return v)
+  (cell-value (list->array #(1 1) (list v))))
+
+;; cell-value? -> is-atomic?
+(define (cell-value->atomic cv)
+  (array-ref (cell-value-elements cv) #(0 0)))
 
 ;; cell-ref->vector : cell-ref? (Vector fixnum) -> (Vector fixnum)
 (define (cell-ref->vector target [offset #(0 0)])
@@ -92,6 +118,13 @@ An abstract representation of spreadsheets
                [col (+ (cell-ref-col r) (vector-ref v 0))]
                [row (+ (cell-ref-row r) (vector-ref v 1))]))
 
+;; take two vectors comprising a range (top left and bottom right),
+;; and return the size of the range (as a vector).  The origin is used
+;; to resolve relative references.
+;;
+;; cell-ref? cell-ref? vector? -> vector?
+(define (cell-range-extent tl br origin)
+  (vector-map - (cell-ref->vector br origin) (cell-ref->vector tl origin)))
 
 
 ;;; Indexing
@@ -116,57 +149,6 @@ An abstract representation of spreadsheets
 (define (sheet-resolve-name sheet name)
   (cdr (assoc name (sheet-names sheet))))
 
-
-;;; Builtins
-;;; --------------------------------------------------------------------------------
-
-(define (is-builtin? id)
-  (assq id builtins))
-
-;; -> sequence-of symbol?
-(define (builtins)
-  (in-dict-keys builtins0))
-
-(define (builtin-min-args id)
-  (let ([nargs (cdr (assq id builtins))])
-    (if (cons? nargs)
-        (car nargs)
-        nargs)))
-
-;; Returns null if max args is unbounded
-(define (builtin-max-args id)
-  (let ([nargs (cdr (assq id builtins))])
-    (if (cons? nargs)
-        (cdr nargs)
-        nargs)))
-
-(define (unary-builtin id)
-  (cons id 1))
-
-(define (binary-builtin id)
-  (cons id 2))
-
-(define number-builtins
-  (append
-   '([+ . (1)]
-     [- . (1)]
-     [log . (1 . 2)])
-   (map binary-builtin
-        '(* /
-          quotient remainder modulo
-          expt))
-   (map unary-builtin
-        '(abs max min floor ceiling truncate 
-          sin cos tan
-          asin acos atan
-          random
-          sqrt exp log10))))
-
-(define builtins0
-  (append
-   number-builtins
-   ;; more go here ...
-   ))
 
 ;;; TODO
 ;;; --------------------------------------------------------------------------------

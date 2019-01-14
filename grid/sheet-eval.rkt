@@ -1,31 +1,10 @@
 #lang racket
 (require math/array)
 
-(require "sheet.rkt")
+(require "sheet.rkt"
+         "builtins.rkt")
 
-(provide sheet-eval
-         list->sheet
-         cell-value-return)
-
-;; take a simple value v and wrap it in a 1x1 array with a single cell
-(define (cell-value-return v)
-  (cell-value (list->array #(1 1) (list v))))
-
-(define (builtin-foo a b)
-  (cell-value-return (+ (array-all-sum (cell-value-elements a))
-                        (array-all-sum (cell-value-elements b)))))
-
-;; cell-value? -> is-atomic?
-(define (cell-value->atomic cv)
-  (array-ref (cell-value-elements cv) #(0 0)))
-
-;; take two vectors comprising a range (top left and bottom right),
-;; and return the size of the range (as a vector).  The origin is used
-;; to resolve relative references.
-;;
-;; cell-ref? cell-ref? vector? -> vector?
-(define (cell-range-extent tl br origin)
-  (vector-map - (cell-ref->vector br origin) (cell-ref->vector tl origin)))
+(provide sheet-eval)
 
 ;; sheet-eval : sheet? -> (Mutable-Array is-atomic?)
 (define (sheet-eval sheet)
@@ -100,19 +79,10 @@
     
     atomic-vals))
 
-;; Construct a sheet from a (once) nested list with the same shape as
-;; the intended sheet (the innermost lists varying along the columns
-;; of the sheet).  If a value in the list is given as an atomic, it is
-;; wrapped as a cell-value.
-(define (list->sheet ls)
-  (sheet
-   (list*->array
-    (map (lambda (col)
-           (map (lambda (elt)
-                  (if (is-atomic? elt)
-                      (cell-value-return elt)
-                      elt))
-                col))
-         ls)
-    cell-expr?)
-   '() '()))
+
+;;; Builtins
+;;; --------------------------------------------------------------------------------
+
+(define (builtin-foo a b)
+  (cell-value-return (+ (array-all-sum (cell-value-elements a))
+                        (array-all-sum (cell-value-elements b)))))
