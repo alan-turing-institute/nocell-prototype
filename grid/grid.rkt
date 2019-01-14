@@ -29,59 +29,49 @@ An abstract representation of spreadsheets
 ;; - some metadata (including, perhaps, whatever is used to decide the
 ;;   formatting of the cell)
 
-;; content : cell-content?
-;; meta : cell-meta?
+;; content : cell-expr?
+;; meta    : cell-meta?
 (struct cell (content meta) #:transparent)
-
-;; The cell content is either:
-;; - empty (represented by #f); or
-;; - a cell expression
-
-(define (is-content? v)
-  (or (not v) (cell-expr? v)))
 
 (struct cell-expr () #:transparent)
 
 ;; A cell expression is either:
-;; - a value; 
+;; - a value (arrays, perhaps with a single element, of atomic values);
+;; - a reference;
 ;; - a name; or
 ;; - a function application
 
-(struct cell-value   cell-expr () #:transparent)
-(struct cell-name    cell-expr (id) #:transparent)           ; id      : string?
-(struct cell-app     cell-expr (builtin args) #:transparent) ; builtin : builtin?
-                                                             ; args    : List-of cell-expr?
+;; elements : (Array is-atomic?)
+(struct cell-value cell-expr (elements) #:transparent)
 
-;; A cell value is either
-;; - an atomic value;
-;; - an array of atomic values;
-;; - a reference
+;; A cell-ref is a pair of integers (i, j) and for each a boolean
+;; which is true if the corresponding reference is relative
+(struct cell-ref cell-expr (col row col-rel? row-rel?) #:transparent)
 
-(struct cell-atomic  cell-value (value) #:transparent)       ; value   : is-atomic?
-(struct cell-ref     cell-value (address) #:transparent)     ; address : or/c? cell-address? range-address?   
-(struct cell-array   cell-value (cells) #:transparent)       ; cells   : (Array is-atomic?) 
+;; A cell-range is a pair of cell-ref (representing the top-left and
+;; bottom-right of the range)
+(struct cell-range cell-expr (tl br) #:transparent)
+
+;; id : string?
+(struct cell-name cell-expr (id) #:transparent)
+
+;; builtin : builtin?
+;; args    : List-of cell-expr?
+(struct cell-app cell-expr (builtin args) #:transparent)
 
 ;; An atomic value is either
-;; - a number;
-;; - a boolean;
-;; - a string; or
-;; - an error
-
+;;  - a number;
+;;  - a boolean;
+;;  - a string; or
+;;  - an error
 (define (is-atomic? v)
-  (or (number? v) (string? v) (boolean? v) (is-error? v)))
+  (or (number? v) (string? v) (boolean? v) (is-error? v) (is-empty? v)))
 
 (define (is-error? err)
-  (memq err '(NA DIV/0)))
+  (memq err '(NA VALUE DIV/0)))
 
-;; A cell reference is an address, which is either a cell or a range
-
-;; A cell-address is a pair of integers (i, j) and for each a boolean which is
-;; true if the corresponding reference is relative
-(struct cell-address (col row col-rel? row-rel?) #:transparent)
-
-;; A range-address is a pair of cell-address (representing the top-left and
-;; bottom-right of the range)
-(struct range-address (tl br) #:transparent)
+(define (is-empty? v)
+  (eq? v 'empty))
 
 
 ;;; Indexing
