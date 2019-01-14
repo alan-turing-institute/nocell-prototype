@@ -18,6 +18,12 @@ An abstract representation of spreadsheets
 ;; names : (assoc? name? cell-expr?) 
 (struct sheet (cells names meta) #:transparent)
 
+(define (is-sheet-cells? cs)
+  (and (array? cs)
+       (equal? (array-dims cs) 2)
+       (> (array-size cs) 0)))
+
+
 ;; A cell is:
 ;; - A cell value; and 
 ;; - some metadata (including, perhaps, whatever is used to decide the
@@ -81,7 +87,11 @@ An abstract representation of spreadsheets
 ;;; Indexing
 ;;; --------------------------------------------------------------------------------
 
-;; sheet-ref : sheet? non-negative-integer? non-negative-integer? -> cell-value? 
+;; sheet-shape : sheet? -> vector?
+(define (sheet-shape sh)
+  (array-shape (sheet-cells sh)))
+
+;; sheet-ref : sheet? non-negative-integer? non-negative-integer? -> cell-value?
 (define (sheet-ref sh i j)
   (array-ref (sheet-cells sh) (list i j)))
 
