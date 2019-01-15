@@ -77,6 +77,15 @@
               0.5 0.5))
 
 
+           (let ((eps 1e-12)
+                 (example-sheet
+                  (list->sheet
+                   `((,(cell-app 'log (list (cell-value-return 1000))))))))
+             (check-=
+              (array-ref (sheet-eval example-sheet) #(0 0))
+              3.0
+              eps))
+
            ) ;; test-case
 
          ;;

@@ -28,7 +28,7 @@
       [(is-error? x) x]
       [(is-error? y) y]
       [(is-empty? x) (coerce-atomic (op 0 y))]
-      [(is-empty? (car y)) (coerce-atomic (op x 0))]
+      [(is-empty? y) (coerce-atomic (op x 0))]
       [else (coerce-atomic (op x y))]))
   (cell-value-return
    (apply maybe-op
