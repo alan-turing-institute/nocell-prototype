@@ -84,7 +84,7 @@ An abstract representation of spreadsheets
   (or (number? v) (string? v) (boolean? v) (is-error? v) (is-empty? v)))
 
 (define (is-error? err)
-  (memq err '(NA VALUE DIV/0)))
+  (memq err '(NA VALUE DIV/0 NUM)))
 
 (define (is-empty? v)
   (eq? v 'empty))
@@ -93,10 +93,28 @@ An abstract representation of spreadsheets
 ;;; Cell Utilities
 ;;; --------------------------------------------------------------------------------
 
+;; non-finite floating point numbers map to cell errors: identify these
+(define (is-nonfinite? x)
+  (and (number? x)
+       (or (nan? (real-part x))
+           (infinite? (real-part x))
+           (nan? (imag-part x))
+           (infinite? (imag-part x)))))
+
+;; take a value and coerce it to an atomic value, with 'empty becoming
+;; the value specified by empty (in some contexts this will remain
+;; 'empty, but in arithmetic contexts, this will usually be 0.0
+(define (coerce-atomic a [empty 0.0])
+  (cond
+    [(is-empty? a) empty]
+    [(number? a) (exact->inexact a)]
+    [(is-nonfinite? a) 'NUM]
+    [else a]))
+
 ;; take an atomic value v and wrap it in a cell-value containing a 1x1
 ;; array
 (define (cell-value-return v)
-  (cell-value (list->array #(1 1) (list v))))
+  (cell-value (list->array #(1 1) (list (coerce-atomic v 'empty)))))
 
 ;; cell-value? -> is-atomic?
 (define (cell-value->atomic cv)
