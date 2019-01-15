@@ -1,6 +1,7 @@
 #lang racket/base
 
-(require math/array)
+(require math/array
+         rackunit)
 
 (module+ test
          (require rackunit
@@ -36,46 +37,48 @@
              
              (check-equal?
               (sheet-eval example-sheet)
-              (mutable-array #[#[1.0 2.0 3.0 0.0 'VALUE]]))))
+              (mutable-array #[#[1.0 2.0 3.0 0.0 'VALUE]])))
 
-         (let ((example-sheet
-                (list->sheet
-                 `((1 2 3 empty 4
-                      ,(cell-app '+
-                                 (list (cell-range (cell-ref 0 0 #f #f)
-                                                   (cell-ref 1 5 #f #f)))))))))
-           (check-equal?
-            (sheet-eval example-sheet)
-            (mutable-array #[#[1.0 2.0 3.0 'empty 4.0 10.0]])))
+           (let ((example-sheet
+                  (list->sheet
+                   `((1 2 3 empty 4
+                        ,(cell-app '+
+                                   (list (cell-range (cell-ref 0 0 #f #f)
+                                                     (cell-ref 1 5 #f #f)))))))))
+             (check-equal?
+              (sheet-eval example-sheet)
+              (mutable-array #[#[1.0 2.0 3.0 'empty 4.0 10.0]])))
 
-         (let ((eps 1e-12)
-               (example-sheet
-                (list->sheet
-                 `((1
-                    2
-                    3
-                    2
-                    1
-                    ,(cell-app
-                      'sqrt
-                      (list (cell-app
-                             '+
-                             (list (cell-range
-                                    (cell-ref 0 0 #f #f)
-                                    (cell-ref 1 5 #f #f)))))))))))
-           (check-within
-            (array-ref (sheet-eval example-sheet) #(0 5))
-            3.0
-            eps
-            ))
+           (let ((eps 1e-12)
+                 (example-sheet
+                  (list->sheet
+                   `((1
+                      2
+                      3
+                      2
+                      1
+                      ,(cell-app
+                        'sqrt
+                        (list (cell-app
+                               '+
+                               (list (cell-range
+                                      (cell-ref 0 0 #f #f)
+                                      (cell-ref 1 5 #f #f)))))))))))
+             (check-within
+              (array-ref (sheet-eval example-sheet) #(0 5))
+              3.0
+              eps
+              ))
 
-         (let ((example-sheet
-                (list->sheet
-                 `((,(cell-app 'random '()))))))
-           (check-within
-            (array-ref (sheet-eval example-sheet) #(0 0))
-            0.5 0.5)
-            
-           )
+           (let ((example-sheet
+                  (list->sheet
+                   `((,(cell-app 'random '()))))))
+             (check-within
+              (array-ref (sheet-eval example-sheet) #(0 0))
+              0.5 0.5))
+
+
+           ) ;; test-case
+
          ;;
          )
