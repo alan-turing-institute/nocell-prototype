@@ -1,4 +1,5 @@
 #lang racket
+(require file/zip)
 (require file/unzip)
 (require racket/path)
 (require racket/pretty)
@@ -67,10 +68,13 @@
   )
 
 (define (raw->folder root raw)
-  (let ([path (build-path root (relative-path raw))]
-        [sxml (raw-sxml raw)])
+  (let ([path (relative-path raw)]
+        [sxml (raw-sxml raw)]
+        [original-current-directory (current-directory)])
+    (current-directory root)
     (make-parent-directories path)
     (call-with-output-file path (lambda (port) (srl:sxml->xml sxml port)) #:mode 'text #:exists 'replace)
+(current-directory original-current-directory)
     path
     )
   
@@ -81,4 +85,7 @@
  "example.raw"
  )
 
-(map (lambda (raw) (raw->folder "out" raw)) (read-raw "example.raw"))
+(let ([paths (map (lambda (raw) (raw->folder "out" raw)) (read-raw "example.raw"))])
+  (current-directory "out")
+  (apply zip "../out.ods" paths)
+  )
