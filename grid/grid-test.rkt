@@ -1,7 +1,6 @@
 #lang racket/base
 
-(require math/array
-         rackunit)
+(require math/array)
 
 (module+ test
          (require rackunit
@@ -64,7 +63,7 @@
                                (list (cell-range
                                       (cell-ref 0 0 #f #f)
                                       (cell-ref 1 5 #f #f)))))))))))
-             (check-within
+             (check-=
               (array-ref (sheet-eval example-sheet) #(0 5))
               3.0
               eps
@@ -73,7 +72,7 @@
            (let ((example-sheet
                   (list->sheet
                    `((,(cell-app 'random '()))))))
-             (check-within
+             (check-=
               (array-ref (sheet-eval example-sheet) #(0 0))
               0.5 0.5))
 
