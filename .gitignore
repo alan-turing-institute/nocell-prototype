@@ -8,3 +8,9 @@
 
 # Compiled racket bytecode
 compiled
+
+# Libreoffice temp files
+.~*
+
+# Excel temp files
+~$*
