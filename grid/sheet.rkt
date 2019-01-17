@@ -111,6 +111,13 @@ An abstract representation of spreadsheets
     [(is-nonfinite? a) 'NUM]
     [else a]))
 
+;; a simple value is a cell value whose array contains a single
+;; atomic-value.
+(define (cell-simple-value? ce)
+  (and (cell-value? ce)
+       (equal? (array-shape (cell-value-elements ce))
+               #(1 1))))
+
 ;; take an atomic value v and wrap it in a cell-value containing a 1x1
 ;; array
 (define (cell-value-return v)
