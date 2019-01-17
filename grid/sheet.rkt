@@ -136,13 +136,15 @@ An abstract representation of spreadsheets
                [col (+ (cell-ref-col r) (vector-ref v 0))]
                [row (+ (cell-ref-row r) (vector-ref v 1))]))
 
-;; take two vectors comprising a range (top left and bottom right),
-;; and return the size of the range (as a vector).  The origin is used
-;; to resolve relative references.
+;; take two vectors comprising a range (top left and bottom right,
+;; both included in the range), and return the size of the range (as a
+;; vector).  The origin is used to resolve relative references.
 ;;
 ;; cell-ref? cell-ref? vector? -> vector?
 (define (cell-range-extent tl br origin)
-  (vector-map - (cell-ref->vector br origin) (cell-ref->vector tl origin)))
+  ;; range is inclusive of tl and br, hence the '#(-1 -1) adjustment
+  (vector-map - (cell-ref->vector br origin) (cell-ref->vector tl origin)
+              #(-1 -1)))
 
 
 ;;; Indexing
