@@ -90,7 +90,7 @@
 
          (require "ods/openformula.rkt")         
          (test-case "OpenFormula"
-           (let* ((expr
+           (let ((expr
                    (cell-app
                     'log
                     (list (cell-app
@@ -102,12 +102,17 @@
                                         (cell-ref 0 0 #t #f)
                                         (cell-ref 0 1 #t #t)
                                         (cell-range (cell-ref 2 2 #f #f)
-                                                    (cell-ref 4 4 #f #f))))))))))
+                                                    (cell-ref 4 4 #f #f)))))))))
+                 (ofstring "LOG((2.0+SUM(0.5;[.$A1];[.$A$2];[.C3:.E5])))"))
              (check-equal?
               (cell-expr->openformula expr)
-              "LOG((2.0+SUM(0.5;[.$A1];[.$A$2];[.C3:.E5])))"))
+              ofstring)
+
+             (check-equal?
+              (openformula->cell-expr ofstring)
+              expr))
 
            ) ;; test-case
-
+         
          ;;
          )
