@@ -163,6 +163,8 @@
    (~> s)
    $spaces))
 
+(define (char->symbol c) (string->symbol (list->string (list c))))
+
 ;; parse infix operator parser by their precedence
 (define ($infix-op prec)
   (case prec
@@ -182,8 +184,9 @@
                                         ; precedence level - call
                                         ; error parser to skip to the
                                         ; other <or> case
+                  (op-sym <- (return (char->symbol op)))
                   (right <- (withSpaces ($openformula-expr/prec prec)))
-                  (return (cell-app op (list left right)))))
+                  (return (cell-app op-sym (list left right)))))
             (return left)))
      s)))
 
@@ -351,7 +354,7 @@
     (check-equal?
      (openformula->cell-expr "SUM({ 1;2  ; 3;4};[.A1])+ 5 *MOD( 7;   6)")
      (cell-app
-      #\+
+      '+
       (list
        (cell-app
         '+
@@ -359,7 +362,7 @@
          (cell-value (array #[#[1.0] #[2.0] #[3.0] #[4.0]]))
          (cell-ref 0 0 #f #f)))
        (cell-app
-        #\*
+        '*
         (list
          (cell-value (array #[#[5.0]]))
          (cell-app
