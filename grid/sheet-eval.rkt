@@ -43,14 +43,15 @@
   (define (maybe-op x y)
     (cond
       [(is-error? y) y]
+      [(and (is-empty? x) (is-empty? y)) x0]
       [(is-empty? x) y]
       [else (coerce-atomic (op x y))]))
   (cell-value-return
    (coerce-atomic
     (foldl (flip maybe-op)
            x0
-           (map (lambda (x)
-                  (array-all-fold (cell-value-elements x) maybe-op))
+           (map (lambda (arg)
+                  (array-all-fold (cell-value-elements arg) maybe-op))
                 xs)))))
 
 (define builtin-+         (builtin-fold   + 0))
