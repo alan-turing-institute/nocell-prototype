@@ -6,7 +6,7 @@
 
 (define-runtime-path test-files "test-files")
 (module+ test
-  (require rackunit "load.rkt")
+  (require rackunit "from-zip.rkt")
   (test-case "Test conversion of expected-test.ods to raw"
              (let* ([expected-test-ods-raw-path (build-path test-files "expected-test.ods.raw")]
                     [expected-test-ods-path (build-path test-files "expected-test.ods")]
