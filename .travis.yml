@@ -9,6 +9,6 @@ addons:
       - racket
 
 script:
-  - raco pkg install racket-doc --auto
+  - raco pkg install --auto racket-doc
   - raco pkg install --auto
   - raco test .
