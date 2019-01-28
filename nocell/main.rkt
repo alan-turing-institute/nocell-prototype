@@ -7,22 +7,37 @@
   stack->value
   )
 
-(require rackunit)
-
 ; "Any sufficiently complicated C or Fortran program contains an ad-hoc, informally-specified, bug-ridden, slow implementation of half of Common Lisp." ... sums up the code below.
 
 ; Our goal is to turn nocell (a very limited subset of Racket) into stack (an imutable stack of expressions, where each expression can only refer to rows in the stack that were defined before it)
 (define (nocell->stack nocell)
-  (set! stack null)
+  (stack-clear)
   (stack-push "result" (evaluate-body nocell (hash)))
   stack
   )
 
-; This is our stack
+; This is our stack. It is a 2D stack
 ; FIXME: Currently a global, figure out a way of safely passing into the code
 (define stack null)
+; Starts as an empty list
+(define (stack-clear) (set! stack null) (stack-pointer-clear!))
 ; The stack is an ordered list of rows
 (define (stack-row i) (list-ref stack i))
+; The stack pointer points to the first _empty_ position and we have a bunch of ways of manipulating it
+(define stack-pointer-start (cons  0 'no-column) )
+(define stack-pointer stack-pointer-start)
+(define (stack-pointer-set new-pointer) (set! stack-pointer new-pointer))
+(define (stack-pointer-clear!) (stack-pointer-set stack-pointer-start))
+(define (stack-pointer-row-set new-row) (stack-pointer-set (cons new-row (stack-pointer-col))))
+(define (stack-pointer-row) (stack-pointer-get-row stack-pointer))
+(define (stack-pointer-get-row pointer) (car pointer))
+(define (stack-pointer-col) (stack-pointer-get-col stack-pointer))
+(define (stack-pointer-get-col pointer) (cdr pointer))
+(define (stack-pointer-col-set new-col) (stack-pointer-set (cons (stack-pointer-row) new-col)))
+(define (stack-pointer-increment-row!) (stack-pointer-row-set (+ 1 (stack-pointer-row))))
+(define (stack-pointer-increment-column!) (stack-pointer-col-set (+ 1 (stack-pointer-col))))
+(define (stack-column-mode-enter) (stack-pointer-col-set 0))
+(define (stack-column-mode-exit) (stack-pointer-col-set 'no-column))
 ; A row has an index
 (define (stack-row-index row) (list-ref row 0))
 ; A row has an optional name
@@ -33,11 +48,28 @@
 (define (row i) (stack-row-expression (stack-row i)))
 ; An expression might be a list, in which case (col i) gets the i'th element (starting at zero)
 (define (col j row) (list-ref row j))
+; This returns an expression that points to the given stack pointer, e.g., (row i)
+(define (stack-reference pointer) 
+  (if (equal? 'no-column (stack-pointer-get-col pointer))
+      `(row ,(stack-pointer-get-row pointer))
+      `(col ,(stack-pointer-get-col pointer) (row ,(stack-pointer-get-row pointer)))
+      )
+  )
+
+; This allows us to set items beyond the end of the list, with any intervening items being given nil values
+(define (list-set-col lst i x) (if (>= i (length lst)) (list-set-col (append lst '(())) i x) (list-set lst i x)))
 ; When we push onto the stack, we get the (row i) that we pushed onto
 (define (stack-push name expression)
-  (let* ([i (length stack)])
-    (set! stack (append stack `((,i ,name ,expression))))
-    `(row ,i)
+  (let* ([pointer stack-pointer] [row (stack-pointer-get-row stack-pointer)] [col (stack-pointer-get-col stack-pointer)])
+    (let ([stack-row (if (>= row (length stack)) `(,row ,name '()) (stack-row row))])
+      (if (equal? col 'no-column)
+        (set! stack-row (list-set-col stack-row 2 expression))
+        (begin (set! stack-row (list-set-col stack-row 2 (list-set-col (stack-row-expression stack-row) col expression))))
+      )
+      (set! stack (list-set-col stack row stack-row))
+    )   
+    (stack-pointer-increment-row!)
+    (stack-reference pointer)
     )
   )
 
@@ -137,9 +169,20 @@
   )
 
 ; Special case, the map function transforms itself into an unmapped list of calculations
-; FIXME: Each column currently ends up being a separate row, need to fix that.
 (define (evaluate-map function lists definitions)
-  (map (lambda (arguments) (evaluate-procedure function arguments definitions)) (lists->map-arguments lists definitions))
+  (stack-column-mode-enter)
+  (let* ([start-row (stack-pointer-row)]
+         [ref (map (lambda (arguments) 
+                     (stack-pointer-row-set start-row)
+                     (let ([r (evaluate-procedure function arguments definitions)])
+                       (stack-pointer-increment-column!)
+                       r)
+                     ) (lists->map-arguments lists definitions )
+                   )
+              ])
+    (stack-column-mode-exit)
+    ref
+    )
   )
 
 (define (lists->map-arguments lists definitions)
@@ -147,9 +190,20 @@
   )
 
 ; Special case, the foldl function transforms itself into an unfolded list of calculations
-; FIXME: Each column currently ends up being a separate row, need to fix that.
 (define (evaluate-foldl function initial lists definitions)
-  (foldl (lambda (arguments reference) (evaluate-procedure function (append arguments `(,reference)) definitions)) initial (lists->map-arguments lists definitions))
+  (stack-column-mode-enter)
+  (let* ([start-row (stack-pointer-row)]
+         [ref (foldl (lambda (arguments reference) 
+                       (stack-pointer-row-set start-row)
+                       (let ([r (evaluate-procedure function (append arguments `(,reference)) definitions)])
+                         (stack-pointer-increment-column!)
+                         r)
+                       ) initial (lists->map-arguments lists definitions )
+                     )
+              ])
+    (stack-column-mode-exit)
+    ref
+    )
   )
 
 ; This looks up a defined symbol or, if not defined, returns the symbol
@@ -167,24 +221,39 @@
 (define-namespace-anchor anchor)
 (define namespace (namespace-anchor->namespace anchor))
 
+(define (procedure-application? expression)
+  (if (list? expression)
+    (if (symbol? (first expression))
+      #t
+      #f
+      )
+    #f
+    )
+  )
+
 ; This interprets an expression in the context of the stack, returning the calculated value
 (define (interpret-stack stack expression definitions)
   (match expression
-    [(? null?) expression]
-    [(? number?) expression]
-    [(? string?) expression]
-    ; The if check here is so that we don't go into an infinite loop for undefined symbols
-    [(? symbol?) (if (equal? (evaluate-symbol expression definitions) expression) expression (interpret-stack stack (evaluate-symbol expression definitions) definitions))]
-    [`(row ,index) (interpret-stack stack (row index) definitions)]
-    [`(col ,index ,list) (interpret-stack stack (col index (interpret-stack stack list definitions)) definitions)]
-    [`(first ,list) (interpret-stack stack (col 0 (interpret-stack stack list definitions)) definitions)]
-    [`(last ,list) (interpret-stack stack (last (interpret-stack stack list definitions)) definitions)]
-    ; FIXME: This is buggy, I can't get the quoting right
-    [`(,function .,arguments) #:when (symbol? function) (let ([interpreted-expression (append `(,function) (map (lambda (argument) (interpret-stack stack argument definitions)) arguments))])
-                                                          (eval interpreted-expression namespace))]
-    [(? list?) (map (lambda (element) (interpret-stack stack element definitions)) expression)]
-    [_ expression]
-    )
+         [(? null?) expression]
+         [(? number?) expression]
+         [(? string?) expression]
+         ; The if check here is so that we don't go into an infinite loop for undefined symbols
+         [(? symbol?) (if (equal? (evaluate-symbol expression definitions) expression) expression (interpret-stack stack (evaluate-symbol expression definitions) definitions))]
+         [`(row ,index) (interpret-stack stack (row index) definitions)]
+         [`(col ,index (row ,row-index)) (let ([r (row row-index)]) 
+                                           (interpret-stack stack (col index (if (procedure-application? r) 
+                                                                         (interpret-stack stack r definitions)
+                                                                         r
+                                                                         )) definitions))]
+         [`(col ,index ,list) (interpret-stack stack (col index (interpret-stack stack list definitions)) definitions)]
+         [`(first ,list) (interpret-stack stack (col 0 (interpret-stack stack list definitions)) definitions)]
+         [`(last ,list) (interpret-stack stack (last (interpret-stack stack list definitions)) definitions)]
+         ; FIXME: This is buggy, I can't get the quoting right
+         [`(,function .,arguments) #:when (symbol? function) (let ([interpreted-expression (append `(,function) (map (lambda (argument) (interpret-stack stack argument definitions)) arguments))])
+                                                               (eval interpreted-expression namespace))]
+         [(? list?) (map (lambda (element) (interpret-stack stack element definitions)) expression)]
+         [_ expression]
+         )
   )
 
 ; Works out the value of the last expression on the stack
