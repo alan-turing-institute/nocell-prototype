@@ -76,8 +76,8 @@
 
 ;; stack-top-rename : symbol? stack? -> stack?
 ;;
-;; Given a stack, return a copy with the name of the first item
-;; changed to new-id.
+;; Given a stack, return a copy with the name of the top item changed
+;; to new-id.
 (define (stack-top-rename new-id stack)
   (let ((top (stack-top stack)))
     (cons (cons new-id (cdr top)) (cdr stack))))
@@ -168,14 +168,15 @@
                                    ;; args put on the stack in reverse order
                                    (append rargs ... current-stack)))
                       (res-name (make-name f-str (post-inc! name-counter))))
-                 (cons (list res-name
-                             (quasiquote (f-symb (unquote arg-names) ...))
-                             result)
-                       args-stack))))))]))
+                 (stack-push (list res-name
+                                   (quasiquote (f-symb (unquote arg-names) ...))
+                                   result)
+                             args-stack))))))]))
 
-;; Given a function fn of two variables, return a function taking either
-;; scalar or vector arguments and broadcasting any scalar arguments to
-;; the length of any vector arguments.
+;; Given a function fn of two variables, return a function taking
+;; either scalar or vector arguments and broadcasting any scalar
+;; arguments to the length of any vector arguments (which are assumed
+;; to have the same length).
 (define ((vectorize fn) . args)
   (let* ((ns (map (lambda (a)
                     (and (vector? a) (vector-length a)))
@@ -232,15 +233,13 @@
 (define-stack-fn (sum xs)
   ("vsum" sum)
   (if (vector? xs)
-      (for/fold ((s 1)) ((x (in-vector xs)))
-        (+ x s))
+      (sequence-fold + 0 xs)
       xs))
 
 (define-stack-fn (product xs)
   ("vprod" product)
   (if (vector? xs)
-      (for/fold ((p 1)) ((x (in-vector xs)))
-        (* x p))
+      (sequence-fold * 0 xs)
       xs))
 
 (define-stack-fn (nth n a)
