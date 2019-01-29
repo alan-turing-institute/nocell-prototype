@@ -1,185 +1,222 @@
-#lang racket
+#lang racket/base
 
-(require math/array)
+#| 
+TODO
+ - lists->sheet and sheet->lists do not handle names
+ - possibly this is an internal module, and we can get rid of all the contracts ...
+|#
 
-(provide (all-defined-out))
+;; ---------------------------------------------------------------------------------------------------
+
+(require math/array
+         racket/contract
+         (only-in racket/math nan? infinite?)
+         (only-in racket/vector vector-map))
+
+(provide
+ (contract-out
+  
+  ;; Types
+  [struct sheet                  ((cells array2d?) (refs (listof pair?)) (name string?))]  
+  [struct cell                   ((content cell-expr?))] 
+  [struct cell-expr              ()]
+  [struct (cell-name  cell-expr) ((id string?))]
+  [struct (cell-app   cell-expr) ((builtin symbol?) (args (listof cell-expr?)))]
+  [struct (cell-value cell-expr) ((elements array2d?))]
+  [struct (cell-ref   cell-expr) ()]
+  [struct (cell-addr cell-ref)
+    ((row exact-nonnegative-integer?)
+     (col exact-nonnegative-integer?)
+     (row-is-rel boolean?)
+     (col-is-rel boolean?))]
+  [struct (cell-range cell-ref) ((tl cell-addr?) (br cell-addr?))]
+
+  ;; Predicates
+  [nothing?           (any/c . -> . boolean?)]
+  [atomic-value?      (any/c . -> . boolean?)]
+  [simple-cell-value? (any/c . -> . boolean?)]
+
+  ;; Constructors and conversions 
+  [cell-value-return (atomic-value? . -> . simple-cell-value?)]
+  [atomise (cell-value? . -> . atomic-value?)] 
+  
+  [lists->sheet ((listof (listof (or/c atomic-value? cell-expr?))) . -> . sheet?)]
+  [sheet->lists (sheet? . -> . (listof (listof (or/c atomic-value? cell-expr?))))]
+
+  ;; Indexing and reference
+  [range-extent (cell-range? . -> . range-extent/c)]
+  [sheet-resolve-name (sheet? string? . -> . (or/c cell-ref? #f))]
+  [addr-index (cell-addr? . -> . sheet-index/c)]
+  [addr-offset (cell-addr? sheet-index/c . -> . sheet-index/c)]
+  [sheet-ref (sheet? sheet-index/c . -> . cell-expr?)]
+  ))
+
+
+;; A 2-dimensional, non-empty, array
+(define (array2d? v)
+  (and
+   (array? v)
+   (> (array-size v) 0)
+   (= (array-dims v) 2)))
+
+;; An index into a sheet
+(define sheet-index/c
+  (vector/c exact-nonnegative-integer? exact-nonnegative-integer?))
+
+;; The possible size of a range
+(define range-extent/c
+  (vector/c exact-positive-integer? exact-positive-integer?))
+
 #| 
 
-An abstract representation of spreadsheets
+An abstract representation of a single sheet in a spreadsheet.
+
+A "sheet" is:
+ - a two-dimensional array? of cells; 
+ - a list of names of ranges (not implemented); and
+ - some metadata (not implemented)
+
+A "cell" is:
+ - an expression; and
+ - some other things (not implemented)
+
+An "expression" is either:
+ - a value
+ - an application of a builtin
+ - a reference; or
+ - a name
+
+A "reference" is either:
+ - a single cell address; or
+ - a rectangular range of cells
+
+A "value" is an array of atomic-value
+
+An "atomic value" is either:
+ - a real number
+ - a string
+ - a boolean; or
+ - nothing
+
+Note that a cell with a single number in it is represented as a cell containing
+a 1x1 array of numbers.
 
 |#
 
-;; A sheet is:
-;; - a two-dimensional array? of cells; 
-;; - a list of names (of ranges &c); and
-;; - some metadata (including a human-readable name) 
+#|
+Notes on design (JG)
 
-;; cells : Array? (specifically, a non-empty array one shape has length 2)
-;; names : (assoc? name? cell-expr?) 
-(struct sheet (cells names meta) #:transparent)
+I don't really know whether this module should just be the definition of sheet
+types as well as some utilities; or whether it should be the interface to the
+sheet type and hide all the interals of the structs. For now, it's the former.
+|#
 
-(define (is-sheet-cells? cs)
-  (and (array? cs)
-       (equal? (array-dims cs) 2)
-       (> (array-size cs) 0)))
-
-;; Construct a sheet from a (once) nested list with the same shape as
-;; the intended sheet. The innermost lists varying along the columns
-;; of the sheet.  If a value in the list is given as an atomic, it is
-;; wrapped as a cell-value.
-(define (list->sheet ls)
-  (sheet
-   (list*->array
-    (map (lambda (col)
-           (map (lambda (elt)
-                  (if (is-atomic? elt)
-                      (cell-value-return elt)
-                      elt))
-                col))
-         ls)
-    cell-expr?)
-   '() '()))
-
-;; A cell is:
-;; - A cell value; and 
-;; - some metadata (including, perhaps, whatever is used to decide the
-;;   formatting of the cell)
-
-;; content : cell-expr?
-;; meta    : cell-meta?
-(struct cell (content meta) #:transparent)
-
+(struct sheet (cells refs name) #:transparent)
+(struct cell (content) #:transparent)
 (struct cell-expr () #:transparent)
-
-;; A cell expression is either:
-;; - a value (arrays, perhaps with a single element, of atomic values);
-;; - a reference;
-;; - a name; or
-;; - a function application
-
-;; elements : (Array is-atomic?)
-(struct cell-value cell-expr (elements) #:transparent)
-
-;; A cell-ref is a pair of integers (i, j) and for each a boolean
-;; which is true if the corresponding reference is relative
-(struct cell-ref cell-expr (col row col-rel? row-rel?) #:transparent)
-
-;; A cell-range is a pair of cell-ref (representing the top-left and
-;; bottom-right of the range)
-(struct cell-range cell-expr (tl br) #:transparent)
-
-;; id : string?
-(struct cell-name cell-expr (id) #:transparent)
-
-;; builtin : builtin?
-;; args    : List-of cell-expr?
 (struct cell-app cell-expr (builtin args) #:transparent)
+(struct cell-value cell-expr (elements) #:transparent)
+(struct cell-name cell-expr (id) #:transparent)
+(struct cell-ref cell-expr () #:transparent)
 
-;; An atomic value is either
-;;  - a number;
-;;  - a boolean;
-;;  - a string; or
-;;  - an error
-(define (is-atomic? v)
-  (or (number? v) (string? v) (boolean? v) (is-error? v) (is-empty? v)))
+;; `col` and `row` are always absolute indices of the referent; the flags
+;; `col-is-rel` and `row-is-rel` affect only the output 
+(struct cell-addr cell-ref (row col row-is-rel col-is-rel) #:transparent)
 
-(define (is-error? err)
-  (memq err '(NA VALUE DIV/0 NUM)))
-
-(define (is-empty? v)
-  (eq? v 'empty))
+;; `tl` and `br` are the top-left and bottom-right of the range
+(struct cell-range cell-ref (tl br) #:transparent)
 
 
-;;; Cell Utilities
+(define (atomic-value? v)
+  (or
+   (real? v)
+   (string? v)
+   (boolean? v)
+   (nothing? v)))
+
+(define (nothing? v)
+  (eq? v 'nothing))
+
+
 ;;; --------------------------------------------------------------------------------
+;;; Conversions
 
-;; non-finite floating point numbers map to cell errors: identify these
-(define (is-nonfinite? x)
-  (and (number? x)
-       (or (nan? (real-part x))
-           (infinite? (real-part x))
-           (nan? (imag-part x))
-           (infinite? (imag-part x)))))
-
-;; take a value and coerce it to an atomic value, with 'empty becoming
-;; the value specified by empty (in some contexts this will remain
-;; 'empty, but in arithmetic contexts, this will usually be 0.0
-(define (coerce-atomic a [empty 0.0])
-  (cond
-    [(is-empty? a) empty]
-    [(number? a) (exact->inexact a)]
-    [(is-nonfinite? a) 'NUM]
-    [else a]))
-
-;; a simple value is a cell value whose array contains a single
-;; atomic-value.
-(define (cell-simple-value? ce)
+;; A simple value is a cell value whose array contains a single
+;; (atomic) value.
+(define (simple-cell-value? ce)
   (and (cell-value? ce)
-       (equal? (array-shape (cell-value-elements ce))
-               #(1 1))))
+       (= (array-size (cell-value-elements ce)) 1)))
 
-;; take an atomic value v and wrap it in a cell-value containing a 1x1
-;; array
+;; Make a cell value (a 1x1 array) from an atomic value 
 (define (cell-value-return v)
-  (cell-value (list->array #(1 1) (list (coerce-atomic v 'empty)))))
+  (cell-value (list->array #(1 1) (list v))))
 
-;; cell-value? -> is-atomic?
-(define (cell-value->atomic cv)
+;; Pick out the top-left element of a cell-value
+(define (atomise cv)
   (array-ref (cell-value-elements cv) #(0 0)))
 
-;; cell-ref->vector : cell-ref? (Vector fixnum) -> (Vector fixnum)
-(define (cell-ref->vector target [offset #(0 0)])
-  (let ((col (if (cell-ref-col-rel? target)
-                 (+ (vector-ref offset 0) (cell-ref-col target))
-                 (cell-ref-col target)))
-        (row (if (cell-ref-row-rel? target)
-                 (+ (vector-ref offset 1) (cell-ref-row target))
-                 (cell-ref-row target))))
-    (vector col row)))
+;; Atomise the cell value if it's simple, leave it alone if not
+(define (maybe-atomise cv)
+  (if (simple-cell-value? cv)
+      (atomise cv)
+      cv))
 
-;; cell-ref? vector? -> cell-ref?
-(define (cell-ref-vector/+ r v)
-  (struct-copy cell-ref r
-               [col (+ (cell-ref-col r) (vector-ref v 0))]
-               [row (+ (cell-ref-row r) (vector-ref v 1))]))
+;; Construct a sheet from a list of lists having the same shape as the intended
+;; sheet. Innermost lists represent rows, and vary along the columns of the
+;; sheet. If a value in the list is given as an atomic, it is wrapped as a
+;; cell-value, otherwise it is assumed to be a valid cell-expr.
+(define (lists->sheet ls)
+  (sheet
+   ;; sheet-cells
+   (list*->array
+    (map (lambda (row)
+           (map (lambda (elt)
+                  (if (atomic-value? elt)
+                      (cell-value-return elt)
+                      elt))
+                row))
+         ls)
+    cell-expr?)
+   ;; sheet-refs
+   '()
+   ;; sheet-name
+   ""
+   ))
 
-;; take two vectors comprising a range (top left and bottom right,
-;; both included in the range), and return the size of the range (as a
-;; vector).  The origin is used to resolve relative references.
-;;
-;; cell-ref? cell-ref? vector? -> vector?
-(define (cell-range-extent tl br origin)
-  ;; range is inclusive of tl and br, hence the '#(-1 -1) adjustment
-  (vector-map - (cell-ref->vector br origin) (cell-ref->vector tl origin)
-              #(-1 -1)))
-
+;; From a sheet, produce a list of lists, dropping the names. If a cell contains
+;; a simple value it is atomised. (This function is the inverse of lists->sheet.)
+(define (sheet->lists sht)
+  (array->list* (array-map maybe-atomise (sheet-cells sht))))
 
 ;;; Indexing
 ;;; --------------------------------------------------------------------------------
 
-;; sheet-shape : sheet? -> vector?
-(define (sheet-shape sh)
-  (array-shape (sheet-cells sh)))
-
-;; sheet-ref : sheet? non-negative-integer? non-negative-integer? -> cell-value?
-(define (sheet-ref sh i j)
-  (array-ref (sheet-cells sh) (list i j)))
-
-;; sheet-get-cell : sheet? cell-ref? [vector?] -> cell-expr?
-(define (sheet-get-cell sheet target [offset #(0 0)])
-  (array-ref (sheet-cells sheet) (cell-ref->vector target offset)))
-
-;; resolve-name : sheet? string? -> cell-expr?
-;;
-;; takes a name and tries to resolve it to its expression within the
-;; sheet.  If name is undefined, returns #f
+;; Resolves a name to a cell-ref expression within the sheet. If name is
+;; undefined, returns #f
 (define (sheet-resolve-name sheet name)
-  (cdr (assoc name (sheet-names sheet))))
+  (let ([ref (assoc name (sheet-refs sheet))])
+    (and ref (cdr ref))))
 
+;; Returns the coordinates in a cell-addr as a 2-element vector 
+(define (addr-index addr)
+  (vector-immutable (cell-addr-row addr) (cell-addr-col addr)))
 
-;;; TODO
-;;; --------------------------------------------------------------------------------
+;; Return the cell-expr at a specific index in the sheet
+(define (sheet-ref sheet idx)
+  (array-ref (sheet-cells sheet) idx))
 
-;; The list of errors should also have utility functions for using/testing the
-;; error values. Don't know what this means.
+;; Compute an address offset from an address by a vector
+(define (addr-offset addr idx)
+  (vector-map + (addr-index addr) idx))
+
+;; Return the size of a cell-range (number of rows and columns)
+(define (range-extent rng)
+  (vector-map +
+              #(1 1)
+              (vector-map -
+                          (addr-index (cell-range-br rng))
+                          (addr-index (cell-range-tl rng)))))
+
+ 
+
 
