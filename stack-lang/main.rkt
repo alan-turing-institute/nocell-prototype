@@ -16,9 +16,9 @@
          (rename-out (let*& let*))
          (rename-out (define& define))
          (rename-out (if& if))
-         
-         (rename-out (app #%app))
+
          (rename-out (datum #%datum))
+         #%app
          #%module-begin
          #%top
          #%top-interaction
@@ -119,14 +119,8 @@
            "" name-fmt val-fmt expr-fmt))))
 
 
-;; Interposition points
+;; Datum
 ;;----------------------------------------------------------------------
-
-;;   #%app
-;; Apply the function but with an additional final argument of a new
-;; empty stack. 
-(define-syntax-rule (app f args ...)
-  (#%app f args ... (make-stack)))
 
 ;;   #%datum
 ;; A datum expands to a stack with a single element
@@ -163,17 +157,16 @@
                    [(rargs ...) (syntax-reverse #'(args ...))])
        #'(define f
            (let ((name-counter 0))
-             (lambda (args ... current-stack)
+             (lambda (args ...)
                (let* ((result
                        ;; shadow the actual args (which are stacks)
                        ;; when evaluating the body (which is a racket
                        ;; expression expecting the value contents of
                        ;; the stacks)
-                       (let ((args arg-vals) ...)
-                         body ...))
+                       (let ((args arg-vals) ...) body ...))
                       (args-stack (remove-duplicates-before
                                    ;; args put on the stack in reverse order
-                                   (append rargs ... current-stack)))
+                                   (append rargs ...)))
                       (res-name (make-name f-str (post-inc! name-counter))))
                  (stack-push (list res-name
                                    (quasiquote (f-symb (unquote arg-names) ...))
