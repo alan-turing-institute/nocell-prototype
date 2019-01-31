@@ -7,7 +7,7 @@
   stack->value
   )
 
-(require list-util rackunit)
+(require rackunit)
 
 ; "Any sufficiently complicated C or Fortran program contains an ad-hoc, informally-specified, bug-ridden, slow implementation of half of Common Lisp." ... sums up the code below.
 
