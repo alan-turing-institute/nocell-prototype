@@ -20,14 +20,8 @@
          #%module-begin
          #%top
          #%top-interaction
-         
-         ;; ;; so we can call regular racket functions in the top level
-         ;; (rename-out (#%app racket-app))
-         ;; (except-out (all-from-out racket)
-         ;;             + - * / expt let let* define if display
-         ;;             #%app #%datum #%module-begin
-         ;;             #%top #%top-interaction)
-         )
+
+         provide)
 
 ;; Utilities
 ;;-----------------------------------------------------------------------
@@ -301,36 +295,3 @@
   (if (vector? a)
       (vector-length a)
       0))
-
-;; Alternative definitions for binary ops
-;; -----------------------------------------------------------------------
-;;
-;; macro that expands to a definition of a function named "f", whose
-;; implementation is given by the racket function "f-impl" and whose
-;; results are labelled "f-name" on the stack.  These names are
-;; interned, so should be unique to a given function definition.
-;;
-;; f : id?
-;; f-impl : procedure?
-;; f-name : string?
-;;
-#|
-(define-syntax-rule (define-stack-fn f f-impl f-name)
-  (define f
-    (let ((name-counter 0))
-      (lambda (a b current-stack)
-        (let* ((result   (f-impl (val (stack-top a))
-                                 (val (stack-top b))))
-               (ab-stack (append b a current-stack))
-               (res-name (make-name f-name (post-inc! name-counter))))
-          (cons (list res-name
-                      `(f-impl ,(name (stack-top a)) ,(name (stack-top b)))
-                      result)
-                ab-stack))))))
-
-
-(define-stack-fn +& + "sum")
-(define-stack-fn -& - "diff")
-(define-stack-fn *& * "prod")
-(define-stack-fn /& / "quot")
-|#
