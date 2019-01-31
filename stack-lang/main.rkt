@@ -1,5 +1,7 @@
 #lang racket
 
+(require racket/syntax)
+
 (provide stack-print
          sum
          product
@@ -38,7 +40,7 @@
     (set! x (+ x 1))))
 
 (define (make-name base n)
-  (string->symbol (format "%~a~a" base n)))
+  (format-symbol "%~a~a" base n))
 
 ;; Like remove-duplicates, but the *last* occurrence of any duplicate
 ;; is kept instead of the first occurrence
@@ -56,8 +58,13 @@
       a
       (build-vector n (const a))))
 
-(define-for-syntax (syntax-reverse stx-list)
-  (datum->syntax stx-list (reverse (syntax->list stx-list))))
+;; syntax-reverse : syntax? -> syntax?
+;;
+;; Giving a syntax object comprising a list, return a new syntax
+;; object otherwise identical but with this list reversed.
+(define-for-syntax (syntax-reverse stx)
+  (datum->syntax stx (reverse (syntax->list stx))))
+
 
 ;; Stacks
 ;;-----------------------------------------------------------------------
@@ -82,7 +89,7 @@
   (let ((top (stack-top stack)))
     (cons (cons new-id (cdr top)) (cdr stack))))
 
-;; pretty print stacks
+;; Pretty print stacks
 ;;
 (define (vector-format a)
   (let ((format-elt (lambda (x)
@@ -160,7 +167,7 @@
                (let* ((result
                        ;; shadow the actual args (which are stacks)
                        ;; when evaluating the body (which is a racket
-                       ;; expression, expecting the value contents of
+                       ;; expression expecting the value contents of
                        ;; the stacks)
                        (let ((args arg-vals) ...)
                          body ...))
@@ -177,12 +184,15 @@
 ;; either scalar or vector arguments and broadcasting any scalar
 ;; arguments to the length of any vector arguments (which are assumed
 ;; to have the same length).
+;;
 (define ((vectorize fn) . args)
   (let* ((ns (map (lambda (a)
                     (and (vector? a) (vector-length a)))
                   args))
          (ns* (remove #f ns))
-         (n (and (cons? ns*) (car ns*)))) ;; assumed to have the same length
+         ;; all vector arguments are assumed to have the same length,
+         ;; so take the length of the first, if there are any
+         (n (and (cons? ns*) (car ns*))))
     (if n
         (apply vector-map fn (map (curry vector-broadcast n) args))
         (apply fn args))))
