@@ -5,6 +5,7 @@ addons:
   apt:
     sources:
       - sourceline: 'ppa:plt/racket'
+    update: true
     packages:
       - racket
       - racket-doc
