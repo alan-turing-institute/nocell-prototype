@@ -3,9 +3,8 @@ language: minimal
 dist: xenial
 
 install:
-  - sudo add-apt-repository -y ppa:plt/racket
-  - sudo apt-get update
-  - sudo apt-get install -y racket=7.1+ppa2-1~xenial1 racket-doc
+  - wget https://mirror.racket-lang.org/installers/7.2/racket-7.2-x86_64-linux.sh
+  - bash racket-7.2-x86_64-linux.sh --unix-style --dest /usr
 
 script:
   - raco pkg install --auto
