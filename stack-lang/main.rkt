@@ -281,7 +281,7 @@
 (define-primitive-stack-fn (product xs)
   ("vprod" product)
   (if (vector? xs)
-      (sequence-fold * 0 xs)
+      (sequence-fold * 1 xs)
       xs))
 
 (define-primitive-stack-fn (nth n a)
