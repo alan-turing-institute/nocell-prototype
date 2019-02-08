@@ -5,6 +5,8 @@
   nocell->stack
   ; This is a useful cross check, it calculates the value of the last entry on the stack. This should be the same as the return value of the nocell.
   stack->value
+  ; This takes a stack and creates a grid ready for raw/to->raw.rkt
+  stack->grid
   )
 
 ; "Any sufficiently complicated C or Fortran program contains an ad-hoc, informally-specified, bug-ridden, slow implementation of half of Common Lisp." ... sums up the code below.
@@ -47,7 +49,7 @@
 ; An expression might refer to a (row i) which refers to the expression on row i
 (define (row i) (stack-row-expression (stack-row i)))
 ; An expression might be a list, in which case (col i) gets the i'th element (starting at zero)
-(define (col j row) (list-ref row j))
+(define (col j row) (if (list? row) (list-ref row j) row))
 ; This returns an expression that points to the given stack pointer, e.g., (row i)
 (define (stack-reference pointer) 
   (if (equal? 'no-column (stack-pointer-get-col pointer))
@@ -142,6 +144,8 @@
   (match name
     [`(lambda ,parameters .,body) (evaluate-lambda parameters body arguments definitions)]
     [(? defined?) (evaluate-defined-procedure name arguments definitions)]
+    ['first (evaluate-builtin-procedure 'col (cons 0 arguments) definitions)] 
+    ['last (evaluate-last arguments definitions)] 
     [_ (evaluate-builtin-procedure name arguments definitions)]
     )
   )
@@ -165,7 +169,19 @@
 
 ; This is for built-in procedures 
 (define (evaluate-builtin-procedure name arguments definitions)
-  (cons name (map (lambda (argument) (evaluate argument definitions)) arguments))
+  (cons name (evaluate-list arguments definitions))
+  )
+
+(define (evaluate-list lst definitions) (map (lambda (x) (evaluate x definitions)) lst))
+
+(define (actual-length arg definitions)
+  (let ([ v  (interpret-stack stack arg definitions)])
+    (if (list? v) (length v) 1)
+    )
+  )
+
+(define (evaluate-last arguments definitions) 
+  `(col ,(- (actual-length (first arguments) definitions) 1) ,@(evaluate-list arguments definitions)) 
   )
 
 ; Special case, the map function transforms itself into an unmapped list of calculations
@@ -262,3 +278,65 @@
     (interpret-stack stack result (hash))
     )
   )
+
+(define (stack->grid this-stack)
+
+  (define (expression-value->grid-value expression)
+    (match expression
+           ([? procedure-application?] (procedure->grid-procedure expression))
+           (_ expression)
+           )
+    )
+
+  (define (procedure->grid-procedure expression)
+    (define (infix-maths a operator b) (string-join (list "(" (rewritten-procedure a) (symbol->string operator) (rewritten-procedure b) ")") ""))
+    (define columns '(A B C D E F G H I J K L M N O P Q R S T U V W X Y Z AA AB AC AD ))
+    (define (col-ods i) (symbol->string (list-ref columns (+ i 1))))
+    (define (last-col-in-row-ods j) (col-ods  (- (actual-length `(row , j) (hash)) 1)))
+    (define (row-ods j) (number->string (+ j 1)))
+    (define (maybe-range j) 
+(let ([start (string-join (list "." (col-ods 0) (row-ods j)) "")]
+			[finish (string-join (list "." (last-col-in-row-ods j) (row-ods j)) "")])
+(if (equal? start finish) (string-join (list "[" start "]") "")
+(string-join (list "[" start ":" finish "]") ""))))
+
+    (define (rewritten-procedure expression)
+      (match expression
+             [`(row ,j) (maybe-range j)]
+             [`(col ,i (row ,j)) (string-join (list "[." (col-ods i) (row-ods j) "]") "")]
+             [`(+ ,a ,b) (infix-maths a '+ b)]
+             [`(- ,a ,b) (infix-maths a '- b)]
+             [`(/ ,a ,b) (infix-maths a '/ b)]
+             [`(* ,a ,b) (infix-maths a '* b)]
+             [`(expt ,a ,b) (infix-maths a '^ b)]
+             [( ? procedure-application?) (string-join (list (symbol->string (first expression) ) "(" (string-join (map rewritten-procedure (rest expression) ) ", " ) ")") "")]
+             [(? number?) (number->string expression)]
+             [_ expression]
+             )
+      )
+      (cons (interpret-stack this-stack expression (hash)) (rewritten-procedure expression))
+    )
+
+  (define (stack-row-expression->grid-row expression)
+      (match expression
+             ([? empty?] '())
+             [`(row ,j) (map (lambda (i) (expression-value->grid-value `(col ,i (row ,j)) )) (sequence->list (in-range (- (actual-length `(row , j) (hash)) 0))))]
+             ([? procedure-application?] (list (expression-value->grid-value expression)))
+             ([? list?] (map expression-value->grid-value expression))
+             (_ (list (expression-value->grid-value expression)))
+             )
+    )
+
+  (define (maybe-symbol->string maybe) (if (symbol? maybe) (symbol->string maybe) maybe) )
+  (define (stack-row->grid-row row)
+    (let* ([name (maybe-symbol->string (stack-row-name row))]
+          [expression (stack-row-expression row)]
+          [grid-values (stack-row-expression->grid-row expression)]
+          )
+      (if (empty? grid-values) (list name) (cons name grid-values))
+    )
+    )
+  (set! stack this-stack)
+  (map stack-row->grid-row this-stack) 
+  )
+

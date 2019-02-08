@@ -153,25 +153,25 @@
                                              discount
                                              ((/
                                                 (col 0 (row 7))
-                                                (expt (+ 1 (row 3)) (- (col 0 (row 6)) (first (row 0)))))
+                                                (expt (+ 1 (row 3)) (- (col 0 (row 6)) (col 0 (row 0)))))
                                               (/
                                                 (col 1 (row 7))
-                                                (expt (+ 1 (row 3)) (- (col 1 (row 6)) (first (row 0)))))
+                                                (expt (+ 1 (row 3)) (- (col 1 (row 6)) (col 0 (row 0)))))
                                               (/
                                                 (col 2 (row 7))
-                                                (expt (+ 1 (row 3)) (- (col 2 (row 6)) (first (row 0)))))
+                                                (expt (+ 1 (row 3)) (- (col 2 (row 6)) (col 0 (row 0)))))
                                               (/
                                                 (col 3 (row 7))
-                                                (expt (+ 1 (row 3)) (- (col 3 (row 6)) (first (row 0)))))))
+                                                (expt (+ 1 (row 3)) (- (col 3 (row 6)) (col 0 (row 0)))))))
                                             (9 "" ((col 0 (row 8)) (col 1 (row 8)) (col 2 (row 8)) (col 3 (row 8))))
                                             (10
                                              discounted-cashflows
                                              ((col 0 (row 9)) (col 1 (row 9)) (col 2 (row 9)) (col 3 (row 9))))
                                             (11 discounted-cashflows (row 10))
-                                            (12 year (last (row 0)))
-                                            (13 terminal-value (/ (* (last (row 1)) (+ 1 (row 2))) (- (row 3) (row 2))))
+                                            (12 year (col 3 (row 0)))
+                                            (13 terminal-value (/ (* (col 3 (row 1)) (+ 1 (row 2))) (- (row 3) (row 2))))
                                             (14 value (row 13))
-                                            (15 discount (/ (row 14) (expt (+ 1 (row 3)) (- (row 12) (first (row 0))))))
+                                            (15 discount (/ (row 14) (expt (+ 1 (row 3)) (- (row 12) (col 0 (row 0))))))
                                             (16 discounted-terminal-value (row 15))
                                             (17 t ((col 0 (row 11)) (col 1 (row 11)) (col 2 (row 11)) (col 3 (row 11))))
                                             (18 c (0 (col 0 (row 19)) (col 1 (row 19)) (col 2 (row 19))))
