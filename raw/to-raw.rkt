@@ -9,6 +9,7 @@
   ; Compounds
   list->raw-row
   grid->raw-worksheet
+  grids->raw-workbook
   )
 
 (require sxml)
@@ -23,7 +24,7 @@
      (@ (urn:oasis:names:tc:opendocument:xmlns:office:1.0:version "1.2"))
      (urn:oasis:names:tc:opendocument:xmlns:office:1.0:body
        (urn:oasis:names:tc:opendocument:xmlns:office:1.0:spreadsheet
-         ,raw-worksheets
+        ,@raw-worksheets
          ))))
     ("mimetype" . "application/vnd.oasis.opendocument.spreadsheet"))
   )
@@ -64,4 +65,8 @@
 
 (define (grid->raw-worksheet name grid)
   (worksheet->raw name (map list->raw-row grid))
+  )
+
+(define (grids->raw-workbook grids)
+  (workbook->raw (map (lambda (gridargs) (apply grid->raw-worksheet gridargs)) grids))
   )

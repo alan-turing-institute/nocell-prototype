@@ -32,27 +32,44 @@
 
   (test-case "Test create the smallest empty ods"
              ; This is the minimum required for Excel to open - a single worksheet
-             (check (workbook->raw (worksheet->raw "Sheet1" '())) "empty")
+             (check (workbook->raw (list (worksheet->raw "Sheet1" '()))) "empty")
              )
 
   (test-case "Test create a one cell ods"
              ; A single cell ods
-             (check (workbook->raw (worksheet->raw "One Cell Sheet" (list (row->raw (list (string->raw "One Cell"))) ))) "one-cell")
+             (check (workbook->raw (list (worksheet->raw "One Cell Sheet" (list (row->raw (list (string->raw "One Cell"))) )))) "one-cell")
              )
 
   (test-case "Test create a one row ods"
              ; A one row ods
-             (check (workbook->raw (worksheet->raw "One Row Sheet" (list (list->raw-row (list "One" "Two" "Three"))) )) "one-row")
+             (check (workbook->raw (list (worksheet->raw "One Row Sheet" (list (list->raw-row (list "One" "Two" "Three"))) ))) "one-row")
              )
 
   (test-case "Test create a simple grid ods"
              (check 
-               (workbook->raw 
+               (workbook->raw (list
                  (grid->raw-worksheet "One Grid Sheet" (list 
                                                          (list "One" "Two" "Three")
                                                          (list "Four" "Five" "Six")
                                                          )
-                                      ) 
+                                      )) 
                  ) "one-grid")
+             )
+
+  (test-case "Test create a two worksheet ods"
+             (check 
+               (grids->raw-workbook (list 
+                                      '("Sheet One" (
+                                                     ("One" "Two" "Three")
+                                                     ("Four" "Five" "Six")
+                                                     )
+                                        )
+                                      '("Sheet Two" (
+                                                     ("A" "B" "C")
+                                                     ("One" "Two" "Three")
+                                                     )
+                                        )
+                                      )
+                                    ) "two-grid")
              )
   )
