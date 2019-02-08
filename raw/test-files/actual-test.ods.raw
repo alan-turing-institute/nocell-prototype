@@ -1,5 +1,6 @@
 '(("styles.xml"
    *TOP*
+   (*PI* xml "version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"")
    (urn:oasis:names:tc:opendocument:xmlns:office:1.0:document-styles
     (@ (urn:oasis:names:tc:opendocument:xmlns:office:1.0:version "1.2"))
     (urn:oasis:names:tc:opendocument:xmlns:office:1.0:font-face-decls
@@ -12,1522 +13,500 @@
       (@
        (urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0:font-family
         "Cambria")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Cambria")))
-     (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-face
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0:font-family
-        "'Liberation Sans'")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Liberation Sans")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-pitch "variable")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-family-generic
-        "swiss")))
-     (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-face
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0:font-family
-        "'DejaVu Sans'")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "DejaVu Sans")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-pitch "variable")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-family-generic
-        "system")))
-     (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-face
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0:font-family
-        "'Linux Libertine G'")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name
-        "Linux Libertine G")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-pitch "variable")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-family-generic
-        "system"))))
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Cambria"))))
     (urn:oasis:names:tc:opendocument:xmlns:office:1.0:styles
-     (urn:oasis:names:tc:opendocument:xmlns:style:1.0:default-style
-      (@ (urn:oasis:names:tc:opendocument:xmlns:style:1.0:family "table-cell"))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:paragraph-properties
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:tab-stop-distance
-         "36pt")))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-properties
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:language
-         "en")
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:country
-         "US")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:language-complex "hi")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:language-asian "zh")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-name-complex
-         "DejaVu Sans")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-name-asian
-         "DejaVu Sans")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-name
-         "Liberation Sans")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:country-complex "IN")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:country-asian "CN"))))
      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:number-style
       (@ (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "N0"))
       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:number
        (@
         (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:min-integer-digits
          "1"))))
-     (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:time-style
-      (@ (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "N121"))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:minutes
-       (@ (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:style "long")))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text ":")
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:seconds
-       (@ (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:style "long"))))
-     (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:time-style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "N122")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:truncate-on-overflow
-        "false"))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:hours)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text ":")
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:minutes
-       (@ (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:style "long")))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text ":")
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:seconds
-       (@ (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:style "long"))))
-     (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:time-style
-      (@ (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "N123"))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:minutes
-       (@ (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:style "long")))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text ":")
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:seconds
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:style "long")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:decimal-places
-         "1"))))
-     (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:number-style
-      (@ (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "N124"))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:scientific-number
-       (@
-        (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:min-decimal-places
-         "1")
-        (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:forced-exponent-sign
-         "true")
-        (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:exponent-interval
-         "3")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:min-integer-digits
-         "1")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:min-exponent-digits
-         "1")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:decimal-places
-         "1"))))
-     (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:currency-style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:volatile "true")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "N10121P0")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:language "en")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:country "US"))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:currency-symbol)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:number
-       (@
-        (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:min-decimal-places
-         "0")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:min-integer-digits
-         "1")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:grouping "true")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:decimal-places
-         "0")))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text))
-     (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:currency-style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "N10121")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:language "en")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:country "US"))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text "(")
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:currency-symbol)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:number
-       (@
-        (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:min-decimal-places
-         "0")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:min-integer-digits
-         "1")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:grouping "true")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:decimal-places
-         "0")))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text ")")
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:map
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:condition
-         "value()>=0")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:apply-style-name
-         "N10121P0"))))
-     (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:currency-style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:volatile "true")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "N10122P0")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:language "en")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:country "US"))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:currency-symbol)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:number
-       (@
-        (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:min-decimal-places
-         "0")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:min-integer-digits
-         "1")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:grouping "true")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:decimal-places
-         "0")))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text))
-     (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:currency-style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "N10122")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:language "en")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:country "US"))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-properties
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:color
-         "#ff0000")))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text "(")
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:currency-symbol)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:number
-       (@
-        (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:min-decimal-places
-         "0")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:min-integer-digits
-         "1")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:grouping "true")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:decimal-places
-         "0")))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text ")")
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:map
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:condition
-         "value()>=0")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:apply-style-name
-         "N10122P0"))))
-     (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:currency-style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:volatile "true")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "N10123P0")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:language "en")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:country "US"))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:currency-symbol)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:number
-       (@
-        (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:min-decimal-places
-         "2")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:min-integer-digits
-         "1")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:grouping "true")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:decimal-places
-         "2")))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text))
-     (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:currency-style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "N10123")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:language "en")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:country "US"))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text "(")
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:currency-symbol)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:number
-       (@
-        (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:min-decimal-places
-         "2")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:min-integer-digits
-         "1")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:grouping "true")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:decimal-places
-         "2")))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text ")")
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:map
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:condition
-         "value()>=0")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:apply-style-name
-         "N10123P0"))))
-     (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:currency-style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:volatile "true")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "N10124P0")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:language "en")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:country "US"))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:currency-symbol)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:number
-       (@
-        (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:min-decimal-places
-         "2")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:min-integer-digits
-         "1")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:grouping "true")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:decimal-places
-         "2")))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text))
-     (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:currency-style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "N10124")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:language "en")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:country "US"))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-properties
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:color
-         "#ff0000")))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text "(")
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:currency-symbol)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:number
-       (@
-        (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:min-decimal-places
-         "2")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:min-integer-digits
-         "1")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:grouping "true")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:decimal-places
-         "2")))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text ")")
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:map
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:condition
-         "value()>=0")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:apply-style-name
-         "N10124P0"))))
-     (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:date-style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "N10125")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:language "en")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:country "US"))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:month)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text "/")
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:day)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text "/")
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:year
-       (@ (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:style "long"))))
-     (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:date-style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "N10126")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:language "en")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:country "US"))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:day)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text "-")
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:month
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:textual "true")))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text "-")
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:year))
-     (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:date-style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "N10127")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:language "en")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:country "US"))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:day)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text "-")
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:month
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:textual "true"))))
-     (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:date-style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "N10128")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:language "en")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:country "US"))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:month
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:textual "true")))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text "-")
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:year))
-     (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:time-style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "N10129")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:language "en")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:country "US"))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:hours)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text ":")
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:minutes
-       (@ (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:style "long")))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:am-pm))
-     (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:time-style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "N10130")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:language "en")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:country "US"))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:hours)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text ":")
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:minutes
-       (@ (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:style "long")))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text ":")
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:seconds
-       (@ (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:style "long")))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:am-pm))
-     (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:time-style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "N10131")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:language "en")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:country "US"))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:hours)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text ":")
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:minutes
-       (@ (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:style "long"))))
-     (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:time-style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "N10132")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:language "en")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:country "US"))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:hours)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text ":")
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:minutes
-       (@ (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:style "long")))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text ":")
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:seconds
-       (@ (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:style "long"))))
-     (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:date-style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "N10133")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:language "en")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:country "US"))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:month)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text "/")
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:day)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text "/")
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:year
-       (@ (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:style "long")))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:hours)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text ":")
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:minutes
-       (@ (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:style "long"))))
-     (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:number-style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:volatile "true")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "N10134P0")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:language "en")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:country "US"))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:number
-       (@
-        (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:min-decimal-places
-         "0")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:min-integer-digits
-         "1")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:grouping "true")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:decimal-places
-         "0")))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text))
-     (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:number-style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "N10134")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:language "en")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:country "US"))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-properties
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:color
-         "#ff0000")))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text "(")
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:number
-       (@
-        (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:min-decimal-places
-         "0")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:min-integer-digits
-         "1")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:grouping "true")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:decimal-places
-         "0")))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text ")")
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:map
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:condition
-         "value()>=0")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:apply-style-name
-         "N10134P0"))))
-     (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:number-style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:volatile "true")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "N10135P0")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:language "en")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:country "US"))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:number
-       (@
-        (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:min-decimal-places
-         "2")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:min-integer-digits
-         "1")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:grouping "true")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:decimal-places
-         "2")))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text))
-     (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:number-style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "N10135")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:language "en")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:country "US"))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-properties
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:color
-         "#ff0000")))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text "(")
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:number
-       (@
-        (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:min-decimal-places
-         "2")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:min-integer-digits
-         "1")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:grouping "true")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:decimal-places
-         "2")))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text ")")
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:map
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:condition
-         "value()>=0")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:apply-style-name
-         "N10135P0"))))
-     (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:number-style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:volatile "true")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "N10136P0")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:language "en")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:country "US"))
-      (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:text)
-      (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:fill-character)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:number
-       (@
-        (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:min-decimal-places
-         "0")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:min-integer-digits
-         "1")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:grouping "true")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:decimal-places
-         "0")))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text))
-     (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:number-style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:volatile "true")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "N10136P1")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:language "en")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:country "US"))
-      (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:text)
-      (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:fill-character)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text "(")
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:number
-       (@
-        (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:min-decimal-places
-         "0")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:min-integer-digits
-         "1")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:grouping "true")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:decimal-places
-         "0")))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text ")"))
-     (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:number-style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:volatile "true")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "N10136P2")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:language "en")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:country "US"))
-      (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:text)
-      (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:fill-character)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text "- "))
-     (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text-style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "N10136")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:language "en")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:country "US"))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text-content)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text)
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:map
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:condition "value()>0")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:apply-style-name
-         "N10136P0")))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:map
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:condition "value()<0")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:apply-style-name
-         "N10136P1")))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:map
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:condition "value()=0")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:apply-style-name
-         "N10136P2"))))
-     (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:currency-style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:volatile "true")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "N10137P0")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:language "en")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:country "US"))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:currency-symbol)
-      (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:fill-character)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:number
-       (@
-        (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:min-decimal-places
-         "0")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:min-integer-digits
-         "1")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:grouping "true")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:decimal-places
-         "0")))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text))
-     (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:currency-style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:volatile "true")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "N10137P1")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:language "en")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:country "US"))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:currency-symbol)
-      (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:fill-character)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text "(")
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:number
-       (@
-        (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:min-decimal-places
-         "0")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:min-integer-digits
-         "1")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:grouping "true")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:decimal-places
-         "0")))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text ")"))
-     (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:currency-style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:volatile "true")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "N10137P2")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:language "en")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:country "US"))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:currency-symbol)
-      (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:fill-character)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text "- "))
-     (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text-style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "N10137")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:language "en")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:country "US"))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text-content)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text)
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:map
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:condition "value()>0")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:apply-style-name
-         "N10137P0")))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:map
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:condition "value()<0")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:apply-style-name
-         "N10137P1")))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:map
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:condition "value()=0")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:apply-style-name
-         "N10137P2"))))
-     (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:number-style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:volatile "true")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "N10138P0")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:language "en")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:country "US"))
-      (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:text)
-      (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:fill-character)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:number
-       (@
-        (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:min-decimal-places
-         "2")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:min-integer-digits
-         "1")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:grouping "true")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:decimal-places
-         "2")))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text))
-     (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:number-style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:volatile "true")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "N10138P1")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:language "en")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:country "US"))
-      (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:text)
-      (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:fill-character)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text "(")
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:number
-       (@
-        (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:min-decimal-places
-         "2")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:min-integer-digits
-         "1")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:grouping "true")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:decimal-places
-         "2")))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text ")"))
-     (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:number-style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:volatile "true")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "N10138P2")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:language "en")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:country "US"))
-      (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:text)
-      (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:fill-character)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text "-")
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:number
-       (@
-        (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:min-decimal-places
-         "0")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:min-integer-digits
-         "0")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:decimal-places
-         "0")))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text))
-     (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text-style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "N10138")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:language "en")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:country "US"))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text-content)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text)
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:map
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:condition "value()>0")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:apply-style-name
-         "N10138P0")))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:map
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:condition "value()<0")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:apply-style-name
-         "N10138P1")))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:map
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:condition "value()=0")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:apply-style-name
-         "N10138P2"))))
-     (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:currency-style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:volatile "true")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "N10139P0")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:language "en")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:country "US"))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:currency-symbol)
-      (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:fill-character)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:number
-       (@
-        (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:min-decimal-places
-         "2")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:min-integer-digits
-         "1")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:grouping "true")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:decimal-places
-         "2")))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text))
-     (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:currency-style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:volatile "true")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "N10139P1")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:language "en")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:country "US"))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:currency-symbol)
-      (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:fill-character)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text "(")
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:number
-       (@
-        (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:min-decimal-places
-         "2")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:min-integer-digits
-         "1")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:grouping "true")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:decimal-places
-         "2")))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text ")"))
-     (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:currency-style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:volatile "true")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "N10139P2")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:language "en")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:country "US"))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:currency-symbol)
-      (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:fill-character)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text "-")
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:number
-       (@
-        (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:min-decimal-places
-         "0")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:min-integer-digits
-         "0")
-        (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:decimal-places
-         "0")))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text))
-     (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text-style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "N10139")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:language "en")
-       (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:country "US"))
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text-content)
-      (urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0:text)
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:map
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:condition "value()>0")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:apply-style-name
-         "N10139P0")))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:map
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:condition "value()<0")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:apply-style-name
-         "N10139P1")))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:map
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:condition "value()=0")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:apply-style-name
-         "N10139P2"))))
      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:style
       (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Default")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:family "table-cell"))
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Accent")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:family "table-cell")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:data-style-name "N0"))
       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:table-cell-properties
        (@
+        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:background-color
+         "transparent")
         (urn:oasis:names:tc:opendocument:xmlns:style:1.0:vertical-align
-         "bottom")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:rotation-align
-         "none")))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-properties
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-family
-         "Arial")
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:color
-         "#000000")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-pitch-asian
-         "variable")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-name-complex
-         "Arial")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-name-asian
-         "Linux Libertine G")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-name "Arial")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-family-generic-asian
-         "system")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-family-complex
-         "Arial")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-family-asian
-         "'Linux Libertine G'"))))
-     (urn:oasis:names:tc:opendocument:xmlns:style:1.0:style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:parent-style-name
-        "Default")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Heading")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:family "table-cell"))
+         "automatic")))
       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-properties
        (@
         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-weight
          "bold")
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-style
-         "normal")
         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-size
-         "24pt")
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:color
-         "#000000"))))
+         "10pt")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-weight-complex
+         "bold")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-weight-asian
+         "bold")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-size-complex
+         "10pt")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-size-asian
+         "10pt"))))
      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:style
       (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:parent-style-name
-        "Heading")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Heading_20_1")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Accent_32_1")
        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:family "table-cell")
        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:display-name
-        "Heading 1"))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-properties
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-weight
-         "normal")
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-style
-         "normal")
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-size
-         "18pt")
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:color
-         "#000000"))))
-     (urn:oasis:names:tc:opendocument:xmlns:style:1.0:style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:parent-style-name
-        "Heading")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Heading_20_2")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:family "table-cell")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:display-name
-        "Heading 2"))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-properties
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-weight
-         "normal")
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-style
-         "normal")
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-size
-         "12pt")
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:color
-         "#000000"))))
-     (urn:oasis:names:tc:opendocument:xmlns:style:1.0:style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:parent-style-name
-        "Default")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Text")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:family "table-cell")))
-     (urn:oasis:names:tc:opendocument:xmlns:style:1.0:style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:parent-style-name
-        "Text")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Note")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:family "table-cell"))
+        "Accent 1")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:data-style-name "N0"))
       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:table-cell-properties
        (@
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:border
-         "0.74pt solid #808080")
         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:background-color
-         "#ffffcc")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:diagonal-tl-br "none")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:diagonal-bl-tr
-         "none")))
+         "#000000")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:vertical-align
+         "automatic")))
       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-properties
        (@
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-weight
-         "normal")
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-style
-         "normal")
         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-size
          "10pt")
         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:color
-         "#333333"))))
+         "#FFFFFF")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-size-complex
+         "10pt")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-size-asian
+         "10pt"))))
      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:style
       (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:parent-style-name
-        "Text")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Footnote")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:family "table-cell"))
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Accent_32_2")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:family "table-cell")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:display-name
+        "Accent 2")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:data-style-name "N0"))
+      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:table-cell-properties
+       (@
+        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:background-color
+         "#808080")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:vertical-align
+         "automatic")))
+      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-properties
+       (@
+        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-size
+         "10pt")
+        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:color
+         "#FFFFFF")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-size-complex
+         "10pt")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-size-asian
+         "10pt"))))
+     (urn:oasis:names:tc:opendocument:xmlns:style:1.0:style
+      (@
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Accent_32_3")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:family "table-cell")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:display-name
+        "Accent 3")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:data-style-name "N0"))
+      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:table-cell-properties
+       (@
+        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:background-color
+         "#DDDDDD")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:vertical-align
+         "automatic")))
       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-properties
        (@
         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-weight
-         "normal")
+         "bold")
+        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-size
+         "10pt")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-weight-complex
+         "bold")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-weight-asian
+         "bold")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-size-complex
+         "10pt")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-size-asian
+         "10pt"))))
+     (urn:oasis:names:tc:opendocument:xmlns:style:1.0:style
+      (@
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Bad")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:family "table-cell")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:data-style-name "N0"))
+      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:table-cell-properties
+       (@
+        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:background-color
+         "#FFCCCC")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:vertical-align
+         "automatic")))
+      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-properties
+       (@
+        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-size
+         "10pt")
+        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:color
+         "#CC0000")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-size-complex
+         "10pt")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-size-asian
+         "10pt"))))
+     (urn:oasis:names:tc:opendocument:xmlns:style:1.0:style
+      (@
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Error")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:family "table-cell")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:data-style-name "N0"))
+      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:table-cell-properties
+       (@
+        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:background-color
+         "#CC0000")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:vertical-align
+         "automatic")))
+      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-properties
+       (@
+        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-weight
+         "bold")
+        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-size
+         "10pt")
+        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:color
+         "#FFFFFF")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-weight-complex
+         "bold")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-weight-asian
+         "bold")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-size-complex
+         "10pt")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-size-asian
+         "10pt"))))
+     (urn:oasis:names:tc:opendocument:xmlns:style:1.0:style
+      (@
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Footnote")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:family "table-cell")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:data-style-name "N0"))
+      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:table-cell-properties
+       (@
+        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:background-color
+         "transparent")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:vertical-align
+         "automatic")))
+      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-properties
+       (@
         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-style
          "italic")
         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-size
          "10pt")
         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:color
-         "#808080"))))
+         "#808080")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-style-complex
+         "italic")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-style-asian
+         "italic")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-size-complex
+         "10pt")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-size-asian
+         "10pt"))))
      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:style
       (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:parent-style-name
-        "Text")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Hyperlink")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:family "table-cell"))
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Good")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:family "table-cell")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:data-style-name "N0"))
+      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:table-cell-properties
+       (@
+        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:background-color
+         "#CCFFCC")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:vertical-align
+         "automatic")))
       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-properties
        (@
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-weight
-         "normal")
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-style
-         "normal")
         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-size
          "10pt")
         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:color
-         "#0000ee")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-underline-width
-         "auto")
+         "#006600")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-size-complex
+         "10pt")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-size-asian
+         "10pt"))))
+     (urn:oasis:names:tc:opendocument:xmlns:style:1.0:style
+      (@
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Heading")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:family "table-cell")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:data-style-name "N0"))
+      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:table-cell-properties
+       (@
+        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:background-color
+         "transparent")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:vertical-align
+         "automatic")))
+      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-properties
+       (@
+        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-weight
+         "bold")
+        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-size
+         "24pt")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-weight-complex
+         "bold")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-weight-asian
+         "bold")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-size-complex
+         "24pt")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-size-asian
+         "24pt"))))
+     (urn:oasis:names:tc:opendocument:xmlns:style:1.0:style
+      (@
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Heading_32_1")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:family "table-cell")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:display-name
+        "Heading 1")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:data-style-name "N0"))
+      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:table-cell-properties
+       (@
+        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:background-color
+         "transparent")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:vertical-align
+         "automatic")))
+      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-properties
+       (@
+        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-size
+         "18pt")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-size-complex
+         "18pt")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-size-asian
+         "18pt"))))
+     (urn:oasis:names:tc:opendocument:xmlns:style:1.0:style
+      (@
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Heading_32_2")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:family "table-cell")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:display-name
+        "Heading 2")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:data-style-name "N0"))
+      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:table-cell-properties
+       (@
+        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:background-color
+         "transparent")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:vertical-align
+         "automatic"))))
+     (urn:oasis:names:tc:opendocument:xmlns:style:1.0:style
+      (@
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Hyperlink")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:family "table-cell")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:data-style-name "N0"))
+      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:table-cell-properties
+       (@
+        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:background-color
+         "transparent")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:vertical-align
+         "automatic")))
+      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-properties
+       (@
+        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-size
+         "10pt")
+        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:color
+         "#0000EE")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-underline-type
+         "single")
         (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-underline-style
          "solid")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-underline-color
-         "#0000ee"))))
-     (urn:oasis:names:tc:opendocument:xmlns:style:1.0:style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:parent-style-name
-        "Default")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Status")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:family "table-cell")))
-     (urn:oasis:names:tc:opendocument:xmlns:style:1.0:style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:parent-style-name
-        "Status")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Good")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:family "table-cell"))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:table-cell-properties
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:background-color
-         "#ccffcc")))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-properties
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-weight
-         "normal")
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-style
-         "normal")
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-size
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-size-complex
          "10pt")
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:color
-         "#006600"))))
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-size-asian
+         "10pt"))))
      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:style
       (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:parent-style-name
-        "Status")
        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Neutral")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:family "table-cell"))
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:family "table-cell")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:data-style-name "N0"))
       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:table-cell-properties
        (@
         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:background-color
-         "#ffffcc")))
+         "#FFFFCC")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:vertical-align
+         "automatic")))
       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-properties
        (@
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-weight
-         "normal")
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-style
-         "normal")
         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-size
          "10pt")
         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:color
-         "#996600"))))
+         "#996600")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-size-complex
+         "10pt")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-size-asian
+         "10pt"))))
      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:style
       (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:parent-style-name
-        "Status")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Bad")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:family "table-cell"))
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Default")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:family "table-cell")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:data-style-name "N0"))
       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:table-cell-properties
        (@
         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:background-color
-         "#ffcccc")))
+         "transparent")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:vertical-align
+         "automatic")))
       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-properties
        (@
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-weight
-         "normal")
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-style
-         "normal")
+        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-size
+         "12pt")
+        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:color
+         "#000000")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-size-complex
+         "12pt")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-size-asian
+         "12pt")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-name-complex
+         "Arial")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-name-asian
+         "Arial")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-name "Arial"))))
+     (urn:oasis:names:tc:opendocument:xmlns:style:1.0:style
+      (@
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Note")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:family "table-cell")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:data-style-name "N0"))
+      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:table-cell-properties
+       (@
+        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:border
+         "thin solid #808080")
+        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:background-color
+         "#FFFFCC")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:vertical-align
+         "automatic")))
+      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-properties
+       (@
         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-size
          "10pt")
         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:color
-         "#cc0000"))))
+         "#333333")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-size-complex
+         "10pt")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-size-asian
+         "10pt"))))
      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:style
       (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:parent-style-name
-        "Status")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Status")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:family "table-cell")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:data-style-name "N0"))
+      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:table-cell-properties
+       (@
+        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:background-color
+         "transparent")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:vertical-align
+         "automatic"))))
+     (urn:oasis:names:tc:opendocument:xmlns:style:1.0:style
+      (@
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Text")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:family "table-cell")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:data-style-name "N0"))
+      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:table-cell-properties
+       (@
+        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:background-color
+         "transparent")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:vertical-align
+         "automatic"))))
+     (urn:oasis:names:tc:opendocument:xmlns:style:1.0:style
+      (@
        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Warning")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:family "table-cell"))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-properties
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-weight
-         "normal")
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-style
-         "normal")
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-size
-         "10pt")
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:color
-         "#cc0000"))))
-     (urn:oasis:names:tc:opendocument:xmlns:style:1.0:style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:parent-style-name
-        "Status")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Error")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:family "table-cell"))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:table-cell-properties
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:background-color
-         "#cc0000")))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-properties
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-weight
-         "bold")
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-style
-         "normal")
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-size
-         "10pt")
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:color
-         "#ffffff"))))
-     (urn:oasis:names:tc:opendocument:xmlns:style:1.0:style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:parent-style-name
-        "Default")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Accent")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:family "table-cell"))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-properties
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-weight
-         "bold")
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-style
-         "normal")
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-size
-         "10pt")
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:color
-         "#000000"))))
-     (urn:oasis:names:tc:opendocument:xmlns:style:1.0:style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:parent-style-name
-        "Accent")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Accent_20_1")
        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:family "table-cell")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:display-name
-        "Accent 1"))
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:data-style-name "N0"))
       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:table-cell-properties
        (@
         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:background-color
-         "#000000")))
+         "transparent")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:vertical-align
+         "automatic")))
       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-properties
        (@
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-weight
-         "normal")
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-style
-         "normal")
         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-size
          "10pt")
         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:color
-         "#ffffff"))))
-     (urn:oasis:names:tc:opendocument:xmlns:style:1.0:style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:parent-style-name
-        "Accent")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Accent_20_2")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:family "table-cell")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:display-name
-        "Accent 2"))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:table-cell-properties
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:background-color
-         "#808080")))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-properties
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-weight
-         "normal")
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-style
-         "normal")
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-size
+         "#CC0000")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-size-complex
          "10pt")
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:color
-         "#ffffff"))))
-     (urn:oasis:names:tc:opendocument:xmlns:style:1.0:style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:parent-style-name
-        "Accent")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Accent_20_3")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:family "table-cell")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:display-name
-        "Accent 3"))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:table-cell-properties
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-size-asian
+         "10pt"))))
+     (urn:oasis:names:tc:opendocument:xmlns:style:1.0:default-style
+      (@ (urn:oasis:names:tc:opendocument:xmlns:style:1.0:family "graphic"))
+      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:graphic-properties
        (@
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:background-color
-         "#dddddd")))))
+        (urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0:stroke-width
+         "0.01389in")
+        (urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0:stroke-opacity
+         "100%")
+        (urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0:stroke-linecap
+         "butt")
+        (urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0:stroke-color
+         "#2f528f")
+        (urn:oasis:names:tc:opendocument:xmlns:drawing:1.0:stroke-linejoin
+         "miter")
+        (urn:oasis:names:tc:opendocument:xmlns:drawing:1.0:stroke "solid")
+        (urn:oasis:names:tc:opendocument:xmlns:drawing:1.0:opacity "100%")
+        (urn:oasis:names:tc:opendocument:xmlns:drawing:1.0:fill-color
+         "#4472c4")
+        (urn:oasis:names:tc:opendocument:xmlns:drawing:1.0:fill "solid")))))
     (urn:oasis:names:tc:opendocument:xmlns:office:1.0:automatic-styles
      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:page-layout
-      (@ (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Mpm1"))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:page-layout-properties
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:writing-mode "lr-tb")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:first-page-number
-         "continue")))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:header-style
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:header-footer-properties
-        (@
-         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:min-height
-          "21.26pt")
-         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:margin-right
-          "0pt")
-         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:margin-left
-          "0pt")
-         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:margin-bottom
-          "7.09pt"))))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:footer-style
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:header-footer-properties
-        (@
-         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:min-height
-          "21.26pt")
-         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:margin-top
-          "7.09pt")
-         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:margin-right
-          "0pt")
-         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:margin-left
-          "0pt")))))
-     (urn:oasis:names:tc:opendocument:xmlns:style:1.0:page-layout
-      (@ (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Mpm2"))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:page-layout-properties
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:writing-mode
-         "lr-tb")))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:header-style
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:header-footer-properties
-        (@
-         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:padding
-          "0.51pt")
-         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:min-height
-          "21.26pt")
-         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:margin-right
-          "0pt")
-         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:margin-left
-          "0pt")
-         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:margin-bottom
-          "7.09pt")
-         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:border
-          "2.49pt solid #000000")
-         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:background-color
-          "#c0c0c0"))
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:background-image)))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:footer-style
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:header-footer-properties
-        (@
-         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:padding
-          "0.51pt")
-         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:min-height
-          "21.26pt")
-         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:margin-top
-          "7.09pt")
-         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:margin-right
-          "0pt")
-         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:margin-left
-          "0pt")
-         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:border
-          "2.49pt solid #000000")
-         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:background-color
-          "#c0c0c0"))
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:background-image))))
-     (urn:oasis:names:tc:opendocument:xmlns:style:1.0:page-layout
-      (@ (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Mpm3"))
+      (@ (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "pm1"))
       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:page-layout-properties
        (@
         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:margin-top
-         "70.84pt")
+         "0.983888888888889in")
         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:margin-right
-         "53.86pt")
+         "0.748055555555556in")
         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:margin-left
-         "53.86pt")
+         "0.748055555555556in")
         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:margin-bottom
-         "70.84pt")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:writing-mode "lr-tb")
+         "0.983888888888889in")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:table-centering
+         "none")
         (urn:oasis:names:tc:opendocument:xmlns:style:1.0:scale-to "100%")
         (urn:oasis:names:tc:opendocument:xmlns:style:1.0:print-page-order
          "ttb")
         (urn:oasis:names:tc:opendocument:xmlns:style:1.0:print-orientation
          "portrait")
         (urn:oasis:names:tc:opendocument:xmlns:style:1.0:print
-         "charts drawings objects zero-values")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:num-format "1")
+         "objects charts drawings")
         (urn:oasis:names:tc:opendocument:xmlns:style:1.0:first-page-number
          "continue")))
       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:header-style
        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:header-footer-properties
         (@
          (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:min-height
-          "21.26pt")
+          "0.39375in")
          (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:margin-right
-          "0pt")
+          "0in")
          (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:margin-left
-          "0pt")
+          "0in")
          (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:margin-bottom
-          "7.09pt"))))
+          "0in"))))
       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:footer-style
        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:header-footer-properties
         (@
          (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:min-height
-          "21.26pt")
+          "0.39375in")
          (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:margin-top
-          "7.09pt")
+          "0in")
          (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:margin-right
-          "0pt")
+          "0in")
          (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:margin-left
-          "0pt"))))))
+          "0in"))))))
     (urn:oasis:names:tc:opendocument:xmlns:office:1.0:master-styles
      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:master-page
       (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:page-layout-name
-        "Mpm1")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Default"))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:header
-       (urn:oasis:names:tc:opendocument:xmlns:text:1.0:p
-        (urn:oasis:names:tc:opendocument:xmlns:text:1.0:sheet-name "???")))
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:page-layout-name "pm1")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "mp1"))
+      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:header)
       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:header-left
        (@ (urn:oasis:names:tc:opendocument:xmlns:style:1.0:display "false")))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:footer
-       (urn:oasis:names:tc:opendocument:xmlns:text:1.0:p
-        "Page "
-        (urn:oasis:names:tc:opendocument:xmlns:text:1.0:page-number "1")))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:footer-left
-       (@ (urn:oasis:names:tc:opendocument:xmlns:style:1.0:display "false"))))
-     (urn:oasis:names:tc:opendocument:xmlns:style:1.0:master-page
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:page-layout-name
-        "Mpm2")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Report"))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:header
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:region-left
-        (urn:oasis:names:tc:opendocument:xmlns:text:1.0:p
-         (urn:oasis:names:tc:opendocument:xmlns:text:1.0:sheet-name "???")
-         (urn:oasis:names:tc:opendocument:xmlns:text:1.0:s)
-         "("
-         (urn:oasis:names:tc:opendocument:xmlns:text:1.0:title "???")
-         ")"))
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:region-right
-        (urn:oasis:names:tc:opendocument:xmlns:text:1.0:p
-         (urn:oasis:names:tc:opendocument:xmlns:text:1.0:date
-          (@
-           (urn:oasis:names:tc:opendocument:xmlns:text:1.0:date-value
-            "2019-01-14")
-           (urn:oasis:names:tc:opendocument:xmlns:style:1.0:data-style-name
-            "N2"))
-          "00/00/0000")
-         ", "
-         (urn:oasis:names:tc:opendocument:xmlns:text:1.0:time "00:00:00"))))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:header-left
-       (@ (urn:oasis:names:tc:opendocument:xmlns:style:1.0:display "false")))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:footer
-       (urn:oasis:names:tc:opendocument:xmlns:text:1.0:p
-        "Page "
-        (urn:oasis:names:tc:opendocument:xmlns:text:1.0:page-number "1")
-        (urn:oasis:names:tc:opendocument:xmlns:text:1.0:s)
-        "/ "
-        (urn:oasis:names:tc:opendocument:xmlns:text:1.0:page-count "99")))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:footer-left
-       (@ (urn:oasis:names:tc:opendocument:xmlns:style:1.0:display "false"))))
-     (urn:oasis:names:tc:opendocument:xmlns:style:1.0:master-page
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:page-layout-name
-        "Mpm3")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name
-        "PageStyle_5f_Sheet1")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:display-name
-        "PageStyle_Sheet1"))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:header
-       (@ (urn:oasis:names:tc:opendocument:xmlns:style:1.0:display "false")))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:header-left
-       (@ (urn:oasis:names:tc:opendocument:xmlns:style:1.0:display "false")))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:footer
-       (@ (urn:oasis:names:tc:opendocument:xmlns:style:1.0:display "false")))
+      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:footer)
       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:footer-left
        (@
         (urn:oasis:names:tc:opendocument:xmlns:style:1.0:display "false")))))))
-  ("settings.xml"
-   *TOP*
-   (urn:oasis:names:tc:opendocument:xmlns:office:1.0:document-settings
-    (@ (urn:oasis:names:tc:opendocument:xmlns:office:1.0:version "1.2"))
-    (urn:oasis:names:tc:opendocument:xmlns:office:1.0:settings
-     (urn:oasis:names:tc:opendocument:xmlns:config:1.0:config-item-set
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:config:1.0:name
-        "ooo:view-settings"))
-      (urn:oasis:names:tc:opendocument:xmlns:config:1.0:config-item
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:type "int")
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:name
-         "VisibleAreaTop"))
-       "0")
-      (urn:oasis:names:tc:opendocument:xmlns:config:1.0:config-item
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:type "int")
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:name
-         "VisibleAreaLeft"))
-       "0")
-      (urn:oasis:names:tc:opendocument:xmlns:config:1.0:config-item
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:type "int")
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:name
-         "VisibleAreaWidth"))
-       "16965")
-      (urn:oasis:names:tc:opendocument:xmlns:config:1.0:config-item
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:type "int")
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:name
-         "VisibleAreaHeight"))
-       "3889"))
-     (urn:oasis:names:tc:opendocument:xmlns:config:1.0:config-item-set
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:config:1.0:name
-        "ooo:configuration-settings"))
-      (urn:oasis:names:tc:opendocument:xmlns:config:1.0:config-item
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:type "short")
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:name
-         "SyntaxStringRef"))
-       "7")
-      (urn:oasis:names:tc:opendocument:xmlns:config:1.0:config-item
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:type "boolean")
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:name
-         "IsDocumentShared"))
-       "false")
-      (urn:oasis:names:tc:opendocument:xmlns:config:1.0:config-item
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:type "boolean")
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:name "LoadReadonly"))
-       "false")
-      (urn:oasis:names:tc:opendocument:xmlns:config:1.0:config-item
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:type "boolean")
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:name
-         "AllowPrintJobCancel"))
-       "true")
-      (urn:oasis:names:tc:opendocument:xmlns:config:1.0:config-item
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:type "boolean")
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:name
-         "UpdateFromTemplate"))
-       "true")
-      (urn:oasis:names:tc:opendocument:xmlns:config:1.0:config-item
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:type "boolean")
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:name
-         "IsKernAsianPunctuation"))
-       "false")
-      (urn:oasis:names:tc:opendocument:xmlns:config:1.0:config-item
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:type "boolean")
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:name "EmbedFonts"))
-       "false")
-      (urn:oasis:names:tc:opendocument:xmlns:config:1.0:config-item
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:type "boolean")
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:name
-         "IsSnapToRaster"))
-       "false")
-      (urn:oasis:names:tc:opendocument:xmlns:config:1.0:config-item
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:type "int")
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:name
-         "RasterResolutionX"))
-       "1270")
-      (urn:oasis:names:tc:opendocument:xmlns:config:1.0:config-item
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:type "int")
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:name
-         "RasterResolutionY"))
-       "1270")
-      (urn:oasis:names:tc:opendocument:xmlns:config:1.0:config-item
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:type "boolean")
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:name "HasSheetTabs"))
-       "true")
-      (urn:oasis:names:tc:opendocument:xmlns:config:1.0:config-item
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:type "boolean")
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:name
-         "IsRasterAxisSynchronized"))
-       "true")
-      (urn:oasis:names:tc:opendocument:xmlns:config:1.0:config-item
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:type "boolean")
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:name
-         "ShowPageBreaks"))
-       "true")
-      (urn:oasis:names:tc:opendocument:xmlns:config:1.0:config-item
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:type "boolean")
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:name "ShowGrid"))
-       "true")
-      (urn:oasis:names:tc:opendocument:xmlns:config:1.0:config-item
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:type "boolean")
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:name "ShowNotes"))
-       "true")
-      (urn:oasis:names:tc:opendocument:xmlns:config:1.0:config-item
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:type "boolean")
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:name
-         "SaveVersionOnClose"))
-       "false")
-      (urn:oasis:names:tc:opendocument:xmlns:config:1.0:config-item
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:type "long")
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:name "GridColor"))
-       "12632256")
-      (urn:oasis:names:tc:opendocument:xmlns:config:1.0:config-item
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:type "boolean")
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:name
-         "RasterIsVisible"))
-       "false")
-      (urn:oasis:names:tc:opendocument:xmlns:config:1.0:config-item
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:type "string")
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:name "PrinterName")))
-      (urn:oasis:names:tc:opendocument:xmlns:config:1.0:config-item
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:type "boolean")
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:name
-         "IsOutlineSymbolsSet"))
-       "true")
-      (urn:oasis:names:tc:opendocument:xmlns:config:1.0:config-item
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:type "boolean")
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:name
-         "ShowZeroValues"))
-       "true")
-      (urn:oasis:names:tc:opendocument:xmlns:config:1.0:config-item
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:type "short")
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:name
-         "LinkUpdateMode"))
-       "3")
-      (urn:oasis:names:tc:opendocument:xmlns:config:1.0:config-item
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:type "int")
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:name
-         "RasterSubdivisionX"))
-       "1")
-      (urn:oasis:names:tc:opendocument:xmlns:config:1.0:config-item
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:type "boolean")
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:name
-         "HasColumnRowHeaders"))
-       "true")
-      (urn:oasis:names:tc:opendocument:xmlns:config:1.0:config-item
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:type "int")
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:name
-         "RasterSubdivisionY"))
-       "1")
-      (urn:oasis:names:tc:opendocument:xmlns:config:1.0:config-item
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:type "boolean")
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:name
-         "AutoCalculate"))
-       "true")
-      (urn:oasis:names:tc:opendocument:xmlns:config:1.0:config-item
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:type "base64Binary")
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:name
-         "PrinterSetup")))
-      (urn:oasis:names:tc:opendocument:xmlns:config:1.0:config-item
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:type "boolean")
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:name
-         "ApplyUserData"))
-       "true")
-      (urn:oasis:names:tc:opendocument:xmlns:config:1.0:config-item
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:type "short")
-        (urn:oasis:names:tc:opendocument:xmlns:config:1.0:name
-         "CharacterCompressionType"))
-       "0")))))
+  ("mimetype" . "application/vnd.oasis.opendocument.spreadsheet")
   ("meta.xml"
    *TOP*
+   (*PI* xml "version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"")
    (urn:oasis:names:tc:opendocument:xmlns:office:1.0:document-meta
     (@ (urn:oasis:names:tc:opendocument:xmlns:office:1.0:version "1.2"))
     (urn:oasis:names:tc:opendocument:xmlns:office:1.0:meta
-     (urn:oasis:names:tc:opendocument:xmlns:meta:1.0:document-statistic
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:meta:1.0:table-count "1")
-       (urn:oasis:names:tc:opendocument:xmlns:meta:1.0:object-count "0")
-       (urn:oasis:names:tc:opendocument:xmlns:meta:1.0:cell-count "6")))
      (urn:oasis:names:tc:opendocument:xmlns:meta:1.0:generator
-      "LibreOfficeDev/6.0.5.2$Linux_X86_64 LibreOffice_project/"))))
-  ("manifest.rdf"
-   *TOP*
-   (http://www.w3.org/1999/02/22-rdf-syntax-ns#:RDF
-    (http://www.w3.org/1999/02/22-rdf-syntax-ns#:Description
-     (@ (http://www.w3.org/1999/02/22-rdf-syntax-ns#:about "styles.xml"))
-     (http://www.w3.org/1999/02/22-rdf-syntax-ns#:type
-      (@
-       (http://www.w3.org/1999/02/22-rdf-syntax-ns#:resource
-        "http://docs.oasis-open.org/ns/office/1.2/meta/odf#StylesFile"))))
-    (http://www.w3.org/1999/02/22-rdf-syntax-ns#:Description
-     (@ (http://www.w3.org/1999/02/22-rdf-syntax-ns#:about ""))
-     (http://docs.oasis-open.org/ns/office/1.2/meta/pkg#:hasPart
-      (@ (http://www.w3.org/1999/02/22-rdf-syntax-ns#:resource "styles.xml"))))
-    (http://www.w3.org/1999/02/22-rdf-syntax-ns#:Description
-     (@ (http://www.w3.org/1999/02/22-rdf-syntax-ns#:about "content.xml"))
-     (http://www.w3.org/1999/02/22-rdf-syntax-ns#:type
-      (@
-       (http://www.w3.org/1999/02/22-rdf-syntax-ns#:resource
-        "http://docs.oasis-open.org/ns/office/1.2/meta/odf#ContentFile"))))
-    (http://www.w3.org/1999/02/22-rdf-syntax-ns#:Description
-     (@ (http://www.w3.org/1999/02/22-rdf-syntax-ns#:about ""))
-     (http://docs.oasis-open.org/ns/office/1.2/meta/pkg#:hasPart
-      (@
-       (http://www.w3.org/1999/02/22-rdf-syntax-ns#:resource "content.xml"))))
-    (http://www.w3.org/1999/02/22-rdf-syntax-ns#:Description
-     (@ (http://www.w3.org/1999/02/22-rdf-syntax-ns#:about ""))
-     (http://www.w3.org/1999/02/22-rdf-syntax-ns#:type
-      (@
-       (http://www.w3.org/1999/02/22-rdf-syntax-ns#:resource
-        "http://docs.oasis-open.org/ns/office/1.2/meta/pkg#Document"))))))
+      "MicrosoftOffice/16.0 MicrosoftExcel/CalculationVersion-10123")
+     (http://purl.org/dc/elements/1.1/:creator "Thomas Counsell")
+     (urn:oasis:names:tc:opendocument:xmlns:meta:1.0:creation-date
+      "2019-02-08T09:11:57Z")
+     (http://purl.org/dc/elements/1.1/:date "2019-02-08T09:11:57Z"))))
   ("content.xml"
    *TOP*
+   (*PI* xml "version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"")
    (urn:oasis:names:tc:opendocument:xmlns:office:1.0:document-content
     (@ (urn:oasis:names:tc:opendocument:xmlns:office:1.0:version "1.2"))
-    (urn:oasis:names:tc:opendocument:xmlns:office:1.0:scripts)
     (urn:oasis:names:tc:opendocument:xmlns:office:1.0:font-face-decls
      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-face
       (@
@@ -1538,33 +517,73 @@
       (@
        (urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0:font-family
         "Cambria")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Cambria")))
-     (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-face
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0:font-family
-        "'Liberation Sans'")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Liberation Sans")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-pitch "variable")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-family-generic
-        "swiss")))
-     (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-face
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0:font-family
-        "'DejaVu Sans'")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "DejaVu Sans")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-pitch "variable")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-family-generic
-        "system")))
-     (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-face
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0:font-family
-        "'Linux Libertine G'")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name
-        "Linux Libertine G")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-pitch "variable")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-family-generic
-        "system"))))
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "Cambria"))))
     (urn:oasis:names:tc:opendocument:xmlns:office:1.0:automatic-styles
+     (urn:oasis:names:tc:opendocument:xmlns:style:1.0:style
+      (@
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:parent-style-name
+        "Default")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "ce1")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:family "table-cell")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:data-style-name "N0")))
+     (urn:oasis:names:tc:opendocument:xmlns:style:1.0:style
+      (@
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:parent-style-name
+        "Default")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "ce2")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:family "table-cell")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:data-style-name "N0"))
+      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:table-cell-properties
+       (@
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:vertical-align
+         "automatic")))
+      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-properties
+       (@
+        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-size
+         "11pt")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-size-complex
+         "11pt")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-size-asian
+         "11pt")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-name-complex
+         "Cambria")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-name-asian
+         "Cambria")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-name "Cambria")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-family-generic
+         "roman"))))
+     (urn:oasis:names:tc:opendocument:xmlns:style:1.0:style
+      (@
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:parent-style-name
+        "Default")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "ce3")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:family "table-cell")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:data-style-name "N0"))
+      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:table-cell-properties
+       (@
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:vertical-align
+         "automatic")))
+      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-properties
+       (@
+        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-weight
+         "bold")
+        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-size
+         "11pt")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-weight-complex
+         "bold")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-weight-asian
+         "bold")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-size-complex
+         "11pt")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-size-asian
+         "11pt")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-name-complex
+         "Cambria")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-name-asian
+         "Cambria")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-name "Cambria")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-family-generic
+         "roman"))))
      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:style
       (@
        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "co1")
@@ -1574,7 +593,17 @@
         (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:break-before
          "auto")
         (urn:oasis:names:tc:opendocument:xmlns:style:1.0:column-width
-         "80.16pt"))))
+         "2.83104166666667cm"))))
+     (urn:oasis:names:tc:opendocument:xmlns:style:1.0:style
+      (@
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "co2")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:family "table-column"))
+      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:table-column-properties
+       (@
+        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:break-before
+         "auto")
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:column-width
+         "1.984375cm"))))
      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:style
       (@
        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "ro1")
@@ -1585,8 +614,7 @@
          "auto")
         (urn:oasis:names:tc:opendocument:xmlns:style:1.0:use-optimal-row-height
          "true")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:row-height
-         "15.76pt"))))
+        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:row-height "16pt"))))
      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:style
       (@
        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "ro2")
@@ -1598,140 +626,17 @@
         (urn:oasis:names:tc:opendocument:xmlns:style:1.0:use-optimal-row-height
          "false")
         (urn:oasis:names:tc:opendocument:xmlns:style:1.0:row-height
-         "15.76pt"))))
+         "15.75pt"))))
      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:style
       (@
        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "ta1")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:master-page-name
-        "PageStyle_5f_Sheet1")
+       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:master-page-name "mp1")
        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:family "table"))
       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:table-properties
        (@
         (urn:oasis:names:tc:opendocument:xmlns:table:1.0:display "true")
         (urn:oasis:names:tc:opendocument:xmlns:style:1.0:writing-mode
-         "lr-tb"))))
-     (urn:oasis:names:tc:opendocument:xmlns:style:1.0:style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:parent-style-name
-        "Default")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "ce1")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:family "table-cell"))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:table-cell-properties
-       (@
-        (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:vertical-justify
-         "auto")
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:wrap-option
-         "no-wrap")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:vertical-align
-         "bottom")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-align-source
-         "value-type")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:shrink-to-fit "false")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:rotation-angle "0")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:rotation-align "none")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:repeat-content
-         "false")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:direction "ltr")))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:paragraph-properties
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:margin-left
-         "0pt")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:writing-mode "page")
-        (http://www.w3.org/TR/css3-text/:text-justify "auto")))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-properties
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:text-shadow
-         "none")
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-weight
-         "normal")
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-style
-         "normal")
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-size
-         "11pt")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:use-window-font-color
-         "true")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-underline-style
-         "none")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-outline "false")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-line-through-type
-         "none")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-line-through-style
-         "none")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-weight-complex
-         "normal")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-weight-asian
-         "normal")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-style-complex
-         "normal")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-style-asian
-         "normal")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-size-complex
-         "11pt")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-size-asian
-         "11pt")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-name
-         "Cambria"))))
-     (urn:oasis:names:tc:opendocument:xmlns:style:1.0:style
-      (@
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:parent-style-name
-        "Default")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:name "ce2")
-       (urn:oasis:names:tc:opendocument:xmlns:style:1.0:family "table-cell"))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:table-cell-properties
-       (@
-        (urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0:vertical-justify
-         "auto")
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:wrap-option
-         "no-wrap")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:vertical-align
-         "bottom")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-align-source
-         "value-type")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:shrink-to-fit "false")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:rotation-angle "0")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:rotation-align "none")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:repeat-content
-         "false")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:direction "ltr")))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:paragraph-properties
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:margin-left
-         "0pt")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:writing-mode "page")
-        (http://www.w3.org/TR/css3-text/:text-justify "auto")))
-      (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-properties
-       (@
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:text-shadow
-         "none")
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-weight
-         "bold")
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-style
-         "normal")
-        (urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0:font-size
-         "11pt")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:use-window-font-color
-         "true")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-underline-style
-         "none")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-outline "false")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-line-through-type
-         "none")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:text-line-through-style
-         "none")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-weight-complex
-         "bold")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-weight-asian
-         "bold")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-style-complex
-         "normal")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-style-asian
-         "normal")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-size-complex
-         "11pt")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-size-asian
-         "11pt")
-        (urn:oasis:names:tc:opendocument:xmlns:style:1.0:font-name
-         "Cambria")))))
+         "lr-tb")))))
     (urn:oasis:names:tc:opendocument:xmlns:office:1.0:body
      (urn:oasis:names:tc:opendocument:xmlns:office:1.0:spreadsheet
       (urn:oasis:names:tc:opendocument:xmlns:table:1.0:calculation-settings
@@ -1739,6 +644,8 @@
         (urn:oasis:names:tc:opendocument:xmlns:table:1.0:use-wildcards "true")
         (urn:oasis:names:tc:opendocument:xmlns:table:1.0:use-regular-expressions
          "false")
+        (urn:oasis:names:tc:opendocument:xmlns:table:1.0:search-criteria-must-apply-to-whole-cell
+         "true")
         (urn:oasis:names:tc:opendocument:xmlns:table:1.0:case-sensitive
          "false")
         (urn:oasis:names:tc:opendocument:xmlns:table:1.0:automatic-find-labels
@@ -1746,87 +653,76 @@
        (urn:oasis:names:tc:opendocument:xmlns:table:1.0:iteration
         (@
          (urn:oasis:names:tc:opendocument:xmlns:table:1.0:maximum-difference
-          "0.0001"))))
+          "1E-4"))))
       (urn:oasis:names:tc:opendocument:xmlns:table:1.0:table
        (@
         (urn:oasis:names:tc:opendocument:xmlns:table:1.0:style-name "ta1")
         (urn:oasis:names:tc:opendocument:xmlns:table:1.0:name "Sheet1"))
-       (urn:oasis:names:tc:opendocument:xmlns:office:1.0:forms
-        (@
-         (urn:oasis:names:tc:opendocument:xmlns:form:1.0:automatic-focus
-          "false")
-         (urn:oasis:names:tc:opendocument:xmlns:form:1.0:apply-design-mode
-          "false")))
        (urn:oasis:names:tc:opendocument:xmlns:table:1.0:table-column
         (@
          (urn:oasis:names:tc:opendocument:xmlns:table:1.0:style-name "co1")
          (urn:oasis:names:tc:opendocument:xmlns:table:1.0:number-columns-repeated
           "1024")
          (urn:oasis:names:tc:opendocument:xmlns:table:1.0:default-cell-style-name
-          "Default")))
+          "ce1")))
+       (urn:oasis:names:tc:opendocument:xmlns:table:1.0:table-column
+        (@
+         (urn:oasis:names:tc:opendocument:xmlns:table:1.0:style-name "co2")
+         (urn:oasis:names:tc:opendocument:xmlns:table:1.0:number-columns-repeated
+          "15360")
+         (urn:oasis:names:tc:opendocument:xmlns:table:1.0:default-cell-style-name
+          "ce1")))
        (urn:oasis:names:tc:opendocument:xmlns:table:1.0:table-row
         (@ (urn:oasis:names:tc:opendocument:xmlns:table:1.0:style-name "ro1"))
         (urn:oasis:names:tc:opendocument:xmlns:table:1.0:table-cell
          (@
-          (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
-           "float")
-          (urn:oasis:names:tc:opendocument:xmlns:table:1.0:formula
-           "of:=1+[.B1]")
+          (urn:oasis:names:tc:opendocument:xmlns:table:1.0:style-name "ce1")
           (urn:oasis:names:tc:opendocument:xmlns:office:1.0:value-type "float")
           (urn:oasis:names:tc:opendocument:xmlns:office:1.0:value "3"))
          (urn:oasis:names:tc:opendocument:xmlns:text:1.0:p "3"))
         (urn:oasis:names:tc:opendocument:xmlns:table:1.0:table-cell
          (@
-          (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
-           "float")
-          (urn:oasis:names:tc:opendocument:xmlns:table:1.0:style-name "ce1")
+          (urn:oasis:names:tc:opendocument:xmlns:table:1.0:style-name "ce2")
           (urn:oasis:names:tc:opendocument:xmlns:office:1.0:value-type "float")
           (urn:oasis:names:tc:opendocument:xmlns:office:1.0:value "2"))
          (urn:oasis:names:tc:opendocument:xmlns:text:1.0:p "2"))
         (urn:oasis:names:tc:opendocument:xmlns:table:1.0:table-cell
          (@
+          (urn:oasis:names:tc:opendocument:xmlns:table:1.0:style-name "ce1")
           (urn:oasis:names:tc:opendocument:xmlns:table:1.0:number-columns-repeated
-           "1022"))))
+           "16382"))))
        (urn:oasis:names:tc:opendocument:xmlns:table:1.0:table-row
         (@ (urn:oasis:names:tc:opendocument:xmlns:table:1.0:style-name "ro1"))
         (urn:oasis:names:tc:opendocument:xmlns:table:1.0:table-cell
          (@
-          (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
-           "string")
-          (urn:oasis:names:tc:opendocument:xmlns:table:1.0:style-name "ce1")
+          (urn:oasis:names:tc:opendocument:xmlns:table:1.0:style-name "ce2")
           (urn:oasis:names:tc:opendocument:xmlns:office:1.0:value-type
            "string"))
          (urn:oasis:names:tc:opendocument:xmlns:text:1.0:p "Hello"))
         (urn:oasis:names:tc:opendocument:xmlns:table:1.0:table-cell
          (@
-          (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
-           "string")
-          (urn:oasis:names:tc:opendocument:xmlns:table:1.0:formula
-           "of:=[.A2]&\" World\"")
+          (urn:oasis:names:tc:opendocument:xmlns:table:1.0:style-name "ce1")
           (urn:oasis:names:tc:opendocument:xmlns:office:1.0:value-type
-           "string")
-          (urn:oasis:names:tc:opendocument:xmlns:office:1.0:string-value
-           "Hello World"))
+           "string"))
          (urn:oasis:names:tc:opendocument:xmlns:text:1.0:p "Hello World"))
         (urn:oasis:names:tc:opendocument:xmlns:table:1.0:table-cell
          (@
+          (urn:oasis:names:tc:opendocument:xmlns:table:1.0:style-name "ce1")
           (urn:oasis:names:tc:opendocument:xmlns:table:1.0:number-columns-repeated
-           "1022"))))
+           "16382"))))
        (urn:oasis:names:tc:opendocument:xmlns:table:1.0:table-row
         (@ (urn:oasis:names:tc:opendocument:xmlns:table:1.0:style-name "ro1"))
         (urn:oasis:names:tc:opendocument:xmlns:table:1.0:table-cell
          (@
-          (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
-           "float")
-          (urn:oasis:names:tc:opendocument:xmlns:table:1.0:formula
-           "of:=COUNT([.A1:.A2])")
+          (urn:oasis:names:tc:opendocument:xmlns:table:1.0:style-name "ce1")
           (urn:oasis:names:tc:opendocument:xmlns:office:1.0:value-type "float")
           (urn:oasis:names:tc:opendocument:xmlns:office:1.0:value "1"))
          (urn:oasis:names:tc:opendocument:xmlns:text:1.0:p "1"))
         (urn:oasis:names:tc:opendocument:xmlns:table:1.0:table-cell
          (@
+          (urn:oasis:names:tc:opendocument:xmlns:table:1.0:style-name "ce1")
           (urn:oasis:names:tc:opendocument:xmlns:table:1.0:number-columns-repeated
-           "1023"))))
+           "16383"))))
        (urn:oasis:names:tc:opendocument:xmlns:table:1.0:table-row
         (@
          (urn:oasis:names:tc:opendocument:xmlns:table:1.0:style-name "ro2")
@@ -1835,69 +731,42 @@
         (urn:oasis:names:tc:opendocument:xmlns:table:1.0:table-cell
          (@
           (urn:oasis:names:tc:opendocument:xmlns:table:1.0:number-columns-repeated
-           "1024"))))
+           "16384"))))
        (urn:oasis:names:tc:opendocument:xmlns:table:1.0:table-row
         (@ (urn:oasis:names:tc:opendocument:xmlns:table:1.0:style-name "ro1"))
         (urn:oasis:names:tc:opendocument:xmlns:table:1.0:table-cell
          (@
+          (urn:oasis:names:tc:opendocument:xmlns:table:1.0:style-name "ce1")
           (urn:oasis:names:tc:opendocument:xmlns:table:1.0:number-columns-repeated
            "5")))
         (urn:oasis:names:tc:opendocument:xmlns:table:1.0:table-cell
          (@
-          (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
-           "string")
-          (urn:oasis:names:tc:opendocument:xmlns:table:1.0:style-name "ce2")
+          (urn:oasis:names:tc:opendocument:xmlns:table:1.0:style-name "ce3")
           (urn:oasis:names:tc:opendocument:xmlns:office:1.0:value-type
            "string"))
          (urn:oasis:names:tc:opendocument:xmlns:text:1.0:p "Outlier!"))
         (urn:oasis:names:tc:opendocument:xmlns:table:1.0:table-cell
          (@
           (urn:oasis:names:tc:opendocument:xmlns:table:1.0:number-columns-repeated
-           "1018"))))
+           "16378"))))
        (urn:oasis:names:tc:opendocument:xmlns:table:1.0:table-row
         (@
          (urn:oasis:names:tc:opendocument:xmlns:table:1.0:style-name "ro2")
          (urn:oasis:names:tc:opendocument:xmlns:table:1.0:number-rows-repeated
-          "1048568"))
+          "1048569"))
         (urn:oasis:names:tc:opendocument:xmlns:table:1.0:table-cell
          (@
           (urn:oasis:names:tc:opendocument:xmlns:table:1.0:number-columns-repeated
-           "1024"))))
-       (urn:oasis:names:tc:opendocument:xmlns:table:1.0:table-row
-        (@ (urn:oasis:names:tc:opendocument:xmlns:table:1.0:style-name "ro2"))
-        (urn:oasis:names:tc:opendocument:xmlns:table:1.0:table-cell
-         (@
-          (urn:oasis:names:tc:opendocument:xmlns:table:1.0:number-columns-repeated
-           "1024")))))
-      (urn:oasis:names:tc:opendocument:xmlns:table:1.0:named-expressions)))))
+           "16384")))))))))
   ("META-INF/manifest.xml"
    *TOP*
+   (*PI* xml "version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"")
    (urn:oasis:names:tc:opendocument:xmlns:manifest:1.0:manifest
-    (@ (urn:oasis:names:tc:opendocument:xmlns:manifest:1.0:version "1.2"))
     (urn:oasis:names:tc:opendocument:xmlns:manifest:1.0:file-entry
      (@
-      (urn:oasis:names:tc:opendocument:xmlns:manifest:1.0:version "1.2")
       (urn:oasis:names:tc:opendocument:xmlns:manifest:1.0:media-type
        "application/vnd.oasis.opendocument.spreadsheet")
       (urn:oasis:names:tc:opendocument:xmlns:manifest:1.0:full-path "/")))
-    (urn:oasis:names:tc:opendocument:xmlns:manifest:1.0:file-entry
-     (@
-      (urn:oasis:names:tc:opendocument:xmlns:manifest:1.0:media-type
-       "image/png")
-      (urn:oasis:names:tc:opendocument:xmlns:manifest:1.0:full-path
-       "Thumbnails/thumbnail.png")))
-    (urn:oasis:names:tc:opendocument:xmlns:manifest:1.0:file-entry
-     (@
-      (urn:oasis:names:tc:opendocument:xmlns:manifest:1.0:media-type
-       "text/xml")
-      (urn:oasis:names:tc:opendocument:xmlns:manifest:1.0:full-path
-       "settings.xml")))
-    (urn:oasis:names:tc:opendocument:xmlns:manifest:1.0:file-entry
-     (@
-      (urn:oasis:names:tc:opendocument:xmlns:manifest:1.0:media-type
-       "text/xml")
-      (urn:oasis:names:tc:opendocument:xmlns:manifest:1.0:full-path
-       "content.xml")))
     (urn:oasis:names:tc:opendocument:xmlns:manifest:1.0:file-entry
      (@
       (urn:oasis:names:tc:opendocument:xmlns:manifest:1.0:media-type
@@ -1909,16 +778,10 @@
       (urn:oasis:names:tc:opendocument:xmlns:manifest:1.0:media-type
        "text/xml")
       (urn:oasis:names:tc:opendocument:xmlns:manifest:1.0:full-path
-       "meta.xml")))
+       "content.xml")))
     (urn:oasis:names:tc:opendocument:xmlns:manifest:1.0:file-entry
      (@
       (urn:oasis:names:tc:opendocument:xmlns:manifest:1.0:media-type
-       "application/rdf+xml")
+       "text/xml")
       (urn:oasis:names:tc:opendocument:xmlns:manifest:1.0:full-path
-       "manifest.rdf")))
-    (urn:oasis:names:tc:opendocument:xmlns:manifest:1.0:file-entry
-     (@
-      (urn:oasis:names:tc:opendocument:xmlns:manifest:1.0:media-type
-       "application/vnd.sun.xml.ui.configuration")
-      (urn:oasis:names:tc:opendocument:xmlns:manifest:1.0:full-path
-       "Configurations2/"))))))
+       "meta.xml"))))))

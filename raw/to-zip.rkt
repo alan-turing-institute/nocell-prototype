@@ -11,38 +11,45 @@
 (require racket/path)
 (require sxml)
 
-(define (file->raw path)
-  (last (file->value path))
-  )
+(define (file->raw path) (last (file->value path)))
 
 (define (raw->zip raw path)
   ; The first part of a raw-entry pair is the path
-  (define (raw-entry-relative-path raw-entry)
-    (first raw-entry)
-    )
+  (define (raw-entry-relative-path raw-entry) (car raw-entry))
 
-  ; The second part of a raw-entry pair is the sxml
-  (define (raw-entry-sxml raw-entry)
-    (last raw-entry)
-    )
+  ; The second part of a raw-entry pair is the content, which currently might be a string or a sxml
+  (define (raw-entry-content raw-entry) (cdr raw-entry))
+
+  ; We can check what type of thing it is
+  (define (raw-entry-is-sxml? raw-entry) (list? (raw-entry-content raw-entry)))
+  (define (raw-entry-is-string? raw-entry) (string? (raw-entry-content raw-entry)))
 
   ; Writes one raw entry into the folder
-  (define (write-raw-entry-to-folder folder raw-entry)
+  (define (write-raw-entry-to-folder raw-entry folder)
     (let ([path (raw-entry-relative-path raw-entry)]
-          [sxml (raw-entry-sxml raw-entry)]
           [original-current-directory (current-directory)])
       (make-directory* folder)
       (current-directory folder)
       (make-parent-directory* path)
-      (call-with-output-file path (lambda (port) (srl:sxml->xml sxml port)) #:mode 'text #:exists 'replace)
+      (write-raw-entry-to-path raw-entry path)
       (current-directory original-current-directory)
       path
       )
     )
+
+  (define (write-raw-entry-to-path raw-entry path) 
+    (call-with-output-file path (lambda (port) (write-raw-entry-to-port raw-entry port)) #:mode 'text #:exists 'replace)
+    )
+
+  (define (write-raw-entry-to-port raw-entry port)
+    (let ([content (raw-entry-content raw-entry)])
+      (if (raw-entry-is-sxml? raw-entry) (srl:sxml->xml content port) (display content port)))
+    )
+
   ; I get a permission failure trying to write to a temporary folder ?
   ; (let* ([temporary-folder (make-temporary-file "rawsave-~a" 'directory)]
   (let* ([temporary-folder "./out/"]
-         [paths (map (lambda (raw-entry) (write-raw-entry-to-folder temporary-folder raw-entry)) raw)])
+         [paths (map (lambda (raw-entry) (write-raw-entry-to-folder raw-entry temporary-folder)) raw)])
   (if (file-exists? path) (delete-file path) '())
   (current-directory temporary-folder)
   (apply zip path paths)
