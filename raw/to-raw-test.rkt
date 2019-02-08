@@ -36,8 +36,12 @@
              )
 
   (test-case "Test create a one cell ods"
-             ; A single ODS cell
-             (check (workbook->raw (worksheet->raw "One Cell Sheet" (row->raw (string->raw "One Cell")) )) "one-cell")
+             ; A single cell ods
+             (check (workbook->raw (worksheet->raw "One Cell Sheet" (row->raw (list (string->raw "One Cell")) ))) "one-cell")
+             )
+
+  (test-case "Test create a one row ods"
+             ; A one row ods
+             (check (workbook->raw (worksheet->raw "One Row Sheet" (list->raw (list "One" "Two" "Three")) )) "one-row")
              )
   )
-

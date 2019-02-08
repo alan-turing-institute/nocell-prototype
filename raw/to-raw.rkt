@@ -1,10 +1,13 @@
 #lang racket
 
 (provide 
+  ; Primitives
   workbook->raw
   worksheet->raw
   row->raw
   string->raw
+  ; Compounds
+  list->raw
   )
 
 (require sxml)
@@ -39,7 +42,7 @@
 (define (row->raw raw-cells)
   (if (empty? raw-cells)
       `(urn:oasis:names:tc:opendocument:xmlns:table:1.0:table-row)
-      `(urn:oasis:names:tc:opendocument:xmlns:table:1.0:table-row ,raw-cells)
+      `(urn:oasis:names:tc:opendocument:xmlns:table:1.0:table-row ,@raw-cells)
       )
 )
 
@@ -51,3 +54,9 @@
    (urn:oasis:names:tc:opendocument:xmlns:text:1.0:p ,s)
    )
   ) 
+
+; Compounds 
+
+(define (list->raw lst)
+  (row->raw (map string->raw lst))
+  )
