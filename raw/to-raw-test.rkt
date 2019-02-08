@@ -72,4 +72,14 @@
                                       )
                                     ) "two-grid")
              )
+    
+  (test-case "Test full range of types"
+             (check 
+               (workbook->raw (list
+                 (grid->raw-worksheet "All types demo" '( 
+                                                         ("string" 1 #t 2 #f 4)
+                                                         )
+                                      )) 
+                 ) "all-types")
+               )
   )
