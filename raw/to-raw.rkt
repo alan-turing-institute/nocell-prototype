@@ -7,7 +7,8 @@
   row->raw
   string->raw
   ; Compounds
-  list->raw
+  list->raw-row
+  grid->raw-worksheet
   )
 
 (require sxml)
@@ -34,7 +35,7 @@
          )
       `(urn:oasis:names:tc:opendocument:xmlns:table:1.0:table
          (@ (urn:oasis:names:tc:opendocument:xmlns:table:1.0:name ,name))
-         ,raw-rows
+         ,@raw-rows
          )
       )
 )
@@ -57,6 +58,10 @@
 
 ; Compounds 
 
-(define (list->raw lst)
+(define (list->raw-row lst)
   (row->raw (map string->raw lst))
+  )
+
+(define (grid->raw-worksheet name grid)
+  (worksheet->raw name (map list->raw-row grid))
   )

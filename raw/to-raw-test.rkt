@@ -37,11 +37,22 @@
 
   (test-case "Test create a one cell ods"
              ; A single cell ods
-             (check (workbook->raw (worksheet->raw "One Cell Sheet" (row->raw (list (string->raw "One Cell")) ))) "one-cell")
+             (check (workbook->raw (worksheet->raw "One Cell Sheet" (list (row->raw (list (string->raw "One Cell"))) ))) "one-cell")
              )
 
   (test-case "Test create a one row ods"
              ; A one row ods
-             (check (workbook->raw (worksheet->raw "One Row Sheet" (list->raw (list "One" "Two" "Three")) )) "one-row")
+             (check (workbook->raw (worksheet->raw "One Row Sheet" (list (list->raw-row (list "One" "Two" "Three"))) )) "one-row")
+             )
+
+  (test-case "Test create a simple grid ods"
+             (check 
+               (workbook->raw 
+                 (grid->raw-worksheet "One Grid Sheet" (list 
+                                                         (list "One" "Two" "Three")
+                                                         (list "Four" "Five" "Six")
+                                                         )
+                                      ) 
+                 ) "one-grid")
              )
   )
