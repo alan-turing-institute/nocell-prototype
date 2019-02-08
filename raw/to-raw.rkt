@@ -75,7 +75,7 @@
          (@
            (urn:oasis:names:tc:opendocument:xmlns:office:1.0:value-type ,type)
            (urn:oasis:names:tc:opendocument:xmlns:office:1.0:value ,value)
-           (urn:oasis:names:tc:opendocument:xmlns:office:1.0:table:formula ,formula))
+           (urn:oasis:names:tc:opendocument:xmlns:table:1.0:formula ,formula))
          (urn:oasis:names:tc:opendocument:xmlns:text:1.0:p ,text)
          )
         )
@@ -94,7 +94,7 @@
          (@
            (urn:oasis:names:tc:opendocument:xmlns:office:1.0:value-type ,type)
            (urn:oasis:names:tc:opendocument:xmlns:office:1.0:boolean-value ,value)
-           (urn:oasis:names:tc:opendocument:xmlns:office:1.0:table:formula ,formula))
+           (urn:oasis:names:tc:opendocument:xmlns:table:1.0:formula ,formula))
          (urn:oasis:names:tc:opendocument:xmlns:text:1.0:p ,text)
          )
         )
