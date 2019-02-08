@@ -4,7 +4,7 @@
 (define-runtime-path test-files "test-files")
 
 (module+ test
-  (require rackunit "to-zip.rkt")
+  (require "to-zip.rkt")
   (require racket/list)
   (require racket/file)
   (require file/unzip)
