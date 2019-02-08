@@ -30,10 +30,14 @@
                              (check-zips-have-equal-content? actual expected)
                              ))
 
-  (test-case "Test create an empty.ods"
+  (test-case "Test create the smallest empty ods"
              ; This is the minimum required for Excel to open - a single worksheet
-             (check (workbook->raw (worksheet->raw "Sheet1")) "empty")
+             (check (workbook->raw (worksheet->raw "Sheet1" '())) "empty")
+             )
+
+  (test-case "Test create a one cell ods"
+             ; A single ODS cell
+             (check (workbook->raw (worksheet->raw "One Cell Sheet" (row->raw (string->raw "One Cell")) )) "one-cell")
              )
   )
-
 
