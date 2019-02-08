@@ -48,28 +48,38 @@
       )
 )
 
-(define (expression->raw e)
-  (match e
-         ([? string?] (string->raw e))
-         ([? number?] (number->raw e))
-         (#t (true->raw))
-         (#f (false->raw))
-         )
+(define (expression->raw e) (if (pair? e) (value->raw (car e) (cdr e)) (value->raw e '())))
+
+(define (value->raw e f) (match e
+                                ([? string?] (string->raw e f))
+                                ([? number?] (number->raw e f))
+                                (#t (true->raw f))
+                                (#f (false->raw f))
+                                )
   )
 
-(define (string->raw s) (raw-cell "string" s s)) 
-(define (number->raw n) (raw-cell "float" (number->string n) (number->string n)))
-(define (true->raw) (raw-cell "boolean" "true" "TRUE"))
-(define (false->raw) (raw-cell "boolean" "false" "FALSE"))
+(define (string->raw s f) (raw-cell "string" s s f)) 
+(define (number->raw n f) (raw-cell "float" (number->string n) (number->string n) f))
+(define (true->raw f) (raw-cell "boolean" "true" "TRUE" f))
+(define (false->raw f) (raw-cell "boolean" "false" "FALSE" f))
   
-(define (raw-cell type value text)
- `(urn:oasis:names:tc:opendocument:xmlns:table:1.0:table-cell
-    (@
-      (urn:oasis:names:tc:opendocument:xmlns:office:1.0:value-type ,type)
-      (urn:oasis:names:tc:opendocument:xmlns:office:1.0:value ,value))
-    (urn:oasis:names:tc:opendocument:xmlns:text:1.0:p ,text)
-    )
-    ) 
+(define (raw-cell type value text formula)
+  (if (empty? formula) 
+      `(urn:oasis:names:tc:opendocument:xmlns:table:1.0:table-cell
+         (@
+           (urn:oasis:names:tc:opendocument:xmlns:office:1.0:value-type ,type)
+           (urn:oasis:names:tc:opendocument:xmlns:office:1.0:value ,value))
+         (urn:oasis:names:tc:opendocument:xmlns:text:1.0:p ,text)
+         )
+      `(urn:oasis:names:tc:opendocument:xmlns:table:1.0:table-cell
+         (@
+           (urn:oasis:names:tc:opendocument:xmlns:office:1.0:value-type ,type)
+           (urn:oasis:names:tc:opendocument:xmlns:office:1.0:value ,value)
+           (urn:oasis:names:tc:opendocument:xmlns:office:1.0:table:formula ,formula))
+         (urn:oasis:names:tc:opendocument:xmlns:text:1.0:p ,text)
+         )
+        )
+  ) 
 
 ; Compounds 
 

@@ -37,7 +37,7 @@
 
   (test-case "Test create a one cell ods"
              ; A single cell ods
-             (check (workbook->raw (list (worksheet->raw "One Cell Sheet" (list (row->raw (list (string->raw "One Cell"))) )))) "one-cell")
+             (check (workbook->raw (list (worksheet->raw "One Cell Sheet" (list (row->raw (list (string->raw "One Cell" '()))) )))) "one-cell")
              )
 
   (test-case "Test create a one row ods"
@@ -77,7 +77,7 @@
              (check 
                (workbook->raw (list
                  (grid->raw-worksheet "All types demo" '( 
-                                                         ("string" 1 #t 2 #f 4)
+                                                         ("string" 1 #t 2 #f 4 (2 . "of:=1+1"))
                                                          )
                                       )) 
                  ) "all-types")
