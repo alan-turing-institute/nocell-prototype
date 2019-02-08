@@ -32,7 +32,7 @@
 
   (test-case "Test create an empty.ods"
              ; This is the minimum required for Excel to open - a single worksheet
-             (check (workbook->raw (worksheet->raw)) "empty")
+             (check (workbook->raw (worksheet->raw "Sheet1")) "empty")
              )
   )
 

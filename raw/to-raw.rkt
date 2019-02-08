@@ -22,9 +22,9 @@
     ("mimetype" . "application/vnd.oasis.opendocument.spreadsheet"))
   )
 
-(define (worksheet->raw)
-  '(urn:oasis:names:tc:opendocument:xmlns:table:1.0:table
-    (@ (urn:oasis:names:tc:opendocument:xmlns:table:1.0:name "Sheet1"))
+(define (worksheet->raw name)
+  `(urn:oasis:names:tc:opendocument:xmlns:table:1.0:table
+    (@ (urn:oasis:names:tc:opendocument:xmlns:table:1.0:name ,name))
 
     )
 )
