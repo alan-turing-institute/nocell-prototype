@@ -60,8 +60,8 @@
 
 (define (string->raw s f) (raw-cell "string" s s f)) 
 (define (number->raw n f) (raw-cell "float" (number->string n) (number->string n) f))
-(define (true->raw f) (raw-cell "boolean" "true" "TRUE" f))
-(define (false->raw f) (raw-cell "boolean" "false" "FALSE" f))
+(define (true->raw f) (raw-boolean-cell "boolean" "true" "TRUE" f))
+(define (false->raw f) (raw-boolean-cell "boolean" "false" "FALSE" f))
   
 (define (raw-cell type value text formula)
   (if (empty? formula) 
@@ -75,6 +75,25 @@
          (@
            (urn:oasis:names:tc:opendocument:xmlns:office:1.0:value-type ,type)
            (urn:oasis:names:tc:opendocument:xmlns:office:1.0:value ,value)
+           (urn:oasis:names:tc:opendocument:xmlns:office:1.0:table:formula ,formula))
+         (urn:oasis:names:tc:opendocument:xmlns:text:1.0:p ,text)
+         )
+        )
+  ) 
+
+; Argh DRY this up
+(define (raw-boolean-cell type value text formula)
+  (if (empty? formula) 
+      `(urn:oasis:names:tc:opendocument:xmlns:table:1.0:table-cell
+         (@
+           (urn:oasis:names:tc:opendocument:xmlns:office:1.0:value-type ,type)
+           (urn:oasis:names:tc:opendocument:xmlns:office:1.0:boolean-value ,value))
+         (urn:oasis:names:tc:opendocument:xmlns:text:1.0:p ,text)
+         )
+      `(urn:oasis:names:tc:opendocument:xmlns:table:1.0:table-cell
+         (@
+           (urn:oasis:names:tc:opendocument:xmlns:office:1.0:value-type ,type)
+           (urn:oasis:names:tc:opendocument:xmlns:office:1.0:boolean-value ,value)
            (urn:oasis:names:tc:opendocument:xmlns:office:1.0:table:formula ,formula))
          (urn:oasis:names:tc:opendocument:xmlns:text:1.0:p ,text)
          )
