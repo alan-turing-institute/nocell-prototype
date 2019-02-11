@@ -70,23 +70,44 @@
 (define (stack-push v s)    (cons v s))
 (define (stack-peek name s) (assv name s))
 (define (stack-top s)       (car s))
-(define (name v)            (car v))
-(define (scope v)           (cadr v))
-(define (expr v)            (caddr v))
-(define (val  v)            (cadddr v))
+
+;; Our stack is a list with elements that are the following struct,
+;; each representing a named assignment, with the following elements:
+;;
+;; - name (: symbol?) is the name of the entry on the stack,
+;;
+;; - scope (: list of symbol?) are any enclosing definitions from
+;;   innermost to outermost (null for top level forms)
+;; 
+;; - context is information about where the assignment was encountered
+;;   or generated, currently
+;;     <context> ::= 'datum | 'builtin | 'argument
+;;   followed by an assoc list of:
+;;      '(argument-to <function-name-symbol>)
+;;      '(result-of <function-name-symbol>)
+;;      '(named)
+;;
+;; - expr (: list) is the expression used to compute it (which can
+;;   refer to names deeper on the stack), and
+;;
+;; - val is the value of the result of evaluating expr
+;;
+(struct assignment (name scope context expr val) #:transparent)
+
+;; shorter names for things...
+(define (name    v)         (assignment-name    v))
+(define (scope   v)         (assignment-scope   v))
+(define (context v)         (assignment-context v))
+(define (expr    v)         (assignment-expr    v))
+(define (val     v)         (assignment-val     v))
+
+(define (full-name v)       (cons (name v) (scope v)))
 
 ;; The stack language supports nested function definitions: the scope
 ;; of a name is provided by the list of enclosing definitions
 ;; (innermost first; the top-level scope is empty).
 (define current-scope (make-parameter '()))
 
-;; stack-top-rename : symbol? stack? -> stack?
-;;
-;; Given a stack, return a copy with the name of the top item changed
-;; to new-id and the scope set to the current scope.
-(define (stack-top-rename new-id stack)
-  (let ((top (stack-top stack)))
-    (cons (list* new-id (current-scope) (cddr top)) (cdr stack))))
 
 ;; Pretty print stacks
 ;;
@@ -130,7 +151,11 @@
   (syntax-case stx ()
     [(_ . d)
      (with-syntax ([(name) (generate-temporaries '(|%e|))])
-       #'(stack-push (list 'name (current-scope) (#%datum . d) (#%datum . d))
+       #'(stack-push (assignment 'name
+                                 (current-scope)
+                                 null
+                                 (#%datum . d)
+                                 (#%datum . d))
                      (make-stack)))]))
 
 
@@ -171,11 +196,13 @@
                                    ;; args put on the stack in reverse order
                                    (append rargs ...)))
                       (res-name (make-name f-str (post-inc! name-counter))))
-                 (stack-push (list res-name
-                                   (current-scope)
-                                   (quasiquote (f-symb (unquote arg-names) ...))
-                                   result)
-                             args-stack))))))]))
+                 (stack-push
+                  (assignment res-name
+                              (current-scope)
+                              null
+                              (quasiquote (f-symb (unquote arg-names) ...))
+                              result)
+                  args-stack))))))]))
 
 
 ;; Like define-primitive-stack-fn, but the function body is assumed to
@@ -199,13 +226,20 @@
                (let* ((result-stack
                        (parameterize ((current-scope (cons 'f (current-scope))))
                          body ...))
-                      (result-val (val (stack-top result-stack)))
+                      (top (stack-top result-stack))
+                      (result-val (val top))
                       (args-stack (append rargs ...))
                       (res-name (make-name f-str (post-inc! name-counter))))
                  (remove-duplicates-before
-                  (append
-                   (stack-top-rename res-name result-stack)
-                   args-stack)))))))]))
+                  (stack-push
+                   (struct-copy assignment top
+                                (name res-name)
+                                (scope (current-scope))
+                                (context null)
+                                (expr (name top)))
+                   (append
+                    result-stack
+                    args-stack))))))))]))
 
 ;; Given a function fn of two variables, return a function taking
 ;; either scalar or vector arguments and broadcasting any scalar
@@ -240,11 +274,19 @@
 ;;
 (define-syntax (define& stx)
   (syntax-case stx ()
-    [(_ id expr)
-     #'(define id (stack-top-rename 'id expr))]
-
     [(_ (id args ...) body ...)
-     #'(define-stack-fn (id args ...) body ...)]))
+     #'(define-stack-fn (id args ...) body ...)]
+
+    [(_ id expr)
+     #'(define id
+         (let* ((evaluated-expr expr)
+                (top (stack-top evaluated-expr)))
+           (stack-push (assignment 'id
+                                   (current-scope)
+                                   null
+                                   (name top)
+                                   (val top))
+                       evaluated-expr)))]))
 
 ;; if is a function
 (define-primitive-stack-fn (if& test-expr then-expr else-expr)
