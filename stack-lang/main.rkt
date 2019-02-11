@@ -219,12 +219,15 @@
     ;; body ... : expression? ...
     [(_ (f args ...) body ...)
      (with-syntax ([(rargs ...) (syntax-reverse #'(args ...))]
-                   [f-str #'(symbol->string 'f)])
+                   [f-str #'(symbol->string 'f)]
+                   [(arg-names ...) #'((name (stack-top args)) ...)])
        #'(define f
            (let ((name-counter 0))
              (lambda (args ...)
                (let* ((result-stack
-                       (parameterize ((current-scope (cons 'f (current-scope))))
+                       (parameterize
+                           ((current-scope
+                             (cons `(f ,arg-names ...) (current-scope))))
                          body ...))
                       (top (stack-top result-stack))
                       (result-val (val top))
