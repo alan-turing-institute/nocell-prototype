@@ -53,12 +53,12 @@ TODO
             idx
             (atomise (cell-eval sheet idx memo))))
 
-;; cell-eval : sheet? index? mutable-array? -> atomic-value?
+;; cell-eval : sheet? index? mutable-array? -> simple-cell-value?
 ;; Evaluate a cell, using the memoised version if available
 (define (cell-eval sheet idx memo)
   (let ([maybe-memoised (array-ref memo idx)])
     (if (not (eq? maybe-memoised UNDEFINED))
-        maybe-memoised
+        (cell-value-return maybe-memoised)
         (expr-eval sheet (sheet-ref sheet idx) memo))))
 
 ;; expr-eval : sheet? cell-expr? mutable-array? -> cell-value?
@@ -121,11 +121,12 @@ TODO
   (cell-value-return
    (array-all-fold (array-map unmaybe (cell-value-elements vs)) op x0)))
 
-(define builtin-+         (builtin-fold   + 0))
-(define builtin-*         (builtin-fold   * 1))
+(define builtin-sum       (builtin-fold   + 0))
 (define builtin-max       (builtin-fold   max 'nothing))
 (define builtin-min       (builtin-fold   min 'nothing))
 
+(define builtin-+         (builtin-binary +))
+(define builtin-*         (builtin-binary *))
 (define builtin--         (builtin-binary -))
 (define builtin-/         (builtin-binary /))
 (define builtin-quotient  (builtin-binary quotient))

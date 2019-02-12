@@ -2,8 +2,9 @@
 
 #| 
 TODO
- - lists->sheet and sheet->lists do not handle names
+ - lists->sheet and sheet->lists do not handle names. Probably we should get rid of these.
  - possibly this is an internal module, and we can get rid of all the contracts ...
+ - at the moment, there are no constructors of the basic structs. We can let grid handle that?
 |#
 
 ;; ---------------------------------------------------------------------------------------------------
@@ -17,7 +18,7 @@ TODO
  (contract-out
   
   ;; Types
-  [struct sheet                  ((cells array2d?) (refs (listof pair?)) (name string?))]  
+  [struct sheet                  ((cells array2d?) (refs (listof pair?)) (name (or/c string? #f)))]  
   [struct cell                   ((content cell-expr?))] 
   [struct cell-expr              ()]
   [struct (cell-name  cell-expr) ((id string?))]
@@ -180,7 +181,7 @@ sheet type and hide all the interals of the structs. For now, it's the former.
    ;; sheet-refs
    '()
    ;; sheet-name
-   ""
+   #f
    ))
 
 ;; From a sheet, produce a list of lists, dropping the names. If a cell contains
@@ -203,7 +204,7 @@ sheet type and hide all the interals of the structs. For now, it's the former.
 
 ;; Return the cell-expr at a specific index in the sheet
 (define (sheet-ref sheet idx)
-  (array-ref (sheet-cells sheet) idx))
+  (cell-content (array-ref (sheet-cells sheet) idx)))
 
 ;; Compute an address offset from an address by a vector
 (define (addr-offset addr idx)

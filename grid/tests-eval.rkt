@@ -2,22 +2,42 @@
 
 (require rackunit
          math/array
-         "sheet.rkt"
+         "grid.rkt"
          "eval.rkt"
          )
 
 ;; ---------------------------------------------------------------------------------------------------
 
-(define sht
-  (let ([contents (array #[#[(cell-value-return 0) (cell-value-return 1)]     ; row 0
-                           #[(cell-value-return 2) (cell-value-return 3)]])]  ; row 1
-        [names    `(("id" . ,(cell-addr 1 0 #t #f)))])
-    (sheet contents names)))
+(check-equal?
+ (sheet-eval (sheet (row (blank))))
+ (array #[#['nothing]]))
 
 (check-equal?
- (sheet-eval sht)
- (array #[ #[0 1] #[2 3]]))
+ (sheet-eval
+  (sheet
+   (row 0 1)
+   (row 2 3)))
+ (array
+  #[#[0 1]
+    #[2 3]]))
 
+(check-equal?
+ (sheet-eval
+  (sheet
+   (row (cell '(+ 1 2)))))
+ (array #[#[3]]))
+
+(check-equal?
+ (sheet-eval
+  (sheet
+   (row (cell 21 #:id "a-cell") (cell (ref "a-cell")))))
+ (array #[#[21 21]]))
+
+(check-equal?
+ (sheet-eval
+  (sheet
+   (row (cell 21 #:id "a-cell") (cell `(* 2 ,(ref "a-cell"))))))
+ (array #[#[21 42]]))
 
 ;; --------------------------------------------------------------------------------
 
