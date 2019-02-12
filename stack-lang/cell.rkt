@@ -102,6 +102,11 @@
                  (assignment '%sum1 '() '() '([+ (3) ()] %e1 %e2) #(0 1 2)))))
     (check-equal? actual expected))
 
+  (let ((expected '(row (cell (cell-ref "target") #:id "a")))
+        (actual   (assignment->row
+                   (assignment 'a '() '() 'target 0))))
+    (check-equal? actual expected))
+
   ;; "sum" results in a fold
   (let ((expected '(row
                     cell
