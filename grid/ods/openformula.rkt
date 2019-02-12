@@ -355,31 +355,32 @@ TODO
 
 ;; --------------------------------------------------------------------------------
 ;;
-(module+ test
-  (require "../eval.rkt")
-  (test-case "openformula->cell-expr tests"
-    (check-equal?
-     (openformula->cell-expr "SUM({ 1;2  ; 3;4};[.A1])+ 5 *MOD( 7;   6)")
-     (cell-app
-      '+
-      (list
-       (cell-app
-        '+
-        (list
-         (cell-value (array #[#[1] #[2] #[3] #[4]]))
-         (cell-addr 0 0 #f #f)))
-       (cell-app
-        '*
-        (list
-         (cell-value (array #[#[5]]))
-         (cell-app
-          'modulo
-          (list (cell-value (array #[#[7]]))
-                (cell-value (array #[#[6]])))))))))
 
-    (check-equal?
-     (sheet-eval (sheet (array #[#[(openformula->cell-expr
-                                    ; note the empty value in the array
-                                    "SUM({0;1|2; |4;5})")]])
-                        null))
-     (mutable-array #[#[12]]))))
+;; (module+ test
+;;   (require "../eval.rkt")
+;;   (test-case "openformula->cell-expr tests"
+;;     (check-equal?
+;;      (openformula->cell-expr "SUM({ 1;2  ; 3;4};[.A1])+ 5 *MOD( 7;   6)")
+;;      (cell-app
+;;       '+
+;;       (list
+;;        (cell-app
+;;         '+
+;;         (list
+;;          (cell-value (array #[#[1] #[2] #[3] #[4]]))
+;;          (cell-addr 0 0 #f #f)))
+;;        (cell-app
+;;         '*
+;;         (list
+;;          (cell-value (array #[#[5]]))
+;;          (cell-app
+;;           'modulo
+;;           (list (cell-value (array #[#[7]]))
+;;                 (cell-value (array #[#[6]])))))))))
+
+;;     (check-equal?
+;;      (sheet-eval (sheet (array #[#[(openformula->cell-expr
+;;                                     ; note the empty value in the array
+;;                                     "SUM({0;1|2; |4;5})")]])
+;;                         null))
+;;      (mutable-array #[#[12]]))))
