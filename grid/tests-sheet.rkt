@@ -7,17 +7,18 @@
 
 ;; ---------------------------------------------------------------------------------------------------
 
-(check-pred nothing? 'nothing "'nothing should be of type nothing?")
+(test-case "Predicates"
+  (check-pred nothing? 'nothing "'nothing should be of type nothing?")
 
-(check-pred atomic-value? 1        "Exact numbers should be atomic values.")
-(check-pred atomic-value? 1.0      "Real numbers should be atomic values.")
-(check-pred atomic-value? "text"   "Strings should be atomic values.")
-(check-pred atomic-value? #t       "Booleans should be atomic values.")
-(check-pred atomic-value? 'nothing "'nothing should be an atomic value.")
+  (check-pred atomic-value? 1        "Exact numbers should be atomic values.")
+  (check-pred atomic-value? 1.0      "Real numbers should be atomic values.")
+  (check-pred atomic-value? "text"   "Strings should be atomic values.")
+  (check-pred atomic-value? #t       "Booleans should be atomic values.")
+  (check-pred atomic-value? 'nothing "'nothing should be an atomic value.")
 
-(check-pred simple-cell-value? (cell-value-return 3))
-(check-pred (compose not simple-cell-value?)
-            (cell-value (array #[#[0 1] #[2 3]])))
+  (check-pred simple-cell-value? (cell-value-return 3))
+  (check-pred (compose not simple-cell-value?)
+              (cell-value (array #[#[0 1] #[2 3]]))))
 
 ;; In the future, we may wish to remove these
 (test-case "cell-expressions"
@@ -37,20 +38,23 @@
   (check-equal? ((compose sheet->lists lists->sheet) ls) ls
                 "(compose sheet->lists lists->sheet) not identity."))
 
-(let ([contents (array #[#[(cell-value-return 0) (cell-value-return 1)]     ; row 0
-                         #[(cell-value-return 2) (cell-value-return 3)]])]  ; row 1
-      [refs     `(("id" . ,(cell-addr 1 0 #t #f)))])
-  (let ([sht (sheet contents refs "a-sheet")])
-    (check-equal?
-     (sheet-resolve-name sht "id")
-     (cell-addr 1 0 #t #f))
-    (check-equal?
-     (addr-index (sheet-resolve-name sht "id"))
-     #(1 0))
-    (check-equal?
-     (sheet-ref sht (addr-index (sheet-resolve-name sht "id")))
-     (cell-value-return 2))
-    (check-false (sheet-resolve-name sht "not-there"))))
+(define sht
+  (let ([contents (array #[#[(cell (cell-value-return 0)) (cell (cell-value-return 1))]     ; row 0
+                           #[(cell (cell-value-return 2)) (cell (cell-value-return 3))]])]  ; row 1
+        [refs     `(("id" . ,(cell-addr 1 0 #t #f)))])
+    (sheet contents refs "a-sheet")))
+
+(test-case "Referencing in sheets"
+  (check-equal?
+   (sheet-resolve-name sht "id")
+   (cell-addr 1 0 #t #f))
+  (check-equal?
+   (addr-index (sheet-resolve-name sht "id"))
+   #(1 0))
+  (check-equal?
+   (sheet-ref sht (addr-index (sheet-resolve-name sht "id")))
+   (cell-value-return 2))
+  (check-false (sheet-resolve-name sht "not-there")))
 
 (check-equal?
  (range-extent (cell-range (cell-addr 5 6 #t #t) (cell-addr 10 12 #t #t)))
