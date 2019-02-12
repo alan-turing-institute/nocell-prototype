@@ -1,6 +1,6 @@
 #lang racket
 
-(module example "main.rkt"
+(module example "nocell.rkt"
   (define (a x)
     (define z 100)
     (define (b)
@@ -12,19 +12,24 @@
   (define result (a (+ z 2)))
   (provide result))
 
-(require rackunit)
-(require 'example)
+(require "main.rkt"
+         rackunit
+         'example)
 
 (module+ test
-  (let ((expected '((result () (+ tmp %e3) 103)
-                    (%e3 (a) 0 0)
-                    (tmp (a) (+ %sum0 %sum1) 103)
-                    (%sum1 (b a) (+ z c) 101)
-                    (c (b a) 1 1)
-                    (z (a) 100 100)
-                    (%sum0 () (+ z %e5) 2)
-                    (%e5 () 2 2)
-                    (z () 0 0))))
+  (let ((expected
+         (list
+          (assignment '%a0 '(result) '() '%sum3 103)
+          (assignment '%sum3 '() '((a . %a0)) '((+ () ()) %b0 %e6) 103)
+          (assignment '%e6 '() '((a . %a0)) 0 0)
+          (assignment '%b0 '(tmp) '((a . %a0)) '%sum2 103)
+          (assignment '%sum2 '() '((b . %b0) (a . %a0)) '((+ () ()) %sum0 %sum1) 103)
+          (assignment '%sum1 '() '((b . %b0) (a . %a0)) '((+ () ()) %e1 %e3) 101)
+          (assignment '%e3 '(c) '((b . %b0) (a . %a0)) 1 1)
+          (assignment '%e1 '(z) '((a . %a0)) 100 100)
+          (assignment '%sum0 '() '() '((+ () ()) %e7 %e9) 2)
+          (assignment '%e9 '() '() 2 2)
+          (assignment '%e7 '(z) '() 0 0))))
     (check-equal?
      result
      expected)))
