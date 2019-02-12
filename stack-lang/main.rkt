@@ -26,6 +26,11 @@
 ;; Utilities
 ;;-----------------------------------------------------------------------
 
+(define (shape x)
+  (if (vector? x)
+      (list (vector-length x))
+      (list)))
+
 (define-syntax-rule (post-inc! x)
   (begin0
       x
@@ -37,7 +42,7 @@
 ;; Like remove-duplicates, but the *last* occurrence of any duplicate
 ;; is kept instead of the first occurrence
 (define (remove-duplicates-before xs)
-  (reverse (remove-duplicates (reverse xs))))
+  (reverse (remove-duplicates (reverse xs) #:key id)))
 
 ;; vector-broadcast : vector? -> vector?
 ;;
@@ -68,45 +73,39 @@
 ;;
 (define (make-stack)        (list))
 (define (stack-push v s)    (cons v s))
-(define (stack-peek name s) (assv name s))
 (define (stack-top s)       (car s))
 
 ;; Our stack is a list with elements that are the following struct,
 ;; each representing a named assignment, with the following elements:
 ;;
-;; - name (: symbol?) is the name of the entry on the stack,
+;; - id (: symbol?) is the unique name of the entry on the stack,
 ;;
-;; - scope (: list of symbol?) are any enclosing definitions from
-;;   innermost to outermost (null for top level forms)
+;; - name (: (List symbol?)) is a (possibly empty) list of
+;; user-defined names given to a stack entry
+;;
+;; - calls (: (List pair?)) are the current calls to user defined
+;; functions for a stack entry (the call stack), where each entry is a
+;; pair of the function name and the result id
 ;; 
-;; - context is information about where the assignment was encountered
-;;   or generated, currently
-;;     <context> ::= 'datum | 'builtin | 'argument
-;;   followed by an assoc list of:
-;;      '(argument-to <function-name-symbol>)
-;;      '(result-of <function-name-symbol>)
-;;      '(named)
-;;
-;; - expr (: list) is the expression used to compute it (which can
-;;   refer to names deeper on the stack), and
+;; - expr (: list?) is the expression used to compute it (which can
+;; refer to names deeper on the stack).  The function name is
+;; annotated with the shape of its arguments, for example, an entry of
+;; ([+ () (3)] %e1 %e2) means the sum of the scalar %e1 and the vector
+;; of three elements %e2 (with broadcasting).
 ;;
 ;; - val is the value of the result of evaluating expr
 ;;
-(struct assignment (name scope context expr val) #:transparent)
+(struct assignment (id name calls expr val) #:transparent)
 
 ;; shorter names for things...
-(define (name    v)         (assignment-name    v))
-(define (scope   v)         (assignment-scope   v))
-(define (context v)         (assignment-context v))
-(define (expr    v)         (assignment-expr    v))
-(define (val     v)         (assignment-val     v))
+(define (id    v) (assignment-id   v))
+(define (name  v) (assignment-name  v))
+(define (calls v) (assignment-calls v))
+(define (expr  v) (assignment-expr  v))
+(define (val   v) (assignment-val   v))
 
-(define (full-name v)       (cons (name v) (scope v)))
-
-;; The stack language supports nested function definitions: the scope
-;; of a name is provided by the list of enclosing definitions
-;; (innermost first; the top-level scope is empty).
-(define current-scope (make-parameter '()))
+;; the call-stack of functions
+(define current-calls (make-parameter '()))
 
 
 ;; Pretty print stacks
@@ -122,24 +121,27 @@
         (format-elt a))))
 
 (define (stack-print stack)
-  (let* ((scope-fmt   (map (compose ~a scope) stack))
+  (let* ((calls-fmt   (map (compose ~a calls) stack))
          (name-fmt    (map (compose ~a name) stack))
+         (id-fmt      (map (compose ~a id) stack))
          (val-fmt     (map (compose vector-format val) stack))
          (expr-fmt    (map (compose ~a expr) stack))
-         (scope-width (apply max (map string-length scope-fmt)))
+         (calls-width (apply max (map string-length calls-fmt)))
          (name-width  (apply max (map string-length name-fmt)))
+         (id-width    (apply max (map string-length id-fmt)))
          (val-width   (apply max (map string-length val-fmt)))
          (expr-width  (apply max (map string-length expr-fmt))))
     (display
-     (foldl (lambda (s n v e acc)
+     (foldl (lambda (c n k v e acc)
               (string-append
-               (format "~a ~a | ~a | ~a~%"
-                       (~a s #:min-width scope-width)
+               (format "~a ~a ~a | ~a | ~a~%"
+                       (~a c #:min-width calls-width)
                        (~a n #:min-width name-width)
+                       (~a k #:min-width id-width)
                        (~a e #:min-width expr-width)
                        (~a v #:min-width val-width))
                acc))
-            "" scope-fmt name-fmt val-fmt expr-fmt))))
+            "" calls-fmt name-fmt id-fmt val-fmt expr-fmt))))
 
 
 ;; Datum
@@ -150,10 +152,10 @@
 (define-syntax (datum stx)
   (syntax-case stx ()
     [(_ . d)
-     (with-syntax ([(name) (generate-temporaries '(|%e|))])
-       #'(stack-push (assignment 'name
-                                 (current-scope)
+     (with-syntax ([(id) (generate-temporaries '(|%e|))])
+       #'(stack-push (assignment 'id
                                  null
+                                 (current-calls)
                                  (#%datum . d)
                                  (#%datum . d))
                      (make-stack)))]))
@@ -180,8 +182,8 @@
     ;; f-name   : symbol?
     ;; body ... : expression? ...
     [(_ (f args ...) (f-str f-symb) body ...)
-     (with-syntax ([(arg-vals ...)  #'((val  (stack-top args)) ...)]
-                   [(arg-names ...) #'((name (stack-top args)) ...)]
+     (with-syntax ([(arg-vals ...) #'((val (stack-top args)) ...)]
+                   [(arg-ids ...) #'((id (stack-top args)) ...)]
                    [(rargs ...) (syntax-reverse #'(args ...))])
        #'(define f
            (let ((name-counter 0))
@@ -194,16 +196,15 @@
                        (let ((args arg-vals) ...) body ...))
                       (args-stack (remove-duplicates-before
                                    ;; args put on the stack in reverse order
-                                   (append rargs ...)))
+                       (append rargs ...)))                      
                       (res-name (make-name f-str (post-inc! name-counter))))
                  (stack-push
                   (assignment res-name
-                              (current-scope)
                               null
-                              (quasiquote (f-symb (unquote arg-names) ...))
+                              (current-calls)
+                              `([f-symb ,(shape arg-vals) ...] ,arg-ids ...)
                               result)
                   args-stack))))))]))
-
 
 ;; Like define-primitive-stack-fn, but the function body is assumed to
 ;; already be in terms of stack functions (that is, accepting stacks
@@ -219,27 +220,26 @@
     ;; body ... : expression? ...
     [(_ (f args ...) body ...)
      (with-syntax ([(rargs ...) (syntax-reverse #'(args ...))]
-                   [f-str #'(symbol->string 'f)]
-                   [(arg-names ...) #'((name (stack-top args)) ...)])
+                   [f-str #'(symbol->string 'f)])
        #'(define f
            (let ((name-counter 0))
              (lambda (args ...)
-               (let* ((result-stack
-                       (parameterize
-                           ((current-scope
-                             (cons `(f ,arg-names ...) (current-scope))))
+               (let* ((res-name   (make-name f-str (post-inc! name-counter)))
+                      (result-stack
+                       (parameterize ((current-calls (cons (cons 'f res-name)
+                                                           (current-calls))))
+                         
                          body ...))
-                      (top (stack-top result-stack))
+                      (top        (stack-top result-stack))
                       (result-val (val top))
-                      (args-stack (append rargs ...))
-                      (res-name (make-name f-str (post-inc! name-counter))))
+                      (args-stack (append rargs ...)))
                  (remove-duplicates-before
                   (stack-push
-                   (struct-copy assignment top
-                                (name res-name)
-                                (scope (current-scope))
-                                (context null)
-                                (expr (name top)))
+                   (assignment res-name
+                               null
+                               (current-calls)
+                               (id top)
+                               (val top))
                    (append
                     result-stack
                     args-stack))))))))]))
@@ -281,15 +281,13 @@
      #'(define-stack-fn (id args ...) body ...)]
 
     [(_ id expr)
-     #'(define id
-         (let* ((evaluated-expr expr)
-                (top (stack-top evaluated-expr)))
-           (stack-push (assignment 'id
-                                   (current-scope)
-                                   null
-                                   (name top)
-                                   (val top))
-                       evaluated-expr)))]))
+     #'(define id (let* ((result expr)
+                         (top (stack-top result)))
+                    (stack-push
+                     (struct-copy assignment top
+                                  ;; add to list of names
+                                  (name (cons 'id (name top))))
+                     (cdr result))))]))
 
 ;; if is a function
 (define-primitive-stack-fn (if& test-expr then-expr else-expr)
