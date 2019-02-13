@@ -208,14 +208,27 @@
       (sequence-fold * 1 xs)
       xs))
 
-(define-primitive-stack-fn (nth n a)
-  ("n" nth)
-  (if (vector? a)
-      (vector-ref a n)
-      a))
+;; (define-primitive-stack-fn (nth n a)
+;;   ("n" nth)
+;;   (if (vector? a)
+;;       (vector-ref a n)
+;;       a))
 
 (define-primitive-stack-fn (len a)
   ("l" len)
   (if (vector? a)
       (vector-length a)
       0))
+
+(define ((indicator n) i) (if (= i n) 1 0))
+
+(define nth
+  (let ((name-counter 0))
+    (lambda (n a)
+      (let* ((n*      (val (stack-top n)))
+             (len-a*  (val (stack-top (len a))))
+             (select* (build-vector len-a* (indicator n*)))
+             (id      (make-name 'select (post-inc! name-counter)))
+             (select  (list (assignment id null (current-calls)
+                                        select* select*))))
+        (sum (*& select a))))))
