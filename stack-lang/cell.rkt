@@ -2,6 +2,7 @@
 
 (require "main.rkt"
          "../grid/grid.rkt"
+         "../grid/eval.rkt"
          math/array)
 
 (module+ test (require rackunit))
@@ -39,56 +40,66 @@
       (list (make-name arg dim))
       (map (lambda (i) (make-name arg (list i))) (range (car dim)))))
 
-(define (assignment->row a)
-  (let* ((vals (assignment-val a))
+(define (pad-to-width w lst)
+  (take (append lst (make-list w (blank))) w))
+
+(define (->vector x)
+  (if (vector? x) x (vector x)))
+
+(define (assignment->row pad-width a)
+  (let* ((val  (assignment-val a))
          (expr (assignment-expr a))
-         (vector-vals (if (vector? vals)
-                          vals
-                          (vector vals))))
-    (cond [(eq? (expr-op expr) 'nth) 'nth]
-          [(eq? (expr-op expr) 'len) 'len]
+         (vector-vals (->vector val)))
+    (cond [(eq? (expr-op expr) 'nth)
+           (apply row (pad-to-width pad-width
+                 (list (cell (ref (make-name (caddr expr) (cadr expr))
+                                  #:id (assignment-id a))))))]
+                                     
+          [(eq? (expr-op expr) 'len)
+           (apply row (pad-to-width pad-width
+                 (list (cell val #:id (make-name (assignment-id a) null)))))]
 
           [(eq? (expr-op expr) 'sum) ;; folds (just sum for now)
            (let* ((args           (cdr expr))
                   (arg-dims       (cdar expr))
                   (args-unwrapped (car (map unwrap args arg-dims))))
-             (row
-              (cell
-               (foldl
-                (lambda (x acc)
-                  (list '+ acc (ref x)))
-                (ref (car args-unwrapped))
-                (cdr args-unwrapped)))))]
+             (apply row (pad-to-width pad-width
+                   (list (cell (foldl (lambda (x acc)
+                                        (list '+ acc (ref x)))
+                                      (ref (car args-unwrapped))
+                                      (cdr args-unwrapped))
+                               #:id (make-name (assignment-id a) null))))))]
 
-          [else ;; values, refs or vectorized builtin eval
+          [else ;; values, refs or (vectorized) builtins
            (apply row
-                  (for/list ([v (in-vector vector-vals)]
-                             [col (in-naturals)])
-                    (let* ((idx (if (null? (shape vals))
-                                    null
-                                    (list col)))
-                           (cell-expr
-                            (cond
-                              [(equal? expr vals) ;; expr is a value
-                               (vector-ref vector-vals col)]
-                              [(symbol? expr)
-                               (ref (make-name expr idx))]
-                              [else
-                               (unwrap-binary-op-expr expr idx)])))
-                      (cell cell-expr
-                            #:id (make-name (assignment-id a) idx)))))]
-          )))
+                  (pad-to-width pad-width
+                   (for/list ([v (in-vector vector-vals)]
+                              [col (in-naturals)])
+                     (let* ((idx (if (null? (shape val))
+                                     null
+                                     (list col)))
+                            (cell-expr
+                             (cond
+                               [(equal? expr val) ;; expr is a value
+                                (vector-ref vector-vals col)]
+                               [(symbol? expr)
+                                (ref (make-name expr idx))]
+                               [else
+                                (unwrap-binary-op-expr expr idx)])))
+                       (cell cell-expr
+                             #:id (make-name (assignment-id a) idx))))))]
+           )))
 
 (module+ test
-  (let ((expected (row (cell 1 #:id "%e1")))
-        (actual   (assignment->row
+  (let ((expected (row (cell 1 #:id "%e1") (blank) (blank)))
+        (actual   (assignment->row 3
                    (assignment '%e1 '() '() 1 1))))
     (check-equal? actual expected))
 
   (let ((expected (row (cell 3 #:id "%e1[0]")
                        (cell 1 #:id "%e1[1]")
                        (cell 4 #:id "%e1[2]")))
-        (actual   (assignment->row
+        (actual   (assignment->row 3
                    (assignment '%e1 '() '() #(3 1 4) #(3 1 4)))))
     (check-equal? actual expected))
 
@@ -98,26 +109,27 @@
                              #:id "%sum1[1]")
                        (cell (list '+ (ref "%e1[2]") (ref "%e2"))
                              #:id "%sum1[2]")))
-        (actual (assignment->row
+        (actual (assignment->row 3
                  (assignment '%sum1 '() '() '([+ (3) ()] %e1 %e2) #(0 1 2)))))
     (check-equal? actual expected))
 
   (let ((expected (row (cell (ref "target") #:id "a")))
-        (actual   (assignment->row
+        (actual   (assignment->row 1
                    (assignment 'a '() '() 'target 0))))
     (check-equal? actual expected))
 
   ;; "sum" results in a fold
   (let ((expected (row (cell (list '+ (list '+ (ref "a[0]") (ref "a[1]"))
-                                   (ref "a[2]")))))
-        (actual   (assignment->row
+                                   (ref "a[2]")) #:id "result")))
+        (actual   (assignment->row 1
                    (assignment 'result '() '() '([sum (3)] a) 0))))
     (check-equal? actual expected)))
-  
 
 ;; assignments->sheet :: (List assignment?) -> sheet?
-(define (assignments->sheet a)
-  (apply sheet (map assignment->row (reverse a))))
+ (define (stack->sheet stack)
+  (define widths (map (lambda (a) (vector-length (->vector (val a)))) stack))
+  (define max-width (apply max widths))
+  (apply sheet (map (curry assignment->row max-width) (reverse stack))))
 
 (module+ test
   (let ((expected (sheet (row (cell  0 #:id "a[0]")
@@ -129,10 +141,49 @@
                          (row (cell (list '+ (ref "a[0]") (ref "b[0]")))
                               (cell (list '+ (ref "a[1]") (ref "b[1]")))
                               (cell (list '+ (ref "a[2]") (ref "b[2]"))))))
-        (actual   (assignments->sheet
+        (actual   (stack->sheet
                    (list
                     (assignment 'result '() '() '([+ (3) (3)] a b) #(0 1 2))
                     (assignment 'b      '() '() #(0  2  4) #(0  2  4))
                     (assignment 'a      '() '() #(0 -1 -2) #(0 -1 -2))))))
     (check-equal? actual expected)))
 
+(module+ test
+  (require (submod "example-2.rkt" example))
+  (let ((epsilon  1e-7)
+        (actual   (sheet-eval (stack->sheet result)))
+        (expected (mutable-array #[#[2010 2011 2012 2013]
+                                   #[-100 -50 150 500]
+                                   #[0.03 'nothing 'nothing 'nothing] 
+                                   #[0.1 'nothing 'nothing 'nothing] 
+                                   #[1 'nothing 'nothing 'nothing] 
+                                   #[1.1 'nothing 'nothing 'nothing] 
+                                   #[1 0 0 0] 
+                                   #[2010 0 0 0] 
+                                   #[2010 'nothing 'nothing 'nothing] 
+                                   #[0 1 2 3] 
+                                   #[1 1.1 1.2100000000000002 1.3310000000000004] 
+                                   #[-100 -45.45454545454545 123.96694214876031 375.65740045078877] 
+                                   #[354.16979714500366 'nothing 'nothing 'nothing] 
+                                   #[0 0 0 1] 
+                                   #[0 0 0 1] 
+                                   #[0 0 0 500] 
+                                   #[500 'nothing 'nothing 'nothing] 
+                                   #[1 'nothing 'nothing 'nothing] 
+                                   #[1.03 'nothing 'nothing 'nothing] 
+                                   #[515.0 'nothing 'nothing 'nothing] 
+                                   #[0.07 'nothing 'nothing 'nothing] 
+                                   #[7357.142857142857 'nothing 'nothing 'nothing] 
+                                   #[1 'nothing 'nothing 'nothing] 
+                                   #[1.1 'nothing 'nothing 'nothing] 
+                                   #[1 0 0 0] 
+                                   #[2010 0 0 0] 
+                                   #[2010 'nothing 'nothing 'nothing] 
+                                   #[0 1 2 3] 
+                                   #[1 1.1 1.2100000000000002 1.3310000000000004] 
+                                   #[7357.142857142857 6688.311688311687 6080.2833530106245 5527.530320918749] 
+                                   #[0 0 0 5527.530320918749] 
+                                   #[5527.530320918749 'nothing 'nothing 'nothing] 
+                                   #[5881.700118063753 'nothing 'nothing 'nothing] 
+                                   #[5881.700118063753 'nothing 'nothing 'nothing]])))
+    (check-within actual expected epsilon)))
