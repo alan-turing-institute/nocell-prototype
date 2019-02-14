@@ -3,6 +3,13 @@
 #|
 A little language for creating sheets
 
+Syntax:
+
+(sheet #:name "mysheet"
+  (row 10 20 30)
+  (row 40 (cell 50 #:id "a-cell") (cell `(+ 1 ,(ref "a-cell")))))
+
+
 TODO
  - Import sheet with a prefix to solve all the annoying name clashes
  - All references are converted to relative cell references and names are removed
@@ -34,15 +41,14 @@ TODO
  racket/contract
  math/array
  (only-in racket/list check-duplicates)
- (rename-in "sheet.rkt"
-            [sheet sheet-type] ; because we're exporting functions `sheet` and `cell`
-            [cell cell-type]))
+ (prefix-in s: "sheet.rkt"))
 
-(provide sheet
-         row
-         cell
-         ref
-         blank)
+(provide
+ sheet
+ row
+ cell
+ ref
+ blank)
 
 ;; ---------------------------------------------------------------------------------------------------
 
@@ -90,7 +96,7 @@ TODO
 ;; Parse an entry in a row, pulling out the name if there is one
 (define (parse-cell-spec v)
   (cond
-    [(atomic-value? v)
+    [(s:atomic-value? v)
      (values (anon-cell-spec v) #f)]
     [(anon-cell-spec? v)
      (values v #f)]
@@ -106,7 +112,7 @@ TODO
     (let ([maybe-dup (duplicated-id ids)])
       (if maybe-dup
           (raise-argument-error 'sheet "Duplicate named reference" maybe-dup)
-          (sheet-type (make-dereferenced-array rows ids) null name)))))
+          (s:sheet (make-dereferenced-array rows ids) null name)))))
 
 ;; duplicated-id : (list-of (name ref)) -> name
 (define (duplicated-id ids)
@@ -116,26 +122,26 @@ TODO
 (define (make-dereferenced-array rows ids)
   ;; convert all the anon-cells to cells
   (let ([cells (map (λ (r) (map (anon-cell/ids->cell ids) (row-spec-cells r))) rows)])
-    (list*->array cells cell?)))
+    (list*->array cells s:cell?)))
 
 ;; anon-cell/ids->cell : (list-of (name ref)) -> anon-cell -> cell?
 ;; Turn something made by (cell ...) into an actual cell, replacing any named references with a
 ;; reference
 (define ((anon-cell/ids->cell ids) ac)
-  (cell-type ((expr/ids->cell-expr ids) (anon-cell-spec-contents ac))))
+  (s:cell ((expr/ids->cell-expr ids) (anon-cell-spec-contents ac))))
 
 ;; epxr/ids->cell-expr : -> cell-expr?
 (define ((expr/ids->cell-expr ids) expr)
   (cond
-    [(atomic-value? expr) (cell-value-return expr)]
-    [(id-ref? expr)       (reference-to (id-ref-id expr) ids)]
-    [(pair? expr)         (cell-app (car expr) (map (expr/ids->cell-expr ids) (cdr expr)))]))
+    [(s:atomic-value? expr) (s:cell-value-return expr)]
+    [(id-ref? expr)         (reference-to (id-ref-id expr) ids)]
+    [(pair? expr)           (s:cell-app (car expr) (map (expr/ids->cell-expr ids) (cdr expr)))]))
 
 ;; reference-to : string? (listof string? int int) -> cell-addr? 
 ;; Look up the reference in ids, replace with address found therein
 (define (reference-to name ids)
   (let ([index (cdr (assoc name ids))])
-    (cell-addr (car index) (cadr index) #t #t)))
+    (s:cell-addr (car index) (cadr index) #t #t)))
 
 ;; sheet-iter : list-of row-spec -> values n-rows (list-of (list-of cell)) ids
 ;; Collate the names from the rows, adding a row index
