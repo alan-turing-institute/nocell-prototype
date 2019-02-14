@@ -9,7 +9,7 @@
 ;; ---------------------------------------------------------------------------------------------------
 
 (check-equal?
- (sheet-eval (sheet (row (blank))))
+ (sheet-eval (sheet (row (cell))))
  (array #[#['nothing]]))
 
 (check-equal?
@@ -30,13 +30,13 @@
 (check-equal?
  (sheet-eval
   (sheet
-   (row (cell 21 #:id "a-cell") (cell (ref "a-cell")))))
+   (row (cell 21 "a-cell") (cell (ref "a-cell")))))
  (array #[#[21 21]]))
 
 (check-equal?
  (sheet-eval
   (sheet
-   (row (cell 21 #:id "a-cell") (cell `(* 2 ,(ref "a-cell"))))))
+   (row (cell 21 "a-cell") (cell `(* 2 ,(ref "a-cell"))))))
  (array #[#[21 42]]))
 
 ;; --------------------------------------------------------------------------------
