@@ -1,40 +1,21 @@
 #lang racket/base
 
 #|
-A little language for creating sheets
+A little language for creating sheets. (Uses functions, not syntax.)
 
 Syntax:
 
-(sheet #:name "mysheet"
-  (row 10 20 30)
-  (row 40 (cell 50 #:id "a-cell") (cell `(+ 1 ,(ref "a-cell")))))
-
+  (sheet #:name "mysheet"
+    (row 10 20 (cell))  ;; the last entry is a blank cell
+    (row (cell 40) (cell 50 "a-cell") (cell `(+ 1 ,(ref "a-cell")))))
 
 TODO
- - Import sheet with a prefix to solve all the annoying name clashes
  - All references are converted to relative cell references and names are removed
  - Names aren't very consistent. We're using "id" in the context of a reference to mean a reference
    that should be turned into an A1-style reference, rather than a named reference. 
  - How to name: constructors? converters? parsers? 
- - The interplay between <x-spec>, (x ...) and so on is unclear. I suppose some documentation might
-   help here.
   - Doesn't cope with rows of unequal length
 
-<sheet-spec> ::=
-  (sheet <row-spec> ... #:name string?)
-
-<row-spec> ::=
-   (row <cell-spec> ...)  
-
-<cell-spec> ::=
-  atomic-value?
-| (cell <expression> [#:name name])
-| (blank)
-
-<expression> ::=
-    atomic-value?
-  | (ref string?) 
-  | (list symbol? <expression> ...)
 |#
 
 (require
@@ -44,11 +25,20 @@ TODO
  (prefix-in s: "sheet.rkt"))
 
 (provide
- sheet
- row
- cell
- ref
- blank)
+ (contract-out
+  ;; Create a cell. Use within (row ...)
+  [cell  (case-> (-> cell-spec/c)
+                 (cell-expr? . -> . cell-spec/c)
+                 (cell-expr? string? . -> . cell-spec/c))]
+  
+  ;; Create a row of cells. Use within (sheet ..)
+  [row   (cell-spec/c ... . -> . row-spec?)]
+  
+  ;; Create a sheet with an optional name
+  [sheet ((row-spec?) (#:name string?) #:rest (listof row-spec?) . ->* . s:sheet?)]
+  
+  ;; Specify a reference to a nanemd cell
+  [ref   (string? . -> . id-ref?)]))
 
 ;; ---------------------------------------------------------------------------------------------------
 
@@ -57,15 +47,22 @@ TODO
 (struct row-spec (cells ids) #:transparent)           ; what is produced by (row ...)
 (struct id-ref (id) #:transparent)
 
+(define cell-spec/c
+  (or/c s:atomic-value? named-cell-spec? anon-cell-spec? 'nothing))
 
-(define (blank)
-  'nothing)
+(define (cell-expr? x)
+  (cond
+    [(s:atomic-value? x) #t]
+    [(id-ref? x)         #t]
+    [(pair? x)           (and (symbol? (car x))
+                              (andmap cell-expr? (cdr x))) ]
+    [else                #f]))
 
-;; cell : (or/c atomic-value? <expression>) -> cell-spec
-(define (cell v #:id [id #f])
-  (if id
-      (named-cell-spec v id)
-      (anon-cell-spec v)))
+(define cell
+  (case-lambda
+    [()     'nothing]
+    [(v)    (anon-cell-spec v)]
+    [(v id) (named-cell-spec v id)]))
 
 ;; ref : string? -> id-ref?
 (define (ref id)
@@ -104,11 +101,11 @@ TODO
      (values (anon-cell-spec (named-cell-spec-contents v))
              (named-cell-spec-id v))]))
 
-;; sheet : (list-of <row-spec>) [string?] -> sheet?
 ;; Two-pass sheet parser. The first pass extracts the names; the second pass makes
 ;; a sheet? and fills in the cell references
-(define (sheet #:name [name "unnamed-sheet"] . row-specs)
-  (let-values ([(n-rows rows ids) (sheet-iter row-specs)])
+;; There must be at least one row in the call to sheet. 
+(define (sheet #:name [name "unnamed-sheet"] first-row-spec . rest-row-specs)
+  (let-values ([(n-rows rows ids) (sheet-iter (cons first-row-spec rest-row-specs))])
     (let ([maybe-dup (duplicated-id ids)])
       (if maybe-dup
           (raise-argument-error 'sheet "Duplicate named reference" maybe-dup)
