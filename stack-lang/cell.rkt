@@ -41,7 +41,7 @@
       (map (lambda (i) (make-name arg (list i))) (range (car dim)))))
 
 (define (pad-to-width w lst)
-  (take (append lst (make-list w (blank))) w))
+  (take (append lst (make-list w (cell))) w))
 
 (define (->vector x)
   (if (vector? x) x (vector x)))
@@ -53,11 +53,11 @@
     (cond [(eq? (expr-op expr) 'nth)
            (apply row (pad-to-width pad-width
                  (list (cell (ref (make-name (caddr expr) (cadr expr))
-                                  #:id (assignment-id a))))))]
+                                  (assignment-id a))))))]
                                      
           [(eq? (expr-op expr) 'len)
            (apply row (pad-to-width pad-width
-                 (list (cell val #:id (make-name (assignment-id a) null)))))]
+                 (list (cell val (make-name (assignment-id a) null)))))]
 
           [(eq? (expr-op expr) 'sum) ;; folds (just sum for now)
            (let* ((args           (cdr expr))
@@ -68,7 +68,7 @@
                                         (list '+ acc (ref x)))
                                       (ref (car args-unwrapped))
                                       (cdr args-unwrapped))
-                               #:id (make-name (assignment-id a) null))))))]
+                               (make-name (assignment-id a) null))))))]
 
           [else ;; values, refs or (vectorized) builtins
            (apply row
@@ -87,40 +87,40 @@
                                [else
                                 (unwrap-binary-op-expr expr idx)])))
                        (cell cell-expr
-                             #:id (make-name (assignment-id a) idx))))))]
+                             (make-name (assignment-id a) idx))))))]
            )))
 
 (module+ test
-  (let ((expected (row (cell 1 #:id "%e1") (blank) (blank)))
+  (let ((expected (row (cell 1 "%e1") (cell) (cell)))
         (actual   (assignment->row 3
                    (assignment '%e1 '() '() 1 1))))
     (check-equal? actual expected))
 
-  (let ((expected (row (cell 3 #:id "%e1[0]")
-                       (cell 1 #:id "%e1[1]")
-                       (cell 4 #:id "%e1[2]")))
+  (let ((expected (row (cell 3 "%e1[0]")
+                       (cell 1 "%e1[1]")
+                       (cell 4 "%e1[2]")))
         (actual   (assignment->row 3
                    (assignment '%e1 '() '() #(3 1 4) #(3 1 4)))))
     (check-equal? actual expected))
 
   (let ((expected (row (cell (list '+ (ref "%e1[0]") (ref "%e2"))
-                             #:id "%sum1[0]")
+                             "%sum1[0]")
                        (cell (list '+ (ref "%e1[1]") (ref "%e2"))
-                             #:id "%sum1[1]")
+                             "%sum1[1]")
                        (cell (list '+ (ref "%e1[2]") (ref "%e2"))
-                             #:id "%sum1[2]")))
+                             "%sum1[2]")))
         (actual (assignment->row 3
                  (assignment '%sum1 '() '() '([+ (3) ()] %e1 %e2) #(0 1 2)))))
     (check-equal? actual expected))
 
-  (let ((expected (row (cell (ref "target") #:id "a")))
+  (let ((expected (row (cell (ref "target") "a")))
         (actual   (assignment->row 1
                    (assignment 'a '() '() 'target 0))))
     (check-equal? actual expected))
 
   ;; "sum" results in a fold
   (let ((expected (row (cell (list '+ (list '+ (ref "a[0]") (ref "a[1]"))
-                                   (ref "a[2]")) #:id "result")))
+                                   (ref "a[2]")) "result")))
         (actual   (assignment->row 1
                    (assignment 'result '() '() '([sum (3)] a) 0))))
     (check-equal? actual expected)))
@@ -132,12 +132,12 @@
   (apply sheet (map (curry assignment->row max-width) (reverse stack))))
 
 (module+ test
-  (let ((expected (sheet (row (cell  0 #:id "a[0]")
-                              (cell -1 #:id "a[1]")
-                              (cell -2 #:id "a[2]"))
-                         (row (cell  0 #:id "b[0]")
-                              (cell  2 #:id "b[1]")
-                              (cell  4 #:id "b[2]"))
+  (let ((expected (sheet (row (cell  0 "a[0]")
+                              (cell -1 "a[1]")
+                              (cell -2 "a[2]"))
+                         (row (cell  0 "b[0]")
+                              (cell  2 "b[1]")
+                              (cell  4 "b[2]"))
                          (row (cell (list '+ (ref "a[0]") (ref "b[0]")))
                               (cell (list '+ (ref "a[1]") (ref "b[1]")))
                               (cell (list '+ (ref "a[2]") (ref "b[2]"))))))
