@@ -6,6 +6,11 @@ A language for building probabilistic spreadsheets
 
 Development is on the develop branch. Design thoughts are in the wiki.
 
+## Dependencies
+
+* Racket
+* zip
+* diff (testing only)
 
 ## How we work together
 

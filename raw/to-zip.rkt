@@ -46,13 +46,19 @@
       (if (raw-entry-is-sxml? raw-entry) (srl:sxml->xml content port) (display content port)))
     )
 
+  (define (write-zip zip-path paths-to-zip)
+    ; (apply zip zip-path paths-to-zip)
+    (system (string-join (flatten (list "zip -q -0 -X" (path->string zip-path) "mimetype"))))
+    (system (string-join (flatten (list "zip -q -X -x 'mimetype' -r" (path->string zip-path) paths-to-zip))))
+    )
+
   ; I get a permission failure trying to write to a temporary folder ?
   ; (let* ([temporary-folder (make-temporary-file "rawsave-~a" 'directory)]
   (let* ([temporary-folder "./out/"]
          [paths (map (lambda (raw-entry) (write-raw-entry-to-folder raw-entry temporary-folder)) raw)])
   (if (file-exists? path) (delete-file path) '())
   (current-directory temporary-folder)
-  (apply zip path paths)
+  (write-zip path paths)
   (current-directory "..")
   (delete-directory/files temporary-folder)
   )

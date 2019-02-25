@@ -17,6 +17,7 @@
 
 (define (workbook->raw raw-worksheets)
   `(
+    ("mimetype" . "application/vnd.oasis.opendocument.spreadsheet")
     ("content.xml"
    *TOP*
    (*PI* xml "version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"")
@@ -26,7 +27,24 @@
        (urn:oasis:names:tc:opendocument:xmlns:office:1.0:spreadsheet
         ,@raw-worksheets
          ))))
-    ("mimetype" . "application/vnd.oasis.opendocument.spreadsheet"))
+    ("META-INF/manifest.xml"
+      *TOP*
+      (*PI* xml "version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"")
+      (urn:oasis:names:tc:opendocument:xmlns:manifest:1.0:manifest
+        (@ (urn:oasis:names:tc:opendocument:xmlns:manifest:1.0:version "1.2"))
+        (urn:oasis:names:tc:opendocument:xmlns:manifest:1.0:file-entry
+        (@
+          (urn:oasis:names:tc:opendocument:xmlns:manifest:1.0:media-type
+          "application/vnd.oasis.opendocument.spreadsheet")
+          (urn:oasis:names:tc:opendocument:xmlns:manifest:1.0:full-path "/")))
+        (urn:oasis:names:tc:opendocument:xmlns:manifest:1.0:file-entry
+        (@
+          (urn:oasis:names:tc:opendocument:xmlns:manifest:1.0:media-type
+          "text/xml")
+          (urn:oasis:names:tc:opendocument:xmlns:manifest:1.0:full-path
+          "content.xml")))
+        ))
+    )
   )
 
 (define (worksheet->raw name raw-rows)
@@ -36,6 +54,13 @@
          )
       `(urn:oasis:names:tc:opendocument:xmlns:table:1.0:table
          (@ (urn:oasis:names:tc:opendocument:xmlns:table:1.0:name ,name))
+         (urn:oasis:names:tc:opendocument:xmlns:table:1.0:table-column
+           (@ 
+             (urn:oasis:names:tc:opendocument:xmlns:table:1.0:style-name "col1")
+             (urn:oasis:names:tc:opendocument:xmlns:table:1.0:number-columns-repeated "256")
+             (urn:oasis:names:tc:opendocument:xmlns:table:1.0:default-cell-style-name "ce2")
+              )
+           )
          ,@raw-rows
          )
       )
@@ -58,12 +83,12 @@
                                 )
   )
 
-(define (string->raw s f) (raw-cell "string" s s f)) 
-(define (number->raw n f) (raw-cell "float" (number->string n) (number->string n) f))
+(define (string->raw s f) (raw-string-cell "string" s s f)) 
+(define (number->raw n f) (raw-value-cell "float" (number->string n) (number->string n) f))
 (define (true->raw f) (raw-boolean-cell "boolean" "true" "TRUE" f))
 (define (false->raw f) (raw-boolean-cell "boolean" "false" "FALSE" f))
   
-(define (raw-cell type value text formula)
+(define (raw-value-cell type value text formula)
   (if (empty? formula) 
       `(urn:oasis:names:tc:opendocument:xmlns:table:1.0:table-cell
          (@
@@ -94,6 +119,25 @@
          (@
            (urn:oasis:names:tc:opendocument:xmlns:office:1.0:value-type ,type)
            (urn:oasis:names:tc:opendocument:xmlns:office:1.0:boolean-value ,value)
+           (urn:oasis:names:tc:opendocument:xmlns:table:1.0:formula ,formula))
+         (urn:oasis:names:tc:opendocument:xmlns:text:1.0:p ,text)
+         )
+        )
+  ) 
+
+; Argh DRY this up
+(define (raw-string-cell type value text formula)
+  (if (empty? formula) 
+      `(urn:oasis:names:tc:opendocument:xmlns:table:1.0:table-cell
+         (@
+           (urn:oasis:names:tc:opendocument:xmlns:office:1.0:value-type ,type)
+           (urn:oasis:names:tc:opendocument:xmlns:office:1.0:string-value ,value))
+         (urn:oasis:names:tc:opendocument:xmlns:text:1.0:p ,text)
+         )
+      `(urn:oasis:names:tc:opendocument:xmlns:table:1.0:table-cell
+         (@
+           (urn:oasis:names:tc:opendocument:xmlns:office:1.0:value-type ,type)
+           (urn:oasis:names:tc:opendocument:xmlns:office:1.0:string-value ,value)
            (urn:oasis:names:tc:opendocument:xmlns:table:1.0:formula ,formula))
          (urn:oasis:names:tc:opendocument:xmlns:text:1.0:p ,text)
          )
