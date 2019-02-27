@@ -22,7 +22,7 @@ TODO
          racket/list
          rackunit
          math/array
-         "../sheet.rkt"
+         "sheet.rkt"
          )
 
 (provide cell-expr->openformula
