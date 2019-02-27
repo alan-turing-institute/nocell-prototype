@@ -2,8 +2,6 @@
 
 #| 
 TODO
- - lists->sheet and sheet->lists do not handle names. Probably we should get rid of these.
- - possibly this is an internal module, and we can get rid of all the contracts ...
  - at the moment, there are no constructors of the basic structs. We can let grid handle that?
 |#
 
