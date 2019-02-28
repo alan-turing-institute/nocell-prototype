@@ -21,9 +21,12 @@ Part 1, 2.2.4].
 ;; - ods-sheet : sheet -> bytestream
 
 
-;; The generated zip package contains two files
-;; - mimetype
-;; - content.xml
+#| 
+An OpenDocument package is a zip file containing at least the files;
+- mimetype
+- content.xml
+|#
 
 (define FILE-MIMETYPE '("mimetype" . "application/vnd.oasis.opendocument.spreadsheet"))
 
+(define CONTENT-DECLARATION "version=\"1.0\" encoding=\"UTF-8\"")
