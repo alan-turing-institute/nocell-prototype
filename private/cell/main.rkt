@@ -8,7 +8,8 @@
          (submod "../nocell-alt/example-2.rkt" example)
          math/array)
 
-(module+ test (require rackunit))
+(module+ test
+  (require rackunit))
 
 (define (make-name base offset)
   (let ((base-str (symbol->string base)))

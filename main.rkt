@@ -1,11 +1,9 @@
 #lang racket/base
 
-(provide (all-from-out "nocell-alt/base.rkt"
-                       "cell/main.rkt"
-                       "grid/main.rkt"))
+(provide (all-from-out "nocell.rkt"
+                       "cell.rkt"
+                       "grid.rkt"))
 
-(require "nocell-alt/base.rkt"
-         "cell/main.rkt"
-         "grid/main.rkt")
-
-
+(require "nocell.rkt"
+         "cell.rkt"
+         "grid.rkt")

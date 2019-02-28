@@ -1,9 +1,9 @@
 #lang racket
 
-(require racket/syntax)
-
 (provide (all-defined-out)
          (for-syntax (all-defined-out)))
+
+(require racket/syntax)
 
 ;; Utilities
 ;;-----------------------------------------------------------------------

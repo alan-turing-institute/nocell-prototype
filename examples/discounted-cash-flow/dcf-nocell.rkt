@@ -1,6 +1,6 @@
 #lang racket
 
-(module example "main.rkt"
+(module example "../../nocell.rkt"
   (define years     #(2010 2011 2012 2013))
   (define cash-flow #(-100  -50  150  500))
   (define terminal-growth 0.03)
@@ -30,7 +30,7 @@
   (provide result))
 
 (module+ test
-  (require "base.rkt"
+  (require "../../cell.rkt"
            rackunit
            (submod ".." example))
   (define expected

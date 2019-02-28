@@ -9,6 +9,9 @@
 # Compiled racket bytecode
 compiled
 
+# Built documentation
+doc
+
 # Libreoffice temp files
 .~*
 

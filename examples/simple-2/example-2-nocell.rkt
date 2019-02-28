@@ -1,6 +1,6 @@
 #lang racket
 
-(module example "main.rkt"
+(module example "../../nocell.rkt"
   (define z 100)
   (define (a)
     (define (b x)
@@ -12,7 +12,7 @@
   (provide result))
 
 (module+ test
-  (require "base.rkt"
+  (require "../../cell.rkt"
            rackunit
            (submod ".." example))
 

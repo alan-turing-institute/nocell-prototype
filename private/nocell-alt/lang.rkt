@@ -1,8 +1,5 @@
 #lang racket
 
-(require "base.rkt"
-         racket/syntax)
-
 (provide stack-print
          sum
          product
@@ -24,6 +21,8 @@
 
          provide)
 
+(require "util.rkt"
+         racket/syntax)
 
 ;; Datum
 ;;----------------------------------------------------------------------
