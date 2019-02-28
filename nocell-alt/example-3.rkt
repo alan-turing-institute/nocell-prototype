@@ -1,6 +1,6 @@
 #lang racket
 
-(module example "nocell.rkt"
+(module example "main.rkt"
   (define z 100)
   (define (a)
     (define (b x)
@@ -11,11 +11,11 @@
   (define result (+ (a) c))
   (provide result))
 
-(require "main.rkt"
-         rackunit
-         'example)
-
 (module+ test
+  (require "base.rkt"
+           rackunit
+           (submod ".." example))
+
   (let ((expected (list
                    (assignment '%sum0 '(result) '() '((+ () ()) %a0 %e4) 101)
                    (assignment '%e4 '(c) '() 1 1)

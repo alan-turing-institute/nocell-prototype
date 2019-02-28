@@ -1,6 +1,6 @@
 #lang racket
 
-(module example "nocell.rkt"
+(module example "main.rkt"
   (define years     #(2010 2011 2012 2013))
   (define cash-flow #(-100  -50  150  500))
   (define terminal-growth 0.03)
@@ -29,11 +29,10 @@
 
   (provide result))
 
-(require "main.rkt"
-         rackunit
-         'example)
-
 (module+ test
+  (require "base.rkt"
+           rackunit
+           (submod ".." example))
   (define expected
     (list
      (assignment '%dcf0 '(result) '() '%sum3 5881.700118063753)

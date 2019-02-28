@@ -1,8 +1,11 @@
 #lang racket
 
-(require "main.rkt"
+(provide cell->grid)
+
+(require "../nocell-alt/base.rkt"
          "../grid/grid.rkt"
          "../grid/eval.rkt"
+         (submod "../nocell-alt/example-2.rkt" example)
          math/array)
 
 (module+ test (require rackunit))
@@ -125,8 +128,8 @@
                    (assignment 'result '() '() '([sum (3)] a) 0))))
     (check-equal? actual expected)))
 
-;; assignments->sheet :: (List assignment?) -> sheet?
- (define (stack->sheet stack)
+;; cell->grid :: (List assignment?) -> sheet?
+ (define (cell->grid stack)
   (define widths (map (lambda (a) (vector-length (->vector (val a)))) stack))
   (define max-width (apply max widths))
   (apply sheet (map (curry assignment->row max-width) (reverse stack))))
@@ -141,7 +144,7 @@
                          (row (cell (list '+ (ref "a[0]") (ref "b[0]")))
                               (cell (list '+ (ref "a[1]") (ref "b[1]")))
                               (cell (list '+ (ref "a[2]") (ref "b[2]"))))))
-        (actual   (stack->sheet
+        (actual   (cell->grid
                    (list
                     (assignment 'result '() '() '([+ (3) (3)] a b) #(0 1 2))
                     (assignment 'b      '() '() #(0  2  4) #(0  2  4))
@@ -149,9 +152,8 @@
     (check-equal? actual expected)))
 
 (module+ test
-  (require (submod "example-2.rkt" example))
   (let ((epsilon  1e-7)
-        (actual   (sheet-eval (stack->sheet result)))
+        (actual   (sheet-eval (cell->grid result)))
         (expected (mutable-array #[#[2010 2011 2012 2013]
                                    #[-100 -50 150 500]
                                    #[0.03 'nothing 'nothing 'nothing] 
