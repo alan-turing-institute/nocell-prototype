@@ -36,14 +36,39 @@ An OpenDocument package is a zip file containing at least the files;
 - content.xml
 |#
 
-
-
+(define MIMETYPE "application/vnd.oasis.opendocument.spreadsheet")
 
 
 
 
 ;; ---------------------------------------------------------------------------------------------------
-;; Wrap XML boilerplate for content.xml documents around the exported sheet 
+;; Export sheet to a directory; zip the directory; and delete the original directory
+
+;; sheet? path? path-string? -> Void
+;; `path` should not be the name of an existing directory.  
+(define (sheet-export-ods sheet path filename)
+  (define package-directory (build-path path filename))
+  (when (directory-exists? package-directory)
+    (raise-user-error "Filename of output file (without extension) must not be the name of an existing directory"
+                      (path->string path)))
+  (make-directory package-directory)
+  (parameterize ([current-directory package-directory])
+    (write-ods-package sheet))
+  (zip-ods-package path filename))
+
+;; Write out the contents of the package to the current directory
+(define (write-ods-package sheet)
+  (call-with-output-file "content.xml"
+    (λ (out) (srl:sxml->xml (content sheet) out)))
+  (call-with-output-file "mimetype"
+    (λ (out) (write-string MIMETYPE out))))
+
+(define (zip-ods-package path filename)
+  (println "Done!"))
+
+
+;; ---------------------------------------------------------------------------------------------------
+;; Wrap XML boilerplate for content.xml file around the exported sheet 
 
 ;; sheet? -> sxml?
 (define (content sheet)
@@ -68,6 +93,4 @@ An OpenDocument package is a zip file containing at least the files;
   `(office:spreadsheet ,PLACEHOLDER-TABLE))
 
 
-
-(define FILE-MIMETYPE '("mimetype" . "application/vnd.oasis.opendocument.spreadsheet"))
 
