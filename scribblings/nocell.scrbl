@@ -1,6 +1,5 @@
 #lang scribble/manual
-@require[@for-label[nocell
-                    racket/base]]
+@require[@for-label[nocell]]
 
 @title{nocell}
 @author{ots22, tamc, triangle-man}
