@@ -7,10 +7,11 @@ Part 1, 2.2.4].
 [odf] Open Document Format for Office Applications (OpenDocument) Version 1.2 
 
 TODO and LIMITATIONS
+ - Produces fods, the single-file XML format
+ - Currently only copes with cells whose values are simple-cell-value? (ie, a single value)
  - Doesn't cope with named ranges
 
 |#
-
 
 
 ;; ---------------------------------------------------------------------------------------------------
@@ -22,16 +23,6 @@ TODO and LIMITATIONS
          "openformula.rkt")
 
 (provide (all-defined-out))
-
-(define PLACEHOLDER-TABLE
-  '(table:table
-    (@ (table:name "JG-test-sheet"))
-    (table:table-column)
-    (table:table-row
-     (table:table-cell
-      (@ (office:value "42")
-         (office:value-type "float"))
-      (text:p 42)))))
 
 (define *MIMETYPE* "application/vnd.oasis.opendocument.spreadsheet")
 
@@ -73,7 +64,7 @@ TODO and LIMITATIONS
 
 ;; TODO: Information about named ranges is lost after this point
 (define (ods-table sheet)
-  `(office:table
+  `(table:table
     (@ (table:name ,(or (sheet-name sheet) "Sheet 1")))
     (table:table-column) ; Why is this required?
     ,@(ods-rows (sheet-cells sheet)))) ; Splice in the rows
@@ -93,20 +84,20 @@ TODO and LIMITATIONS
 
 ;; [List-of sxml?] -> [List-of sxml?]
 (define (ods-row cells)
-  (cons 'office:table-row cells))
+  (cons 'table:table-row cells))
 
 ;; ods-cell : cell? integer? integer? -> sxml?
 ;; TODO: Only cell-value? handled
 (define (ods-cell c row col)
   (let ([expr (cell-content c)])
     (cond
-      [(cell-value? expr) (ods-cell-value (cell-value-elements expr))]
+      [(cell-value? expr) (ods-cell-value expr)]
       [else #f])))
 
 ;; TODO: What happens if elems is not a simple-cell-value? ?
-(define (ods-cell-value elems)
-  (if (simple-cell-value? elems)
-      (let ([val (atomise elems)])
+(define (ods-cell-value v)
+  (if (simple-cell-value? v)
+      (let ([val (atomise v)])
         (cond
           [(nothing? val) (ods-cell-empty)]
           [(real? val)    (ods-cell-real val)]
