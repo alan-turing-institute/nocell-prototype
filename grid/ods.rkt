@@ -21,6 +21,8 @@ TODO and LIMITATIONS
          "sheet.rkt"
          "openformula.rkt")
 
+(provide (all-defined-out))
+
 (define PLACEHOLDER-TABLE
   '(table:table
     (@ (table:name "JG-test-sheet"))
@@ -74,21 +76,34 @@ TODO and LIMITATIONS
   `(office:table
     (@ (table:name ,(or (sheet-name sheet) "Sheet 1")))
     (table:table-column) ; Why is this required?
-    ,(ods-rows (sheet-cells sheet))))
+    ,@(ods-rows (sheet-cells sheet)))) ; Splice in the rows
 
-(define (ods-rows sheet)
-  #f)
+;; array2d? -> [List-of sxml?]
+(define (ods-rows cells)
+  (let ([cells-array (ods-cells-array cells)])
+    (map ods-row (array->list* cells-array))))
 
-(define (ods-row s)
-  #f)
+;; array2d? -> array2d? 
+(define (ods-cells-array cells)
+  (let ([arr-shape (array-shape cells)])
+    (array-map ods-cell
+               cells
+               (axis-index-array arr-shape 0)
+               (axis-index-array arr-shape 1))))
 
-;; ods-cell : cell? integer? integer?
+;; [List-of sxml?] -> [List-of sxml?]
+(define (ods-row cells)
+  (cons 'office:table-row cells))
+
+;; ods-cell : cell? integer? integer? -> sxml?
+;; TODO: Only cell-value? handled
 (define (ods-cell c row col)
-  (let ([expr (cell-content cell)])
+  (let ([expr (cell-content c)])
     (cond
-      [(cell-value? expr) (ods-cell-value (cell-value-elements cell-value))]
+      [(cell-value? expr) (ods-cell-value (cell-value-elements expr))]
       [else #f])))
 
+;; TODO: What happens if elems is not a simple-cell-value? ?
 (define (ods-cell-value elems)
   (if (simple-cell-value? elems)
       (let ([val (atomise elems)])
@@ -103,13 +118,21 @@ TODO and LIMITATIONS
   '(table:table-cell))
 
 (define (ods-cell-real v)
-  '(table:table-cell ))
+  `(table:table-cell
+    (@ (office:value ,(number->string v))
+       (office:value-type "float"))
+    (text:p ,v)))
 
-(define (ods-cell-empty)
-  '(table:table-cell))
+(define (ods-cell-string v)
+  `(table:table-cell
+    (@  (office:value-type "string"))
+    (text:p ,v)))
 
-(define (ods-cell-empty)
-  '(table:table-cell))
+(define (ods-cell-boolean v)
+  `(table:table-cell
+    (@ (office:boolean-value ,(if v "true" "false"))
+       (office:value-type "boolean"))
+    (text:p ,(if v "TRUE" "FALSE"))))
 
 
 

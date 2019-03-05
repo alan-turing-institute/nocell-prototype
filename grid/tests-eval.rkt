@@ -19,7 +19,8 @@
    (row 2 3)))
  (array
   #[#[0 1]
-    #[2 3]]))
+    #[2 3]])
+ )
 
 (check-equal?
  (sheet-eval
