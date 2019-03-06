@@ -67,27 +67,27 @@
       '((dcf . %dcf0))
       '((expt () (4)) %sum2 %diff3)
       '#(1 1.1 1.2100000000000002 1.3310000000000004))
-     (assignment '%diff3 '() '((dcf . %dcf0)) '((- (4) ()) %e1 %vsum2) '#(0 1 2 3))
+     (assignment '%diff3 '() '((dcf . %dcf0)) '((- (4) ()) %e0 %vsum2) '#(0 1 2 3))
      (assignment '%vsum2 '() '((dcf . %dcf0)) '((sum (4)) %prod3) 2010)
      (assignment
       '%prod3
       '()
       '((dcf . %dcf0))
-      '((* (4) (4)) %select2 %e1)
+      '((* (4) (4)) %select2 %e0)
       '#(2010 0 0 0))
      (assignment '%select2 '() '((dcf . %dcf0)) '#(1 0 0 0) '#(1 0 0 0))
-     (assignment '%sum2 '() '((dcf . %dcf0)) '((+ () ()) %e17 %e7) 1.1)
-     (assignment '%e17 '() '((dcf . %dcf0)) 1 1)
+     (assignment '%sum2 '() '((dcf . %dcf0)) '((+ () ()) %e8 %e3) 1.1)
+     (assignment '%e8 '() '((dcf . %dcf0)) 1 1)
      (assignment
       '%quot1
       '(terminal-value)
       '((dcf . %dcf0))
       '((/ () ()) %prod2 %diff2)
       7357.142857142857)
-     (assignment '%diff2 '() '((dcf . %dcf0)) '((- () ()) %e7 %e5) 0.07)
+     (assignment '%diff2 '() '((dcf . %dcf0)) '((- () ()) %e3 %e2) 0.07)
      (assignment '%prod2 '() '((dcf . %dcf0)) '((* () ()) %vsum0 %sum1) 515.0)
-     (assignment '%sum1 '() '((dcf . %dcf0)) '((+ () ()) %e5 %e15) 1.03)
-     (assignment '%e15 '() '((dcf . %dcf0)) 1 1)
+     (assignment '%sum1 '() '((dcf . %dcf0)) '((+ () ()) %e2 %e7) 1.03)
+     (assignment '%e7 '() '((dcf . %dcf0)) 1 1)
      (assignment
       '%vsum0
       '(final-year-cash-flow)
@@ -98,7 +98,7 @@
       '%prod0
       '()
       '((dcf . %dcf0))
-      '((* (4) (4)) %select0 %e3)
+      '((* (4) (4)) %select0 %e1)
       '#(0 0 0 500))
      (assignment '%select0 '() '((dcf . %dcf0)) '#(0 0 0 1) '#(0 0 0 1))
      (assignment '%select3 '() '((dcf . %dcf0)) '#(0 0 0 1) '#(0 0 0 1))
@@ -112,7 +112,7 @@
       '%quot0
       '(discounted-cash-flow)
       '((dcf . %dcf0))
-      '((/ (4) (4)) %e3 %expn0)
+      '((/ (4) (4)) %e1 %expn0)
       '#(-100 -45.45454545454545 123.96694214876031 375.65740045078877))
      (assignment
       '%expn0
@@ -120,26 +120,26 @@
       '((dcf . %dcf0))
       '((expt () (4)) %sum0 %diff1)
       '#(1 1.1 1.2100000000000002 1.3310000000000004))
-     (assignment '%diff1 '() '((dcf . %dcf0)) '((- (4) ()) %e1 %vsum1) '#(0 1 2 3))
+     (assignment '%diff1 '() '((dcf . %dcf0)) '((- (4) ()) %e0 %vsum1) '#(0 1 2 3))
      (assignment '%vsum1 '() '((dcf . %dcf0)) '((sum (4)) %prod1) 2010)
      (assignment
       '%prod1
       '()
       '((dcf . %dcf0))
-      '((* (4) (4)) %select1 %e1)
+      '((* (4) (4)) %select1 %e0)
       '#(2010 0 0 0))
      (assignment '%select1 '() '((dcf . %dcf0)) '#(1 0 0 0) '#(1 0 0 0))
-     (assignment '%sum0 '() '((dcf . %dcf0)) '((+ () ()) %e12 %e7) 1.1)
-     (assignment '%e12 '() '((dcf . %dcf0)) 1 1)
-     (assignment '%e7 '(discount-rate) '() 0.1 0.1)
-     (assignment '%e5 '(terminal-growth) '() 0.03 0.03)
-     (assignment '%e3 '(cash-flow) '() '#(-100 -50 150 500) '#(-100 -50 150 500))
+     (assignment '%sum0 '() '((dcf . %dcf0)) '((+ () ()) %e5 %e3) 1.1)
+     (assignment '%e5 '() '((dcf . %dcf0)) 1 1)
+     (assignment '%e3 '(discount-rate) '() 0.1 0.1)
+     (assignment '%e2 '(terminal-growth) '() 0.03 0.03)
+     (assignment '%e1 '(cash-flow) '() '#(-100 -50 150 500) '#(-100 -50 150 500))
      (assignment
-      '%e1
+      '%e0
       '(years)
       '()
       '#(2010 2011 2012 2013)
       '#(2010 2011 2012 2013))))
 
-    (let ((epsilon 1e-10))
-      (check-within result expected epsilon)))
+  (let ((epsilon 1e-10))
+    (check-within result expected epsilon)))

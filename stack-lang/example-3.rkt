@@ -17,11 +17,11 @@
 
 (module+ test
   (let ((expected (list
-                   (assignment '%sum0 '(result) '() '((+ () ()) %a0 %e4) 101)
-                   (assignment '%e4 '(c) '() 1 1)
+                   (assignment '%sum0 '(result) '() '((+ () ()) %a0 %e1) 101)
+                   (assignment '%e1 '(c) '() 1 1)
                    (assignment '%a0 '() '() '%b0 100)
-                   (assignment '%b0 '() '((a . %a0)) '%e1 100)
-                   (assignment '%e1 '(z) '() 100 100))))
+                   (assignment '%b0 '() '((a . %a0)) '%e0 100)
+                   (assignment '%e0 '(z) '() 100 100))))
     (check-equal?
      result
      expected)))
