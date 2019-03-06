@@ -1,5 +1,7 @@
 #lang racket
 
+(provide stack->sheet)
+
 (require "main.rkt"
          "../grid/grid.rkt"
          "../grid/eval.rkt"
