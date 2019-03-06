@@ -25,6 +25,7 @@
          #%top
          #%top-interaction
 
+         require
          provide)
 
 

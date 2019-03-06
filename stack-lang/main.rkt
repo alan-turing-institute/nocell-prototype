@@ -86,6 +86,8 @@
 (define (expr  v) (assignment-expr  v))
 (define (val   v) (assignment-val   v))
 
+(define (stack-top-val s) (val (stack-top s)))
+
 ;; the call-stack of functions
 (define current-calls (make-parameter '()))
 
