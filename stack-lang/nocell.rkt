@@ -31,18 +31,21 @@
 ;; Datum
 ;;----------------------------------------------------------------------
 
+(define next-datum-name
+  (let ([name-counter 0])
+    (lambda () (make-name "e" (post-inc! name-counter)))))
+
 ;;   #%datum
 ;; A datum expands to a stack with a single element
 (define-syntax (datum stx)
   (syntax-case stx ()
     [(_ . d)
-     (with-syntax ([(id) (generate-temporaries '(|%e|))])
-       #'(stack-push (assignment 'id
-                                 null
-                                 (current-calls)
-                                 (#%datum . d)
-                                 (#%datum . d))
-                     (make-stack)))]))
+     #'(stack-push (assignment (next-datum-name)
+                               null
+                               (current-calls)
+                               (#%datum . d)
+                               (#%datum . d))
+                   (make-stack))]))
 
 
 ;; Defining stack functions
