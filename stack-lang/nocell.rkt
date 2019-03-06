@@ -8,13 +8,16 @@
          product
          len
          nth
+         (rename-out (=& =))
          (rename-out (+& +))
          (rename-out (-& -))
          (rename-out (*& *))
          (rename-out (/& /))
          (rename-out (expt& expt))
          (rename-out (define& define))
+
          (rename-out (if& if))
+         if*
 
          (rename-out (datum #%datum))
          #%app
@@ -192,6 +195,10 @@
   ("quot" /)
   ((vectorize /) a b))
 
+(define-primitive-stack-fn (=& a b)
+  ("eq?" =)
+  ((vectorize =) a b))
+
 (define-primitive-stack-fn (expt& a b)
   ("expn" expt)
   ((vectorize expt) a b))
@@ -232,3 +239,10 @@
              (select  (list (assignment id null (current-calls)
                                         select* select*))))
         (sum (*& select a))))))
+
+(define-syntax (if* stx)
+  (syntax-case stx ()
+    [(_ test-expr then-expr else-expr)
+     #'(if (val (stack-top test-expr))
+           then-expr
+           else-expr)]))
