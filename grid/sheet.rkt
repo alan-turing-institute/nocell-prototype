@@ -19,7 +19,7 @@ TODO
   
   ;; Types
   [struct sheet                  ((cells array2d?) (refs (listof pair?)) (name (or/c string? #f)))]  
-  [struct cell                   ((content cell-expr?))] 
+  [struct cell                   ((content cell-expr?))]
   [struct cell-expr              ()]
   [struct (cell-name  cell-expr) ((id string?))]
   [struct (cell-app   cell-expr) ((builtin symbol?) (args (listof cell-expr?)))]

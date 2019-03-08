@@ -32,21 +32,19 @@
 ;; Datum
 ;;----------------------------------------------------------------------
 
-(define next-datum-name
-  (let ([name-counter 0])
-    (lambda () (make-name "e" (post-inc! name-counter)))))
+(define (name-generator name [name-counter 0])
+  (lambda () (make-name name (post-inc! name-counter))))
+
+(define next-datum-name (name-generator "e"))
 
 ;;   #%datum
 ;; A datum expands to a stack with a single element
 (define-syntax (datum stx)
   (syntax-case stx ()
     [(_ . d)
-     #'(stack-push (assignment (next-datum-name)
-                               null
-                               (current-calls)
-                               (#%datum . d)
-                               (#%datum . d))
-                   (make-stack))]))
+     #'(list (make-assignment #:id    (next-datum-name)
+                              #:expr  (#%datum . d)
+                              #:val   (#%datum . d)))]))
 
 
 ;; Defining stack functions
@@ -83,16 +81,38 @@
                        ;; the stacks)
                        (let ((args arg-vals) ...) body ...))
                       (args-stack (remove-duplicates-before
-                                   ;; args put on the stack in reverse order
-                       (append rargs ...)))                      
+                       ;; args put on the stack in reverse order
+                       (append rargs ...)))
                       (res-name (make-name f-str (post-inc! name-counter))))
                  (stack-push
-                  (assignment res-name
-                              null
-                              (current-calls)
-                              `([f-symb ,(shape arg-vals) ...] ,arg-ids ...)
-                              result)
+                  (make-assignment
+                   #:id    res-name
+                   #:expr  `([f-symb ,(shape arg-vals) ...] ,arg-ids ...)
+                   #:val   result)
                   args-stack))))))]))
+
+(define next-argument-name (name-generator "arg"))
+
+(define (make-arg name s) (stack-push
+                           (make-assignment
+                            #:id      (next-argument-name)
+                            #:name    (list name)
+                            #:expr    (id (stack-top s))
+                            #:val     (val (stack-top s))
+                            #:context 'arg)
+                           s))
+
+;; Given a number of stacks, combine them by putting the top of each
+;; of the stacks first (in order), followed by the rest of each stack.
+;; This is useful for combining stacks of arguments, where the value
+;; of all of the arguments is followed by the values from which they
+;; are computed (rather then interspersing the results with these
+;; intermediate values, as a simple "append" would produce).
+;;
+(define (splice-argument-stacks . stacks)
+  (apply append
+         (map (lambda (x) (car x)) stacks)
+         (map cdr stacks)))
 
 ;; Like define-primitive-stack-fn, but the function body is assumed to
 ;; already be in terms of stack functions (that is, accepting stacks
@@ -112,22 +132,21 @@
        #'(define f
            (let ((name-counter 0))
              (lambda (args ...)
-               (let* ((res-name   (make-name f-str (post-inc! name-counter)))
+               (let* ((args (make-arg 'args args)) ...
+                      (res-name   (make-name f-str (post-inc! name-counter)))
                       (result-stack
                        (parameterize ((current-calls (cons (cons 'f res-name)
                                                            (current-calls))))
-                         
                          body ...))
                       (top        (stack-top result-stack))
                       (result-val (val top))
-                      (args-stack (append rargs ...)))
+                      (args-stack (splice-argument-stacks rargs ...)))
                  (remove-duplicates-before
                   (stack-push
-                   (assignment res-name
-                               null
-                               (current-calls)
-                               (id top)
-                               (val top))
+                   (make-assignment #:id      res-name
+                                    #:expr    (id top)
+                                    #:val     (val top)
+                                    #:context 'result)
                    (append
                     result-stack
                     args-stack))))))))]))
@@ -163,19 +182,38 @@
 ;; The second form defines a function taking the stack arguments args
 ;; and returning the result of evaluating body.
 ;;
+
+(define (rename-define d stack)
+  (define top (stack-top stack))
+  (stack-push
+   (struct-copy assignment top
+                [name (cons d (name top))])                
+   (cdr stack)))
+
+(define (copy-define d stack)
+  (define top (stack-top stack))
+  (stack-push
+   (struct-copy assignment top
+                [id (next-datum-name)]
+                [name (list d)]
+                [expr (id top)]
+                [context 'body])
+   stack))
+
+;; Grant an *unnamed* stack-top value a name, or copy a named variable
+;; to one with the given name (d).
+(define (rename-or-copy d stack)
+  (if (null? (name (stack-top stack)))
+      (rename-define d stack)
+      (copy-define d stack)))
+
 (define-syntax (define& stx)
   (syntax-case stx ()
     [(_ (id args ...) body ...)
      #'(define-stack-fn (id args ...) body ...)]
 
     [(_ id expr)
-     #'(define id (let* ((result expr)
-                         (top (stack-top result)))
-                    (stack-push
-                     (struct-copy assignment top
-                                  ;; add to list of names
-                                  (name (cons 'id (name top))))
-                     (cdr result))))]))
+     #'(define id (rename-or-copy 'id expr))]))
 
 ;; if is a function
 (define-primitive-stack-fn (if& test-expr then-expr else-expr)
@@ -240,8 +278,9 @@
              (len-a*  (val (stack-top (len a))))
              (select* (build-vector len-a* (indicator n*)))
              (id      (make-name 'select (post-inc! name-counter)))
-             (select  (list (assignment id null (current-calls)
-                                        select* select*))))
+             (select  (list (make-assignment #:id      id
+                                             #:expr    select*
+                                             #:val     select*))))
         (sum (*& select a))))))
 
 (define-syntax (if* stx)
