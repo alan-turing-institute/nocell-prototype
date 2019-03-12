@@ -1,7 +1,7 @@
 #+title: Nocell demonstration for Cambridge meetup
 
 * Poster
-
+  
 - print out live bit
 - add some stuff about inference
 
@@ -12,7 +12,7 @@
 - "A classic business problem"
 
 ** The classic journey
-
+   
 *** Excel is great for a simple model, for one person, done once
 
 *** Excel terrible for multiple people, code reuse, version control, abstraction, ...
