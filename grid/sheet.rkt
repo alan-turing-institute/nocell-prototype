@@ -18,7 +18,7 @@ TODO
  (contract-out
   
   ;; Types
-  [struct sheet                  ((cells array2d?) (refs (listof pair?)) (name (or/c string? #f)))]  
+  [struct sheet                  ((cells array2d?) (refs (listof pair?)) (meta list?) (name (or/c string? #f)))]
   [struct cell                   ((content cell-expr?))]
   [struct cell-expr              ()]
   [struct (cell-name  cell-expr) ((id string?))]
@@ -112,7 +112,7 @@ types as well as some utilities; or whether it should be the interface to the
 sheet type and hide all the interals of the structs. For now, it's the former.
 |#
 
-(struct sheet (cells refs name) #:transparent)
+(struct sheet (cells refs meta name) #:transparent)
 (struct cell (content) #:transparent)
 (struct cell-expr () #:transparent)
 (struct cell-app cell-expr (builtin args) #:transparent)
@@ -179,6 +179,8 @@ sheet type and hide all the interals of the structs. For now, it's the former.
          ls)
     cell-expr?)
    ;; sheet-refs
+   '()
+   ;; sheet-meta
    '()
    ;; sheet-name
    #f

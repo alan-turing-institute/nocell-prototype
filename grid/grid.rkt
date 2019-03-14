@@ -109,7 +109,10 @@ TODO
     (let ([maybe-dup (duplicated-id ids)])
       (if maybe-dup
           (raise-argument-error 'sheet "Duplicate named reference" maybe-dup)
-          (s:sheet (make-dereferenced-array rows ids) null name)))))
+          (s:sheet (make-dereferenced-array rows ids)
+                   null
+                   (map row-spec-meta rows) ;; meta
+                   name)))))
 
 ;; duplicated-id : (list-of (name ref)) -> name
 (define (duplicated-id ids)

@@ -61,7 +61,7 @@
          (calls (assignment-calls a))
          (meta (list (assignment-context a)
                      (length calls)
-                     (and (cons? calls) (cdar calls)))))
+                     (and (cons? calls) (caar calls)))))
     (cond [(eq? (expr-op expr) 'nth)
            (keyword-apply row '(#:meta) (list meta)
                   (pad-to-width
