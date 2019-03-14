@@ -195,6 +195,7 @@
   (stack-push
    (struct-copy assignment top
                 [id (next-datum-name)]
+                [calls (current-calls)]
                 [name (list d)]
                 [expr (id top)]
                 [context 'body])
