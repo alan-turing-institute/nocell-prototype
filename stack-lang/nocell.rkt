@@ -94,14 +94,15 @@
 
 (define next-argument-name (name-generator "arg"))
 
-(define (make-arg name s) (stack-push
-                           (make-assignment
-                            #:id      (next-argument-name)
-                            #:name    (list name)
-                            #:expr    (id (stack-top s))
-                            #:val     (val (stack-top s))
-                            #:context 'arg)
-                           s))
+(define (make-arg name s is-last)
+  (stack-push
+   (make-assignment
+    #:id      (next-argument-name)
+    #:name    (list name)
+    #:expr    (id (stack-top s))
+    #:val     (val (stack-top s))
+    #:context (if is-last 'last-arg 'arg))
+   s))
 
 ;; Given a number of stacks, combine them by putting the top of each
 ;; of the stacks first (in order), followed by the rest of each stack.
@@ -133,6 +134,15 @@
         (begin (bound-id-table-set! stack-fn-ids f (post-inc! stack-fn-counter))
                (bound-id-table-ref stack-fn-ids f)))))
         
+(require (for-syntax (only-in racket make-list)))
+(define-for-syntax (is-last stx)
+  (define stxe (syntax-e stx))
+  (define len (length stxe))
+  (datum->syntax
+   stx
+   (if (= len 0)
+       null
+       (append (make-list (sub1 len) #f) '(#t)))))
 
 (define-syntax (define-stack-fn stx)
   (syntax-case stx ()
@@ -141,11 +151,12 @@
     ;; body ... : expression? ...
     [(_ (f args ...) body ...)
      (with-syntax ([(rargs ...) (syntax-reverse #'(args ...))]
+                   [(is-last-arg ...) (is-last #'(args ...))]
                    [f-str #'(symbol->string 'f)])
        #'(define f
            (let ((name-counter 0))
              (lambda (args ...)
-               (let* ((args (make-arg 'args args)) ...
+               (let* ((args (make-arg 'args args is-last-arg)) ...
                       (res-name   (make-name f-str (post-inc! name-counter)))
                       (result-stack
                        (parameterize ((current-calls (cons (cons (fn-name (datum->syntax #'stx 'f)) res-name)

@@ -1,6 +1,7 @@
 #lang racket
 
-(provide stack->sheet)
+(provide stack->sheet
+         ->vector)
 
 (require "main.rkt"
          "../grid/grid.rkt"
@@ -55,14 +56,16 @@
          ;; meta contains a list of three items:
          ;;  - the context (one of: 'arg, 'body, 'result)
          ;;  - the nesting/grouping level (integer, 0 = top level)
-         ;;  - the name of the function being called (or #f, for top level)
+         ;;  - a unique integer for each function ("0" means top level)
+         ;;  - the type of the result
          ;; the idea of the last item is that this provides a way of assigning
          ;; unique colours to functions
          (calls (assignment-calls a))
          (meta (list (assignment-context a)
                      (length calls)
                      ;(and (cons? calls) (caar calls))
-                     (if (cons? calls) (caar calls) 0))))
+                     (if (cons? calls) (caar calls) 0)
+                     (if (exact-integer? (vector-ref (->vector (assignment-val a)) 0)) 'exact 'inexact))))
     (cond [(eq? (expr-op expr) 'nth)
            (keyword-apply row '(#:meta) (list meta)
                   (pad-to-width
