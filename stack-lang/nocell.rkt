@@ -144,19 +144,25 @@
        null
        (append (make-list (sub1 len) #f) '(#t)))))
 
+(require (for-syntax racket/syntax))
+
 (define-syntax (define-stack-fn stx)
   (syntax-case stx ()
     ;; f        : id?
     ;; args ... : stack? ...
     ;; body ... : expression? ...
     [(_ (f args ...) body ...)
-     (with-syntax ([(rargs ...) (syntax-reverse #'(args ...))]
-                   [(is-last-arg ...) (is-last #'(args ...))]
-                   [f-str #'(symbol->string 'f)])
+     (with-syntax* ([args-no-kw*
+                     (filter (λ (x) (not (keyword? (syntax-e x))))
+                             (syntax-e #'(args ...)))]
+                    [(args-no-kw ...) (syntax->list #'args-no-kw*)]
+                    [(rargs ...) (syntax-reverse #'(args-no-kw ...))]
+                    [(is-last-arg ...) (is-last #'(args-no-kw ...))]
+                    [f-str #'(symbol->string 'f)])
        #'(define f
            (let ((name-counter 0))
              (lambda (args ...)
-               (let* ((args (make-arg 'args args is-last-arg)) ...
+               (let* ((args-no-kw (make-arg 'args-no-kw args-no-kw is-last-arg)) ...
                       (res-name   (make-name f-str (post-inc! name-counter)))
                       (result-stack
                        (parameterize ((current-calls (cons (cons (fn-name (datum->syntax #'stx 'f)) res-name)

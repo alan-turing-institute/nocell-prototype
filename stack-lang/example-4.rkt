@@ -31,12 +31,19 @@
   (define result5 (f 1))
   (provide result5))
 
+(module example6 "nocell.rkt"
+  (define (f #:x x #:y y) (+ x y))
+  (define result6 (f #:y 1 #:x 2))
+  (provide result6))
+
 (require "main.rkt"
          rackunit
          'example
          'example2
          'example3
          'example4
-         'example5)
+         'example5
+         'example6)
+
 
 (provide result5)
