@@ -1,7 +1,8 @@
 #lang racket
 
 (require "main.rkt"
-         racket/syntax)
+         racket/syntax
+         syntax/id-table)
 
 (provide stack-print
          sum
@@ -121,6 +122,18 @@
 ;; subexpressions do).  This is a helper for implementing "define" in
 ;; the language.
 ;;
+
+(define stack-fn-counter 1)
+(define stack-fn-ids (make-bound-id-table))
+
+(define (fn-name f)
+  (let ((r (bound-id-table-ref stack-fn-ids f #f)))
+    (if r
+        r
+        (begin (bound-id-table-set! stack-fn-ids f (post-inc! stack-fn-counter))
+               (bound-id-table-ref stack-fn-ids f)))))
+        
+
 (define-syntax (define-stack-fn stx)
   (syntax-case stx ()
     ;; f        : id?
@@ -135,7 +148,7 @@
                (let* ((args (make-arg 'args args)) ...
                       (res-name   (make-name f-str (post-inc! name-counter)))
                       (result-stack
-                       (parameterize ((current-calls (cons (cons 'f res-name)
+                       (parameterize ((current-calls (cons (cons (fn-name (datum->syntax #'stx 'f)) res-name)
                                                            (current-calls))))
                          body ...))
                       (top        (stack-top result-stack))

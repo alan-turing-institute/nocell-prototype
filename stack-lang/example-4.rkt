@@ -39,4 +39,4 @@
          'example4
          'example5)
 
-
+(provide result5)
