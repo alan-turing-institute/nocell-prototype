@@ -11,7 +11,7 @@
        [nocell (file->value source)]
        [stack (nocell->stack nocell)]
        [grid (stack->grid stack)]
-       [raw (workbook->raw (list (grid->raw-worksheet "sheet 1" grid)))]
+       [raw (workbook->raw (list (grid->raw-worksheet "sheet 1" (first grid))) (second grid))]
       )
       (printf "Translating ~a into ~a~n" source ods)
       (raw->zip raw ods)
