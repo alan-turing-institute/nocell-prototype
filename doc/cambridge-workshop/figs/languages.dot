@@ -1,0 +1,21 @@
+digraph languages {
+
+graph [rankdir = "LR";
+       pad = "0.5,0.2";
+       ];
+
+       edge [color = "#9db5bd"; fontcolor = "#7b939b"];
+       node [shape = box;
+	     color = "#9db5bd"];
+       
+	     nocell [label = "nocell\n(Probabilistic)"];
+       nocell -> cell [label="Inference &amp;\ncompilation\n "];
+	     
+	     cell -> grid [label="2.5d Layout\n "];
+	     
+	     grid -> {node [fontsize = 10; shape = oval];
+		     Excel LibreOffice "..."};
+	     
+}
+
+       
