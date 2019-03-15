@@ -308,7 +308,7 @@
   (define (built-in-style-output number-format color)     (list (string-join `("output"     ,number-format ,color) "-") number-format '((background-color "#b3df8d"))  `((font-color ,color)) ))
   (define (built-in-style-parameter number-format color)  (list (string-join `("parameter"  ,number-format ,color) "-") number-format '()                              `((font-style "italic") (font-color ,color))))
   (define (built-in-style-last-parameter number-format color)  (list (string-join `("last-parameter"  ,number-format ,color) "-") number-format (list (list 'border-bottom (string-join (list "thin" "solid" color) " ")))                              `((font-style "italic") (font-color ,color))))
-  (define (built-in-style-return number-format color)     (list (string-join `("return"     ,number-format ,color) "-") number-format '()                              `((font-weight "bold" ) (font-color ,color))))
+  (define (built-in-style-return number-format color)     (list (string-join `("return"     ,number-format ,color) "-") number-format `((border-bottom ,(string-join (list "medium" "solid" color))))                              `((font-weight "bold" ) (font-color ,color) )))
   (define (built-in-style-default number-format color)     (list (string-join `("default"     ,number-format ,color) "-") number-format '()                              `((font-color ,color))))
 
   (define (use-style style-definition) 
