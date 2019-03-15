@@ -83,45 +83,47 @@ Nocell is a programming language for writing probabilistic spreadsheets.
 
 
 \section*{A classic example: How much is HSBC worth?}
-\small
+%\small
 Under a discount rate $D$, the \emph{present value} of a stream of cashflows
 $c_i$ in years $i=0,\dotsc,N-1$, followed by cashflows from year $N$ of $f$,
 increasing annually by a rate $R$ is:
 \[
 \text{PV} = \sum_{i = 0}^{N-1} \frac{c_i}{{(1 + d)}^{i}}  +
-\frac{1}{{(1+d)}^N} \frac{f}{d-r}.
+\frac{1}{{(1+d)}^{N-1}} \frac{f}{d-r}.
 \]
 
 \subsection*{As a program...}
 {\tiny
-\inputminted{scheme}{dcf.nocell}
+\inputminted{scheme}{demos/dcf.nocell}
 }
 
 \subsection*{...which compiles to a spreadsheet}
 \begin{center}
-\includegraphics[width=0.75\columnwidth]{figs/ss.png}
+\includegraphics[width=0.6\columnwidth]{figs/ss.png}
 \end{center}
 
 \section*{How it works}
+\footnotesize
 \begin{center}
 \includegraphics[width=\columnwidth]{figs/languages.eps}
 \end{center}
 \begin{itemize}[itemsep=0.4ex]
-\item ‘nocell’ is a probabilistic programming language with bounded recursion.
-\item ‘cell’ is a non--Turing-complete language for calculating with tabular
-  data.
-\item ‘grid’ is a model of a spreadsheet: a purely functional programming language with no loops.
+\item ‘nocell’ is a probabilistic programming language;
+\item ‘cell’ is a non--Turing-complete language;
+\item ‘grid’ is a model of a spreadsheet.
 \end{itemize}
 
 \section*{Ongoing work}
-\begin{itemize}[nosep]
+\begin{itemize}[itemsep=0.4ex]
 \item Representation of distributions in spreadsheets
-\item Design and layout
+\item Layout of structured calculations (eg, order of calculation; splitting
+  across sheets)  
 \item Recursion
 \end{itemize}
   
 \vfill
 \section*{Contact}
+\normalsize
 
 James Geddes, \texttt{jgeddes@turing.ac.uk}.
 \begin{tikzpicture}[remember picture,overlay]

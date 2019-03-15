@@ -1,0 +1,22 @@
+(
+ (define (present-value years cashflows terminal-growth discount-rate)
+   (define terminal-value
+     (/ (* (last cashflows) (+ 1 terminal-growth))
+        (- discount-rate terminal-growth)))
+   (define (discounted-value year value-to-discount)
+     (/ value-to-discount
+        (expt (+ 1 discount-rate) (- year (first years)))))
+   (let ([pv-cashflows
+          (map (lambda (year cashflow) (discounted-value year cashflow))
+               years cashflows)]
+         [pv-terminal-value
+          (discounted-value (last years) terminal-value)])
+     (total pv-cashflows pv-terminal-value)))
+ 
+ (define (total pv-cashflows pv-terminal-value)
+   (+ (foldl (lambda (t c) (+ t c)) 0 pv-cashflows)
+      pv-terminal-value))
+ 
+ (present-value (2020 2021 2022 2023)
+                ( -100 -50  150  500)
+                0.03 0.10))

@@ -8,7 +8,7 @@ graph [rankdir = "LR";
        node [shape = box;
 	     color = "#9db5bd"];
        
-	     nocell [label = "nocell\n(Probabilistic)"];
+	     nocell [label = "nocell"];
        nocell -> cell [label="Inference &amp;\ncompilation\n "];
 	     
 	     cell -> grid [label="2.5d Layout\n "];

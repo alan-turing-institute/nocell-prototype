@@ -1,0 +1,7 @@
+(
+ (define (add1 x)
+   (+ x 1))
+ (add1 10)
+ (add1 20)
+ (add1 30)
+ )

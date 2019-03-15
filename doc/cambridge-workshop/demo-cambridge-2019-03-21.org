@@ -1,25 +1,36 @@
-#+title: Nocell demonstration for Cambridge meetup
+#+title: Nocell demonstration for Tech Talk
 
-* Poster
-  
-- print out live bit
-- add some stuff about inference
+* Introduction
 
-* Outline of live demo
+Getting comfortable with spreadsheets.
 
-** Setup of problem
+** History slide
 
-- "A classic business problem"
+** Pros and cons (interactive)
+*** Who uses spreadsheets?
+*** Anyone here have a spreadsheet anecdote?
+*** Pros and cons of spreadsheets
 
-** The classic journey
-   
-*** Excel is great for a simple model, for one person, done once
+* What is a spreadsheet?
 
-*** Excel terrible for multiple people, code reuse, version control, abstraction, ...
+** Purely functional, non-recursive expressions meets The Grid. 
+** nocell replaces The Grid abstractions with PL-type abstractions
 
-** The nocell journey (live)
+* What have we do so far?
 
-** (Option A): The benefits of nocell
+** Simple expressions on numbers, strings, booleans
+** Variables
+** Other data types: vectors
+** First-order functions
+** map and fold
 
-** (Option B): current development, future directions 
+* Demo
+
+**
+
+* What's next
+** Structured data types
+** Modules
+** Probabilistic inference
+
 
