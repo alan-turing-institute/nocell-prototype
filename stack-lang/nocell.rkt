@@ -9,7 +9,12 @@
          product
          len
          nth
+         halt
          (rename-out (=& =))
+         (rename-out (<&  <))
+         (rename-out (<=& <=))
+         (rename-out (>&  >))
+         (rename-out (>=& >=))
          (rename-out (+& +))
          (rename-out (-& -))
          (rename-out (*& *))
@@ -17,8 +22,9 @@
          (rename-out (expt& expt))
          (rename-out (define& define))
 
-         (rename-out (if& if))
+         (rename-out (if-bounded-depth if))
          if*
+         if**
 
          (rename-out (datum #%datum))
          #%app
@@ -28,6 +34,8 @@
 
          require
          provide)
+
+(define current-max-branching-depth (make-parameter 8))
 
 
 ;; Datum
@@ -246,6 +254,10 @@
     [(_ id expr)
      #'(define id (rename-or-copy 'id expr))]))
 
+(define-primitive-stack-fn (halt)
+  ("halt" halt)
+  +nan.0)
+
 ;; if is a function
 (define-primitive-stack-fn (if& test-expr then-expr else-expr)
   ("branch" if)
@@ -271,6 +283,23 @@
 (define-primitive-stack-fn (=& a b)
   ("eq?" =)
   ((vectorize =) a b))
+
+(define-primitive-stack-fn (<& a b)
+  ("lt?" <)
+  ((vectorize <) a b))
+
+(define-primitive-stack-fn (<=& a b)
+  ("le?" <=)
+  ((vectorize <=) a b))
+
+(define-primitive-stack-fn (>& a b)
+  ("gt?" >)
+  ((vectorize >) a b))
+
+(define-primitive-stack-fn (>=& a b)
+  ("ge?" >=)
+  ((vectorize >=) a b))
+
 
 (define-primitive-stack-fn (expt& a b)
   ("expn" expt)
@@ -320,3 +349,41 @@
      #'(if (val (stack-top test-expr))
            then-expr
            else-expr)]))
+
+(define-syntax (if** stx)
+  (syntax-case stx ()
+    [(_ test-expr then-expr else-expr)
+     #'(if (< (length (current-calls)) (current-max-branching-depth))
+           (if& test-expr then-expr else-expr)
+           (if* test-expr then-expr else-expr))]))
+
+
+(define if-lazy
+  (let ((name-counter 0))
+    (lambda (test then-fn else-fn)
+      (if (> (length (current-calls)) (current-max-branching-depth))
+          (halt)
+          (let* ([then-val   (then-fn)]
+                 [else-val   (else-fn)]
+                 [result-val (if (val (stack-top test)) then-val else-val)]
+                 [args-stack (remove-duplicates-before
+                              (append else-val then-val test))]
+                 [id         (make-name 'branch (post-inc! name-counter))]
+                 )
+            (stack-push
+             (make-assignment
+              #:id   id
+              #:expr `([if ,(shape test) ,(shape then-val) ,(shape else-val)]
+                       ,(assignment-id (stack-top test))
+                       ,(assignment-id (stack-top then-val))
+                       ,(assignment-id (stack-top else-val)))
+              #:val  (assignment-val (stack-top result-val)))
+             args-stack))))))
+
+
+(define-syntax (if-bounded-depth stx)
+  (syntax-case stx ()
+    [(_ test-expr then-expr else-expr)
+     #'(if-lazy test-expr        
+                (λ () then-expr) 
+                (λ () else-expr))]))
