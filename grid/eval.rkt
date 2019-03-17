@@ -94,7 +94,10 @@ TODO
 
 ;; get-racket-builtin : symbol? -> procedure?
 (define (get-racket-builtin f)
-  (cdr (assoc f racket-builtins)))
+  (let ((builtin (assoc f racket-builtins)))
+    (if builtin
+        (cdr builtin)
+        (raise-argument-error 'get-racket-builtin "builtin" f))))
 
 ;; unmaybe : atomic-value? -> atomic-value?
 ;; Replace 'nothing with 0, otherwise return the argument
@@ -121,9 +124,19 @@ TODO
   (cell-value-return
    (array-all-fold (array-map unmaybe (cell-value-elements vs)) op x0)))
 
+(define (if-fn test then else)
+  (if test then else))
+
+
 (define builtin-sum       (builtin-fold   + 0))
 (define builtin-max       (builtin-fold   max 'nothing))
 (define builtin-min       (builtin-fold   min 'nothing))
+
+(define builtin-=         (builtin-binary =))
+(define builtin-<         (builtin-binary <))
+(define builtin-<=        (builtin-binary <=))
+(define builtin->         (builtin-binary >))
+(define builtin->=        (builtin-binary >=))
 
 (define builtin-+         (builtin-binary +))
 (define builtin-*         (builtin-binary *))
@@ -152,12 +165,25 @@ TODO
 ;; "builtin-random" defined separately since it is the only "nullary" builtin
 (define (builtin-random) (cell-value-return (random)))
 
+(define (builtin-if test then else)
+  (cell-value-return (if-fn (unmaybe (atomise test))
+                            (unmaybe (atomise then))
+                            (unmaybe (atomise else)))))
+
+(define (builtin-halt)
+  (cell-value-return +nan.0))
 
 (define racket-builtins
   `([+         . ,builtin-+        ]
     [*         . ,builtin-*        ]
     [max       . ,builtin-max      ]
     [min       . ,builtin-min      ]
+
+    [=         . ,builtin-=        ]
+    [<         . ,builtin-<        ]
+    [<=        . ,builtin-<=       ]
+    [>         . ,builtin->        ]
+    [>=        . ,builtin->=       ]
     
     [-         . ,builtin--        ]
     [/         . ,builtin-/        ]
@@ -180,8 +206,8 @@ TODO
     [atan      . ,builtin-atan     ]
     [sqrt      . ,builtin-sqrt     ]
     [exp       . ,builtin-exp      ]
-    [random    . ,builtin-random   ]))
+    [random    . ,builtin-random   ]
 
-
-
-
+    [if        . ,builtin-if       ]
+    
+    [halt      . ,builtin-halt     ]))
