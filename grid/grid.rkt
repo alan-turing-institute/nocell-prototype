@@ -32,7 +32,7 @@ TODO
                  (cell-expr? string? . -> . cell-spec/c))]
   
   ;; Create a row of cells. Use within (sheet ..)
-  [row   (cell-spec/c ... . -> . row-spec?)]
+  [row   (() (#:meta any/c) #:rest (listof cell-spec/c) . ->* . row-spec?)]
   
   ;; Create a sheet with an optional name
   [sheet ((row-spec?) (#:name string?) #:rest (listof row-spec?) . ->* . s:sheet?)]
@@ -44,7 +44,7 @@ TODO
 
 (struct named-cell-spec (contents id) #:transparent)  ; what is produced by (cell v #:id name)
 (struct anon-cell-spec  (contents) #:transparent)     ; what is produced by (cell v)
-(struct row-spec (cells ids) #:transparent)           ; what is produced by (row ...)
+(struct row-spec (meta cells ids) #:transparent)      ; what is produced by (row ...)
 (struct id-ref (id) #:transparent)
 
 (define cell-spec/c
@@ -70,9 +70,9 @@ TODO
 
 ;; row : (List-of <cell-spec>) -> <row-spec>
 ;; Traverse cells, producing a list of unparsed-cells and a list of extracted names with their indexes
-(define (row . cells)
+(define (row #:meta [meta null] . cells)
   (let-values ([(cols cells ids) (row-iter cells)])
-    (row-spec cells ids)))
+    (row-spec meta cells ids)))
 
 ;; row-iter : List-of cell -> [values max-index cells names]
 ;; Turn named cells into unnamed cells and extract the names
@@ -109,7 +109,10 @@ TODO
     (let ([maybe-dup (duplicated-id ids)])
       (if maybe-dup
           (raise-argument-error 'sheet "Duplicate named reference" maybe-dup)
-          (s:sheet (make-dereferenced-array rows ids) null name)))))
+          (s:sheet (make-dereferenced-array rows ids)
+                   null
+                   (map row-spec-meta rows) ;; meta
+                   name)))))
 
 ;; duplicated-id : (list-of (name ref)) -> name
 (define (duplicated-id ids)

@@ -44,6 +44,9 @@
 (define-for-syntax (syntax-reverse stx)
   (datum->syntax stx (reverse (syntax->list stx))))
 
+;; the call-stack of functions
+(define current-calls (make-parameter '()))
+
 
 ;; Stacks
 ;; -----------------------------------------------------------------------
@@ -77,17 +80,27 @@
 ;;
 ;; - val is the value of the result of evaluating expr
 ;;
-(struct assignment (id name calls expr val) #:transparent)
+;; - context either 'arg, 'body, 'result
+(struct assignment (id name calls expr val context) #:transparent)
+
+;; more convenient constructor
+(define (make-assignment #:id      id
+                         #:name    [name null]
+                         #:calls   [calls (current-calls)]
+                         #:expr    expr
+                         #:val     val
+                         #:context [context 'body])
+  (assignment id name calls expr val context))
 
 ;; shorter names for things...
-(define (id    v) (assignment-id   v))
-(define (name  v) (assignment-name  v))
-(define (calls v) (assignment-calls v))
-(define (expr  v) (assignment-expr  v))
-(define (val   v) (assignment-val   v))
+(define (id      v) (assignment-id      v))
+(define (name    v) (assignment-name    v))
+(define (calls   v) (assignment-calls   v))
+(define (expr    v) (assignment-expr    v))
+(define (val     v) (assignment-val     v))
+(define (context v) (assignment-context v))
 
-;; the call-stack of functions
-(define current-calls (make-parameter '()))
+(define (stack-top-val s) (val (stack-top s)))
 
 
 ;; Pretty print stacks

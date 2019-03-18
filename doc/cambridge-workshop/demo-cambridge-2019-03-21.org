@@ -1,0 +1,25 @@
+#+title: Nocell demonstration for Cambridge meetup
+
+* Poster
+  
+- print out live bit
+- add some stuff about inference
+
+* Outline of live demo
+
+** Setup of problem
+
+- "A classic business problem"
+
+** The classic journey
+   
+*** Excel is great for a simple model, for one person, done once
+
+*** Excel terrible for multiple people, code reuse, version control, abstraction, ...
+
+** The nocell journey (live)
+
+** (Option A): The benefits of nocell
+
+** (Option B): current development, future directions 
+

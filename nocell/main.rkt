@@ -14,7 +14,7 @@
 ; Our goal is to turn nocell (a very limited subset of Racket) into stack (an imutable stack of expressions, where each expression can only refer to rows in the stack that were defined before it)
 (define (nocell->stack nocell)
   (stack-clear)
-  (stack-push "result" (evaluate-body nocell (hash)))
+  (stack-push "result" (evaluate-body nocell (hash)) '(output))
   stack
   )
 
@@ -28,6 +28,9 @@
 ; The stack pointer points to the first _empty_ position and we have a bunch of ways of manipulating it
 (define stack-pointer-start (cons  0 'no-column) )
 (define stack-pointer stack-pointer-start)
+(define function-name-stack '())
+(define (function-name-stack-push name) (set! function-name-stack (append function-name-stack (list name))))
+(define (function-name-stack-pop) (set! function-name-stack (take function-name-stack (- (length function-name-stack) 1))))
 (define (stack-pointer-set new-pointer) (set! stack-pointer new-pointer))
 (define (stack-pointer-clear!) (stack-pointer-set stack-pointer-start))
 (define (stack-pointer-row-set new-row) (stack-pointer-set (cons new-row (stack-pointer-col))))
@@ -46,6 +49,10 @@
 (define (stack-row-name row) (list-ref row 1))
 ; A row has an expression
 (define (stack-row-expression row) (list-ref row 2))
+; A row has tags definining if it is a parameter or a return value etc
+(define (stack-row-tags row) (list-ref row 3))
+; A row has a list with the names of the functions the row is part of
+(define (stack-row-function-names row) (list-ref row 4))
 ; An expression might refer to a (row i) which refers to the expression on row i
 (define (row i) (stack-row-expression (stack-row i)))
 ; An expression might be a list, in which case (col i) gets the i'th element (starting at zero)
@@ -61,9 +68,9 @@
 ; This allows us to set items beyond the end of the list, with any intervening items being given nil values
 (define (list-set-col lst i x) (if (>= i (length lst)) (list-set-col (append lst '(())) i x) (list-set lst i x)))
 ; When we push onto the stack, we get the (row i) that we pushed onto
-(define (stack-push name expression)
+(define (stack-push name expression tags)
   (let* ([pointer stack-pointer] [row (stack-pointer-get-row stack-pointer)] [col (stack-pointer-get-col stack-pointer)])
-    (let ([stack-row (if (>= row (length stack)) `(,row ,name '()) (stack-row row))])
+    (let ([stack-row (if (>= row (length stack)) `(,row ,name '() ,tags ,function-name-stack) (stack-row row))])
       (if (equal? col 'no-column)
         (set! stack-row (list-set-col stack-row 2 expression))
         (begin (set! stack-row (list-set-col stack-row 2 (list-set-col (stack-row-expression stack-row) col expression))))
@@ -105,8 +112,8 @@
         (for-each (lambda (expression)
                     (match expression
                       [`(define (,name .,parameters) .,function-body) (set! top-level-definitions (hash-set top-level-definitions name (append `(lambda ,parameters) function-body)))]
-                      [`(define ,name ,value) (set! top-level-definitions (hash-set top-level-definitions name (stack-push name (evaluate value top-level-definitions))))]
-                      [_ (stack-push "" (evaluate expression top-level-definitions))]
+                      [`(define ,name ,value) (set! top-level-definitions (hash-set top-level-definitions name (stack-push name (evaluate value top-level-definitions) '())))]
+                      [_ (stack-push "" (evaluate expression top-level-definitions) '())]
                       )) expressions)
         (evaluate (last last-expression) top-level-definitions)
         )
@@ -120,9 +127,18 @@
   (let* ([new-bindings (map (lambda (binding) (maybe-replace-binding binding definitions)) bindings)]
          [new-definitions (hash-multi-set definitions new-bindings)]
          )
+    (maybe-replace-tag-with-last-parameter-tag)
     (evaluate-body body new-definitions)
     )
   )
+
+(define (maybe-replace-tag-with-last-parameter-tag)
+  (let* ([last-row-number (- (stack-pointer-get-row stack-pointer) 1)]
+         [last-row (stack-row last-row-number)]) 
+    (when (eq? (last (stack-row-tags last-row)) 'parameter)
+      (set! stack (list-set stack last-row-number (list-set last-row 3 '(last-parameter))))
+      )
+    ))
 
 ; If the definition is for a variable then we dump the definition to the stack and replace
 ; references to it with the position in the stack.
@@ -133,7 +149,7 @@
          )
     (match value
       [`(lambda . ,arguments) (cons name value)]
-      [_ (cons name (stack-push name (evaluate value definitions)))]
+      [_ (cons name (stack-push name (evaluate value definitions) '(parameter)))]
       )
     )
   )
@@ -152,17 +168,23 @@
 
 ; Evaluates a lambda
 (define (evaluate-lambda parameters body arguments definitions)
-  (stack-push "" (let* ([argument-bindings (map list parameters arguments)]) (evaluate-let argument-bindings body definitions)))
+  (stack-push "" (let* ([argument-bindings (map list parameters arguments)]) (evaluate-let argument-bindings body definitions)) '(return))
   )
 
-; Evaluates built in procedures by writing out the code to the stack
+; Evaluates defined procedures by writing out the code to the stack
 ; to set the parameters to the correct values, then push to the stack
 ; whatever is needed to carry out the procedure and then returning a
 ; reference to the result on the stack.
 (define (evaluate-defined-procedure name arguments definitions)
   (let* ([definition (evaluate-symbol name definitions)])
-    (match definition 
-      [`(lambda ,parameters .,body) (stack-push name (let* ([argument-bindings (map list parameters arguments)]) (evaluate-let argument-bindings body definitions)))]
+    (function-name-stack-push name)
+    (let ([reference 
+            (match definition 
+              [`(lambda ,parameters .,body) (stack-push name (let* ([argument-bindings (map list parameters arguments)]) (evaluate-let argument-bindings body definitions)) '(return))]
+              )])
+      (function-name-stack-pop)
+      reference
+
       )
     )
   )
@@ -281,6 +303,64 @@
 
 (define (stack->grid this-stack)
 
+  (define styles (make-hash))
+  (define (all-styles) (hash-values styles))
+  (define (built-in-style-output number-format color)     (list (string-join `("output"     ,number-format ,color) "-") number-format '((background-color "#b3df8d"))  `((font-color ,color)) ))
+  (define (built-in-style-parameter number-format color)  (list (string-join `("parameter"  ,number-format ,color) "-") number-format '()                              `((font-style "italic") (font-color ,color))))
+  (define (built-in-style-last-parameter number-format color)  (list (string-join `("last-parameter"  ,number-format ,color) "-") number-format (list (list 'border-bottom (string-join (list "thin" "solid" color) " ")))                              `((font-style "italic") (font-color ,color))))
+  (define (built-in-style-return number-format color)     (list (string-join `("return"     ,number-format ,color) "-") number-format `((border-bottom ,(string-join (list "medium" "solid" color))))                              `((font-weight "bold" ) (font-color ,color) )))
+  (define (built-in-style-default number-format color)     (list (string-join `("default"     ,number-format ,color) "-") number-format '()                              `((font-color ,color))))
+
+  (define (use-style style-definition) 
+    (unless (hash-has-key? styles (first style-definition)) (hash-set! styles (first style-definition) style-definition))
+    (first style-definition))
+
+  (define (style-for tags function-names grid-values)
+    (match tags
+      [(list 'output) (use-style (built-in-style-output (number-format grid-values) (color-for function-names)))]
+      [(list 'parameter) (use-style (built-in-style-parameter (number-format grid-values) (color-for function-names)))]
+      [(list 'last-parameter) (use-style (built-in-style-last-parameter (number-format grid-values) (color-for function-names)))]
+      [(list 'return) (use-style (built-in-style-return (number-format grid-values) (color-for function-names)))]
+      [_ (use-style (built-in-style-default (number-format grid-values) (color-for function-names)))]
+      ))
+  (define (number-format grid-values)
+    (match grid-values
+      [(? empty?) "NoDecimalPlaces"]
+      [(list (list v f) (list a b) ...) #:when (exact-integer? v) "NoDecimalPlaces"]
+      [(list (list v f) (list a b) ...) "TwoDecimalPlaces"]
+      [(list v other ...) #:when (exact-integer? v) "NoDecimalPlaces"]
+      [_ "TwoDecimalPlaces"]
+      )
+    )
+
+  (define function-name-colors-used (make-hash))
+
+  (define (color-for function-names)
+    (if (empty? function-names) 
+      "#000000"
+      (let* ([name (last function-names)])
+        (if (hash-has-key? function-name-colors-used name) 
+          (hash-ref function-name-colors-used name)
+          (choose-color-for name)
+          )
+        )
+      )
+    )
+
+  (define (choose-color-for name)
+    (let* ([color (next-color)])
+      (hash-set! function-name-colors-used name color)
+      color))
+
+  (define next-color-index 0)
+  (define next-color-list (list "#4d4d4d" "#5da5da" "#faa43a" "#60bd68" "#b2912f" "#b276b2" "#decf3f" "f15854"))
+  (define (next-color)
+    (let ([c (list-ref next-color-list next-color-index)])
+      (set! next-color-index (+ next-color-index 1))
+      (unless (< next-color-index (length next-color-list)) (set! next-color-index 0))
+      c
+      ))
+
   (define (expression-value->grid-value expression)
     (match expression
            ([? procedure-application?] (procedure->grid-procedure expression))
@@ -291,9 +371,9 @@
   (define (procedure->grid-procedure expression)
     (define (infix-maths a operator b) (string-join (list "(" (rewritten-procedure a) (symbol->string operator) (rewritten-procedure b) ")") ""))
     (define columns '(A B C D E F G H I J K L M N O P Q R S T U V W X Y Z AA AB AC AD ))
-    (define (col-ods i) (symbol->string (list-ref columns (+ i 1))))
+    (define (col-ods i) (symbol->string (list-ref columns (+ i 2))))
     (define (last-col-in-row-ods j) (col-ods  (- (actual-length `(row , j) (hash)) 1)))
-    (define (row-ods j) (number->string (+ j 1)))
+    (define (row-ods j) (number->string (+ j 2)))
     (define (maybe-range j) 
 (let ([start (string-join (list "." (col-ods 0) (row-ods j)) "")]
 			[finish (string-join (list "." (last-col-in-row-ods j) (row-ods j)) "")])
@@ -314,7 +394,7 @@
              [_ expression]
              )
       )
-      (cons (interpret-stack this-stack expression (hash)) (rewritten-procedure expression))
+      (list (interpret-stack this-stack expression (hash)) (rewritten-procedure expression))
     )
 
   (define (stack-row-expression->grid-row expression)
@@ -330,13 +410,14 @@
   (define (maybe-symbol->string maybe) (if (symbol? maybe) (symbol->string maybe) maybe) )
   (define (stack-row->grid-row row)
     (let* ([name (maybe-symbol->string (stack-row-name row))]
-          [expression (stack-row-expression row)]
-          [grid-values (stack-row-expression->grid-row expression)]
-          )
-      (if (empty? grid-values) (list name) (cons name grid-values))
-    )
+           [expression (stack-row-expression row)]
+           [grid-values (stack-row-expression->grid-row expression)]
+           [style (style-for (stack-row-tags row) (stack-row-function-names row) grid-values)]
+           )
+      (if (empty? grid-values) (list style (list name)) (list style (list* name grid-values)))
+      )
     )
   (set! stack this-stack)
-  (map stack-row->grid-row this-stack) 
+  (list (map stack-row->grid-row this-stack) (all-styles)) 
   )
 

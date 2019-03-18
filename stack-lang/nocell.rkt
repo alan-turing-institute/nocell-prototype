@@ -1,20 +1,24 @@
 #lang racket
 
 (require "main.rkt"
-         racket/syntax)
+         racket/syntax
+         syntax/id-table)
 
 (provide stack-print
          sum
          product
          len
          nth
+         (rename-out (=& =))
          (rename-out (+& +))
          (rename-out (-& -))
          (rename-out (*& *))
          (rename-out (/& /))
          (rename-out (expt& expt))
          (rename-out (define& define))
+
          (rename-out (if& if))
+         if*
 
          (rename-out (datum #%datum))
          #%app
@@ -22,24 +26,26 @@
          #%top
          #%top-interaction
 
+         require
          provide)
 
 
 ;; Datum
 ;;----------------------------------------------------------------------
 
+(define (name-generator name [name-counter 0])
+  (lambda () (make-name name (post-inc! name-counter))))
+
+(define next-datum-name (name-generator "e"))
+
 ;;   #%datum
 ;; A datum expands to a stack with a single element
 (define-syntax (datum stx)
   (syntax-case stx ()
     [(_ . d)
-     (with-syntax ([(id) (generate-temporaries '(|%e|))])
-       #'(stack-push (assignment 'id
-                                 null
-                                 (current-calls)
-                                 (#%datum . d)
-                                 (#%datum . d))
-                     (make-stack)))]))
+     #'(list (make-assignment #:id    (next-datum-name)
+                              #:expr  (#%datum . d)
+                              #:val   (#%datum . d)))]))
 
 
 ;; Defining stack functions
@@ -76,16 +82,39 @@
                        ;; the stacks)
                        (let ((args arg-vals) ...) body ...))
                       (args-stack (remove-duplicates-before
-                                   ;; args put on the stack in reverse order
-                       (append rargs ...)))                      
+                       ;; args put on the stack in reverse order
+                       (append rargs ...)))
                       (res-name (make-name f-str (post-inc! name-counter))))
                  (stack-push
-                  (assignment res-name
-                              null
-                              (current-calls)
-                              `([f-symb ,(shape arg-vals) ...] ,arg-ids ...)
-                              result)
+                  (make-assignment
+                   #:id    res-name
+                   #:expr  `([f-symb ,(shape arg-vals) ...] ,arg-ids ...)
+                   #:val   result)
                   args-stack))))))]))
+
+(define next-argument-name (name-generator "arg"))
+
+(define (make-arg name s is-last)
+  (stack-push
+   (make-assignment
+    #:id      (next-argument-name)
+    #:name    (list name)
+    #:expr    (id (stack-top s))
+    #:val     (val (stack-top s))
+    #:context (if is-last 'last-arg 'arg))
+   s))
+
+;; Given a number of stacks, combine them by putting the top of each
+;; of the stacks first (in order), followed by the rest of each stack.
+;; This is useful for combining stacks of arguments, where the value
+;; of all of the arguments is followed by the values from which they
+;; are computed (rather then interspersing the results with these
+;; intermediate values, as a simple "append" would produce).
+;;
+(define (splice-argument-stacks . stacks)
+  (apply append
+         (map (lambda (x) (car x)) stacks)
+         (map cdr stacks)))
 
 ;; Like define-primitive-stack-fn, but the function body is assumed to
 ;; already be in terms of stack functions (that is, accepting stacks
@@ -94,33 +123,60 @@
 ;; subexpressions do).  This is a helper for implementing "define" in
 ;; the language.
 ;;
+
+(define stack-fn-counter 1)
+(define stack-fn-ids (make-bound-id-table))
+
+(define (fn-name f)
+  (let ((r (bound-id-table-ref stack-fn-ids f #f)))
+    (if r
+        r
+        (begin (bound-id-table-set! stack-fn-ids f (post-inc! stack-fn-counter))
+               (bound-id-table-ref stack-fn-ids f)))))
+        
+(require (for-syntax (only-in racket make-list)))
+(define-for-syntax (is-last stx)
+  (define stxe (syntax-e stx))
+  (define len (length stxe))
+  (datum->syntax
+   stx
+   (if (= len 0)
+       null
+       (append (make-list (sub1 len) #f) '(#t)))))
+
+(require (for-syntax racket/syntax))
+
 (define-syntax (define-stack-fn stx)
   (syntax-case stx ()
     ;; f        : id?
     ;; args ... : stack? ...
     ;; body ... : expression? ...
     [(_ (f args ...) body ...)
-     (with-syntax ([(rargs ...) (syntax-reverse #'(args ...))]
-                   [f-str #'(symbol->string 'f)])
+     (with-syntax* ([args-no-kw*
+                     (filter (λ (x) (not (keyword? (syntax-e x))))
+                             (syntax-e #'(args ...)))]
+                    [(args-no-kw ...) (syntax->list #'args-no-kw*)]
+                    [(rargs ...) (syntax-reverse #'(args-no-kw ...))]
+                    [(is-last-arg ...) (is-last #'(args-no-kw ...))]
+                    [f-str #'(symbol->string 'f)])
        #'(define f
            (let ((name-counter 0))
              (lambda (args ...)
-               (let* ((res-name   (make-name f-str (post-inc! name-counter)))
+               (let* ((args-no-kw (make-arg 'args-no-kw args-no-kw is-last-arg)) ...
+                      (res-name   (make-name f-str (post-inc! name-counter)))
                       (result-stack
-                       (parameterize ((current-calls (cons (cons 'f res-name)
+                       (parameterize ((current-calls (cons (cons (fn-name (datum->syntax #'stx 'f)) res-name)
                                                            (current-calls))))
-                         
                          body ...))
                       (top        (stack-top result-stack))
                       (result-val (val top))
-                      (args-stack (append rargs ...)))
+                      (args-stack (splice-argument-stacks rargs ...)))
                  (remove-duplicates-before
                   (stack-push
-                   (assignment res-name
-                               null
-                               (current-calls)
-                               (id top)
-                               (val top))
+                   (make-assignment #:id      res-name
+                                    #:expr    (id top)
+                                    #:val     (val top)
+                                    #:context 'result)
                    (append
                     result-stack
                     args-stack))))))))]))
@@ -156,19 +212,39 @@
 ;; The second form defines a function taking the stack arguments args
 ;; and returning the result of evaluating body.
 ;;
+
+(define (rename-define d stack)
+  (define top (stack-top stack))
+  (stack-push
+   (struct-copy assignment top
+                [name (cons d (name top))])                
+   (cdr stack)))
+
+(define (copy-define d stack)
+  (define top (stack-top stack))
+  (stack-push
+   (struct-copy assignment top
+                [id (next-datum-name)]
+                [calls (current-calls)]
+                [name (list d)]
+                [expr (id top)]
+                [context 'body])
+   stack))
+
+;; Grant an *unnamed* stack-top value a name, or copy a named variable
+;; to one with the given name (d).
+(define (rename-or-copy d stack)
+  (if (null? (name (stack-top stack)))
+      (rename-define d stack)
+      (copy-define d stack)))
+
 (define-syntax (define& stx)
   (syntax-case stx ()
     [(_ (id args ...) body ...)
      #'(define-stack-fn (id args ...) body ...)]
 
     [(_ id expr)
-     #'(define id (let* ((result expr)
-                         (top (stack-top result)))
-                    (stack-push
-                     (struct-copy assignment top
-                                  ;; add to list of names
-                                  (name (cons 'id (name top))))
-                     (cdr result))))]))
+     #'(define id (rename-or-copy 'id expr))]))
 
 ;; if is a function
 (define-primitive-stack-fn (if& test-expr then-expr else-expr)
@@ -191,6 +267,10 @@
 (define-primitive-stack-fn (/& a b)
   ("quot" /)
   ((vectorize /) a b))
+
+(define-primitive-stack-fn (=& a b)
+  ("eq?" =)
+  ((vectorize =) a b))
 
 (define-primitive-stack-fn (expt& a b)
   ("expn" expt)
@@ -229,6 +309,14 @@
              (len-a*  (val (stack-top (len a))))
              (select* (build-vector len-a* (indicator n*)))
              (id      (make-name 'select (post-inc! name-counter)))
-             (select  (list (assignment id null (current-calls)
-                                        select* select*))))
+             (select  (list (make-assignment #:id      id
+                                             #:expr    select*
+                                             #:val     select*))))
         (sum (*& select a))))))
+
+(define-syntax (if* stx)
+  (syntax-case stx ()
+    [(_ test-expr then-expr else-expr)
+     #'(if (val (stack-top test-expr))
+           then-expr
+           else-expr)]))

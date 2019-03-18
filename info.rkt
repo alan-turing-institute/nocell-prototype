@@ -1,5 +1,5 @@
 #lang info
-(define collection 'multi)
+(define collection "nocell")
 (define deps '("base" "rackunit-lib" "parsack" "sxml"))
 (define pkg-desc "A language for building probabilistic spreadsheets")
 (define version "0.0")

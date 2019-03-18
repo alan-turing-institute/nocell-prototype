@@ -44,7 +44,7 @@
   (let ([contents (array #[#[(cell (cell-value-return 0)) (cell (cell-value-return 1))]     ; row 0
                            #[(cell (cell-value-return 2)) (cell (cell-value-return 3))]])]  ; row 1
         [refs     `(("id" . ,(cell-addr 1 0 #t #f)))])
-    (sheet contents refs "a-sheet")))
+    (sheet contents refs null "a-sheet")))
 
 (test-case "Referencing in sheets"
   (check-equal?
