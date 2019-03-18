@@ -58,22 +58,16 @@
 %% Actual content from here on down
 %%
 \usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{minted}
 \title{Nocell: Programming prob\-ab\-il\-ist\-ic spreadsheets}
 \author{James Geddes, Oliver Strickson, and Tom Counsell}
 \date{}
 \begin{document}
 \maketitle
 \thispagestyle{empty}
-%%
-%% Yes, you have to put the section header before the background image. Sorry. This is a problem: tikz
-%% images take up space where they are "made", even if, like this one, they are moved somewhere
-%% absolute. Not sure what to do about this as I don't understand tikz sufficiently well.
 \section*{Overview}
 %%
-\begin{tikzpicture}[remember picture,overlay]
-\fill[fill=turingblue] (current page.north east) -- +(-17\gridh, 0) -- +(-2\gridh, -\gridv) -- +(0, -0.6\gridv) -- +(0,0);
-\node [above] (image) at (current page.north east) [xshift=-2\gridh,yshift=-0.6\gridv] {\includegraphics[height=0.4\gridv]{ATI_logo_white.eps}};
-\end{tikzpicture}
 Spreadsheets are great! Everyone \textcolor{OliveGreen}{\bfseries understands} them, everyone
 \textcolor{OliveGreen}{\bfseries uses} them.
 
@@ -83,27 +77,54 @@ Spreadsheets are terrible! No \textcolor{red}{\bfseries modularity}, no
 
 Nocell is a programming language for writing probabilistic spreadsheets.
 
-\section*{A classic example: investment}
-Under a discount rate $r$, the \emph{present value} of a stream of cashflows $c_i$ in years
-$i=0,\dotsc,N-1$, followed by cashflows from year $N$ of $f$, increasing annually by a rate $d$ is:
+
+\section*{A classic example: How much is HSBC worth?}
+%\small
+Under a discount rate $D$, the \emph{present value} of a stream of cashflows
+$c_i$ in years $i=0,\dotsc,N-1$, followed by cashflows from year $N$ of $f$,
+increasing annually by a rate $R$ is:
 \[
-\text{PV} = \sum_{i = 0}^{N-1} \frac{c_i}{{(1 + r)}^{i}}
-  + \frac{f/d}{{(1+r)}^N}
+\text{PV} = \sum_{i = 0}^{N-1} \frac{c_i}{{(1 + d)}^{i}}  +
+\frac{1}{{(1+d)}^{N-1}} \frac{f}{d-r}.
 \]
 
-Here's that model as a spreadsheet expert might write it:
+\subsection*{As a program...}
+{\tiny
+\inputminted{scheme}{demos/dcf.nocell}
+}
 
-And here's a program to do the same thing:
+\subsection*{...which compiles to a spreadsheet}
+\begin{center}
+\includegraphics[width=0.6\columnwidth]{figs/ss.png}
+\end{center}
 
-And here's the output of that program:
-
+\section*{How it works}
+\footnotesize
+\begin{center}
+\includegraphics[width=\columnwidth]{figs/languages.eps}
+\end{center}
+\begin{itemize}[itemsep=0.4ex]
+\item ‘nocell’ is a probabilistic programming language;
+\item ‘cell’ is a non--Turing-complete language;
+\item ‘grid’ is a model of a spreadsheet.
+\end{itemize}
 
 \section*{Ongoing work}
-
-
+\begin{itemize}[itemsep=0.4ex]
+\item Representation of distributions in spreadsheets
+\item Layout of structured calculations (eg, order of calculation; splitting
+  across sheets)  
+\item Recursion
+\end{itemize}
+  
 \vfill
 \section*{Contact}
+\normalsize
 
-James Geddes, \texttt{jgeddes@turing.ac.uk}.
-
+James Geddes (\texttt{jgeddes@turing.ac.uk})
+\begin{tikzpicture}[remember picture,overlay]
+\fill[fill=turingblue] (current page.north east) -- +(-17\gridh, 0) -- +(-2\gridh, -\gridv) -- +(0, -0.6\gridv) -- +(0,0);
+\node [above] (image) at (current page.north east) [xshift=-2\gridh,yshift=-0.6\gridv] {\includegraphics[height=0.4\gridv]{ATI_logo_white.eps}};
+\end{tikzpicture}
+\hfill\smash{\includegraphics[width=\gridh]{figs/qr.png}}\par
 \end{document}

@@ -1,6 +1,5 @@
 #lang racket
 
-
 (require racket/runtime-path)
 (define-runtime-path test-files "test-files")
 
@@ -35,9 +34,14 @@
              (check (workbook->raw (list (worksheet->raw "Sheet1" '()))) "empty")
              )
 
+  (test-case "Test create an empty row"
+             ; This is the minimum required for Excel to open - a single worksheet
+             (check (workbook->raw (list (worksheet->raw "Sheet1" (list (row->raw '() '()))))) "empty-row")
+             )
+
   (test-case "Test create a one cell ods"
              ; A single cell ods
-             (check (workbook->raw (list (worksheet->raw "One Cell Sheet" (list (row->raw (list (string->raw "One Cell" '()))) )))) "one-cell")
+             (check (workbook->raw (list (worksheet->raw "One Cell Sheet" (list (row->raw (list (cell->raw "One Cell" '() '())) '()) )))) "one-cell")
              )
 
   (test-case "Test create a one row ods"
@@ -45,98 +49,144 @@
              (check (workbook->raw (list (worksheet->raw "One Row Sheet" (list (list->raw-row (list "One" "Two" "Three"))) ))) "one-row")
              )
 
+  (test-case "Test create a one row ods like nocell"
+             (check (workbook->raw (list (worksheet->raw "One Row Sheet" (list (list->raw-row (list "One" (list 2 "1+1")))) ))) "one-row-nocell-like")
+             )
+
   (test-case "Test create a simple grid ods"
              (check 
                (workbook->raw (list
-                 (grid->raw-worksheet "One Grid Sheet" (list 
-                                                         (list "One" "Two" "Three")
-                                                         (list "Four" "Five" "Six")
-                                                         )
-                                      )) 
-                 ) "one-grid")
+                                (grid->raw-worksheet "One Grid Sheet" '(
+                                                                        ("NoCellCellDefault" ("One" "Two" "Three"))
+                                                                        ("NoCellCellDefault" ("Four" "Five" "Six"))
+                                                                        )
+                                                     )) 
+                              ) "one-grid")
              )
 
   (test-case "Test create a two worksheet ods"
              (check 
                (grids->raw-workbook (list 
                                       '("Sheet One" (
-                                                     ("One" "Two" "Three")
-                                                     ("Four" "Five" "Six")
+                                                     ("NoCellCellDefault" ("One" "Two" "Three"))
+                                                     ("NoCellCellDefault" ("Four" "Five" "Six"))
                                                      )
                                         )
                                       '("Sheet Two" (
-                                                     ("A" "B" "C")
-                                                     ("One" "Two" "Three")
+                                                     ("NoCellCellDefault" ("A" "B" "C"))
+                                                     ("NoCellCellDefault" ("One" "Two" "Three"))
                                                      )
                                         )
                                       )
                                     ) "two-grid")
              )
-    
+
   (test-case "Test full range of types"
              (check 
                (workbook->raw (list
-                 (grid->raw-worksheet "All types demo" '( 
-                                                         ("string" 1 #t 2 #f 4 (2 . "1+1"))
-                                                         )
-                                      )) 
-                 ) "all-types")
+                                (grid->raw-worksheet "All types demo" '( 
+                                                                         ("NoCellCellDefault" ("string" 1 #t 2 #f 4 (2 "1+1")))
+                                                                         )
+                                                     )) 
+                              ) "all-types")
+             )
 
-   (test-case "Test dcf model"
+
+  (test-case "Test text styles"
              (check 
                (workbook->raw (list
-                 (grid->raw-worksheet "dcf" '(("years" 2020 2021 2022 2023)
-                                                  ("cashflows" -100 -50 150 500)
-                                                      ("terminal-growth" 0.03)
-                                                          ("discount-rate" 0.1)
-                                                              ("year"  (2020 .  "[.B1]")  (2021 .  "[.C1]")  (2022 .  "[.D1]")  (2023 .  "[.E1]"))
-                                                                  ("cashflow"  (-100 .  "[.B2]")  (-50 .  "[.C2]")  (150 .  "[.D2]")  (500 .  "[.E2]"))
-                                                                      ("year"  (2020 .  "[.B5]")  (2021 .  "[.C5]")  (2022 .  "[.D5]")  (2023 .  "[.E5]"))
-                                                                          ("value"  (-100 .  "[.B6]")  (-50 .  "[.C6]")  (150 .  "[.D6]")  (500 .  "[.E6]"))
-                                                                              ("discount"
-                                                                                    (-100 .  "([.B8]/((1+[.B4])^([.B7]-[.B1])))")
-                                                                                         (-45.45454545454545 . "([.C8]/((1+[.B4])^([.C7]-[.B1])))")
-                                                                                              (123.96694214876031 .  "([.D8]/((1+[.B4])^([.D7]-[.B1])))")
-                                                                                                   (375.65740045078877 .  "([.E8]/((1+[.B4])^([.E7]-[.B1])))"))
-                                                                                  (""
-                                                                                        (-100 .  "[.B9]")
-                                                                                             (-45.45454545454545 . "[.C9]")
-                                                                                                  (123.96694214876031 .  "[.D9]")
-                                                                                                       (375.65740045078877 .  "[.E9]"))
-                                                                                      ("discounted-cashflows"
-                                                                                            (-100 .  "[.B10]")
-                                                                                                 (-45.45454545454545 . "[.C10]")
-                                                                                                      (123.96694214876031 .  "[.D10]")
-                                                                                                           (375.65740045078877 .  "[.E10]"))
-                                                                                          ("discounted-cashflows"
-                                                                                                (-100 .  "[.B11]")
-                                                                                                     (-45.45454545454545 . "[.C11]")
-                                                                                                          (123.96694214876031 .  "[.D11]")
-                                                                                                               (375.65740045078877 .  "[.E11]"))
-                                                                                              ("year"  (2023 .  "[.E1]"))
-                                                                                                  ("terminal-value"  (7357.142857142857 . "(([.E2]*(1+[.B3]))/([.B4]-[.B3]))"))
-                                                                                                      ("value"  (7357.142857142857 . "[.B14]"))
-                                                                                                          ("discount"  (5527.530320918749 .  "([.B15]/((1+[.B4])^([.B13]-[.B1])))"))
-                                                                                                              ("discounted-terminal-value"  (5527.530320918749 .  "[.B16]"))
-                                                                                                                  ("t"
-                                                                                                                        (-100 .  "[.B12]")
-                                                                                                                             (-45.45454545454545 . "[.C12]")
-                                                                                                                                  (123.96694214876031 .  "[.D12]")
-                                                                                                                                       (375.65740045078877 .  "[.E12]"))
-                                                                                                                      ("c"
-                                                                                                                            0
-                                                                                                                                 (-100 .  "[.B20]")
-                                                                                                                                      (-145.45454545454544 . "[.C20]")
-                                                                                                                                           (-21.48760330578513 .  "[.D20]"))
-                                                                                                                          (""
-                                                                                                                                (-100 .  "([.B18]+[.B19])")
-                                                                                                                                     (-145.45454545454544 . "([.C18]+[.C19])")
-                                                                                                                                          (-21.48760330578513 .  "([.D18]+[.D19])")
-                                                                                                                                               (354.16979714500366 .  "([.E18]+[.E19])"))
-                                                                                                                              ("total"  (5881.700118063753 .  "([.E20]+[.B17])"))
-                                                                                                                                  ("dcf-value"  (5881.700118063753 .  "[.B21]"))
-                                                                                                                                      ("result"  (5881.700118063753 .  "[.B22]")))
-                                      )) 
-                 ) "dcf")
-               )            )
-  )
+                                (grid->raw-worksheet "Text styles" '( 
+                                                                      ("bold" ("bold"))
+                                                                      ("italic" ("italic"))
+                                                                      )
+                                                     )) 
+                              '(
+                               ("bold" () () ((font-weight "bold")))
+                               ("italic" () () ((font-style "italic")))
+                               )
+                              ) "text-styles"))
+  (test-case "Test dcf model"
+             (check 
+               (workbook->raw (list
+                                (grid->raw-worksheet "dcf" 
+                                                     '(("result" ("years" 2020 2021 2022 2023))
+                                                       ("result" ("cashflows" -100 -50 150 500))
+                                                       ("result" ("terminal-growth" 0.03))
+                                                       ("result" ("discount-rate" 0.1))
+                                                       ("result"
+                                                        ("year"
+                                                         (2020 "[.C2]")
+                                                         (2021 "[.D2]")
+                                                         (2022 "[.E2]")
+                                                         (2023 "[.F2]")))
+                                                       ("result"
+                                                        ("cashflow"
+                                                         (-100 "[.C3]")
+                                                         (-50 "[.D3]")
+                                                         (150 "[.E3]")
+                                                         (500 "[.F3]")))
+                                                       ("result"
+                                                        ("year"
+                                                         (2020 "[.C6]")
+                                                         (2021 "[.D6]")
+                                                         (2022 "[.E6]")
+                                                         (2023 "[.F6]")))
+                                                       ("result"
+                                                        ("value" (-100 "[.C7]") (-50 "[.D7]") (150 "[.E7]") (500 "[.F7]")))
+                                                       ("result"
+                                                        ("discount"
+                                                         (-100 "([.C9]/((1+[.C5])^([.C8]-[.C2])))")
+                                                         (-45.45454545454545 "([.D9]/((1+[.C5])^([.D8]-[.C2])))")
+                                                         (123.96694214876031 "([.E9]/((1+[.C5])^([.E8]-[.C2])))")
+                                                         (375.65740045078877 "([.F9]/((1+[.C5])^([.F8]-[.C2])))")))
+                                                       ("result"
+                                                        (""
+                                                         (-100 "[.C10]")
+                                                         (-45.45454545454545 "[.D10]")
+                                                         (123.96694214876031 "[.E10]")
+                                                         (375.65740045078877 "[.F10]")))
+                                                       ("result"
+                                                        ("discounted-cashflows"
+                                                         (-100 "[.C11]")
+                                                         (-45.45454545454545 "[.D11]")
+                                                         (123.96694214876031 "[.E11]")
+                                                         (375.65740045078877 "[.F11]")))
+                                                       ("result"
+                                                        ("discounted-cashflows"
+                                                         (-100 "[.C12]")
+                                                         (-45.45454545454545 "[.D12]")
+                                                         (123.96694214876031 "[.E12]")
+                                                         (375.65740045078877 "[.F12]")))
+                                                       ("result" ("year" (2023 "[.F2]")))
+                                                       ("result"
+                                                        ("terminal-value"
+                                                         (7357.142857142857 "(([.F3]*(1+[.C4]))/([.C5]-[.C4]))")))
+                                                       ("result" ("value" (7357.142857142857 "[.C15]")))
+                                                       ("result"
+                                                        ("discount" (5527.530320918749 "([.C16]/((1+[.C5])^([.C14]-[.C2])))")))
+                                                       ("result" ("discounted-terminal-value" (5527.530320918749 "[.C17]")))
+                                                       ("result"
+                                                        ("t"
+                                                         (-100 "[.C13]")
+                                                         (-45.45454545454545 "[.D13]")
+                                                         (123.96694214876031 "[.E13]")
+                                                         (375.65740045078877 "[.F13]")))
+                                                       ("result"
+                                                        ("c"
+                                                         0
+                                                         (-100 "[.C21]")
+                                                         (-145.45454545454544 "[.D21]")
+                                                         (-21.48760330578513 "[.E21]")))
+                                                       ("result"
+                                                        (""
+                                                         (-100 "([.C19]+[.C20])")
+                                                         (-145.45454545454544 "([.D19]+[.D20])")
+                                                         (-21.48760330578513 "([.E19]+[.E20])")
+                                                         (354.16979714500366 "([.F19]+[.F20])")))
+                                                       ("result" ("total" (5881.700118063753 "([.F21]+[.C18])")))
+                                                       ("result" ("dcf-value" (5881.700118063753 "[.C22]")))
+                                                       ("result" ("result" (5881.700118063753 "[.C23]")))) 
+                                                     )) 
+                              '(("result" "TwoDecimalPlaces" ((background-color "#b3df8d")) ()))
+                              ) "dcf")
+             )            )
