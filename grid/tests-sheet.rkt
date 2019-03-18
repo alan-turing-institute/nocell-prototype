@@ -32,11 +32,13 @@
 (check-equal? ((compose atomise cell-value-return) 42) 42
               "(compose atomise cell-value-return) not identity.")
 
+;;; sheet.rkt no longer exports lists->sheet and sheet->lists
+;;;
 ;; Note that this checks equality of all the elements of the list and we may run
 ;; into trouble with inexact numbers
-(let ([ls '((0 1) (2 3))])
-  (check-equal? ((compose sheet->lists lists->sheet) ls) ls
-                "(compose sheet->lists lists->sheet) not identity."))
+;; (let ([ls '((0 1) (2 3))])
+;;   (check-equal? ((compose sheet->lists lists->sheet) ls) ls
+;;                 "(compose sheet->lists lists->sheet) not identity."))
 
 (define sht
   (let ([contents (array #[#[(cell (cell-value-return 0)) (cell (cell-value-return 1))]     ; row 0

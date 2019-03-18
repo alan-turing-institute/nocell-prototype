@@ -2,8 +2,6 @@
 
 #| 
 TODO
- - lists->sheet and sheet->lists do not handle names. Probably we should get rid of these.
- - possibly this is an internal module, and we can get rid of all the contracts ...
  - at the moment, there are no constructors of the basic structs. We can let grid handle that?
 |#
 
@@ -18,7 +16,10 @@ TODO
  (contract-out
   
   ;; Types
-  [struct sheet                  ((cells array2d?) (refs (listof pair?)) (meta list?) (name (or/c string? #f)))]
+  [struct sheet                  ((cells array2d?)
+                                  (refs (listof pair?))
+                                  (meta (listof any/c))
+                                  (name (or/c string? #f)))]
   [struct cell                   ((content cell-expr?))]
   [struct cell-expr              ()]
   [struct (cell-name  cell-expr) ((id string?))]
@@ -40,9 +41,10 @@ TODO
   ;; Constructors and conversions 
   [cell-value-return (atomic-value? . -> . simple-cell-value?)]
   [atomise (cell-value? . -> . atomic-value?)] 
-  
-  [lists->sheet ((listof (listof (or/c atomic-value? cell-expr?))) . -> . sheet?)]
-  [sheet->lists (sheet? . -> . (listof (listof (or/c atomic-value? cell-expr?))))]
+
+  ;;; lists->sheet and sheet->lists no longer used
+  ;; [lists->sheet ((listof (listof (or/c atomic-value? cell-expr?))) . -> . sheet?)]
+  ;; [sheet->lists (sheet? . -> . (listof (listof (or/c atomic-value? cell-expr?))))]
 
   ;; Indexing and reference
   [range-extent (cell-range? . -> . range-extent/c)]
