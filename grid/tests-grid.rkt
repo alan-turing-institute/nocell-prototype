@@ -11,4 +11,7 @@
 
 (check-equal?
  (sheet (row (cell)) #:name "geranium")
- (sheet:sheet (array #[ #[ (sheet:cell (sheet:cell-value-return 'nothing))]]) null "geranium"))
+ (sheet:sheet (array #[ #[ (sheet:cell (sheet:cell-value-return 'nothing))]])
+              null
+              '(())
+              "geranium"))

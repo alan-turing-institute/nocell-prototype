@@ -16,7 +16,10 @@ TODO
  (contract-out
   
   ;; Types
-  [struct sheet                  ((cells array2d?) (refs (listof pair?)) (meta list?) (name (or/c string? #f)))]
+  [struct sheet                  ((cells array2d?)
+                                  (refs (listof pair?))
+                                  (meta (listof any/c))
+                                  (name (or/c string? #f)))]
   [struct cell                   ((content cell-expr?))]
   [struct cell-expr              ()]
   [struct (cell-name  cell-expr) ((id string?))]
