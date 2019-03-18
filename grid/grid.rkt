@@ -3,7 +3,7 @@
 #|
 A little language for creating sheets. (Uses functions, not syntax.)
 
-Syntax:
+Example:
 
   (sheet #:name "mysheet"
     (row 10 20 (cell))  ;; the last entry is a blank cell
@@ -14,7 +14,7 @@ TODO
  - Names aren't very consistent. We're using "id" in the context of a reference to mean a reference
    that should be turned into an A1-style reference, rather than a named reference. 
  - How to name: constructors? converters? parsers? 
-  - Doesn't cope with rows of unequal length
+ - Doesn't cope with rows of unequal length
 
 |#
 
