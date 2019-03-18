@@ -37,7 +37,7 @@ TODO
   ;; Create a sheet with an optional name
   [sheet ((row-spec?) (#:name string?) #:rest (listof row-spec?) . ->* . s:sheet?)]
   
-  ;; Specify a reference to a nanemd cell
+  ;; Specify a reference to a named cell
   [ref   (string? . -> . id-ref?)]))
 
 ;; ---------------------------------------------------------------------------------------------------
