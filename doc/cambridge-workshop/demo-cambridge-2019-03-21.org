@@ -1,25 +1,44 @@
-#+title: Nocell demonstration for Cambridge meetup
+#+title: Tech Talk 
 
-* Poster
-  
-- print out live bit
-- add some stuff about inference
+* Introduction
 
-* Outline of live demo
+** History (have a slide to talk to)
 
-** Setup of problem
+** Spreadsheets. Who has used them and for what? Any anecdotes?
 
-- "A classic business problem"
+** Who mainly uses them?
 
-** The classic journey
-   
-*** Excel is great for a simple model, for one person, done once
+** Pros and cons (make lists!)
 
-*** Excel terrible for multiple people, code reuse, version control, abstraction, ...
+* A way of looking at them
 
-** The nocell journey (live)
+** Purely functional "first order" language meets The Grid
 
-** (Option A): The benefits of nocell
+- What is The Grid /for/? Semantics.
 
-** (Option B): current development, future directions 
+** What about a better language? Where The Grid reflects the semantics rather than defining it.
+
+* Examples
+
+** Simple
+
+** Factorial
+
+* Status
+
+** What we've implemented
+
+- First-order functions
+- Numeric, stirng, booleans
+- Vectors
+- Variables
+- map and fold
+
+** What we're working on
+
+- Data types (arrays, +, x, ...)
+- Modules
+- Probabilistic computation and inference
+
+
 
