@@ -33,4 +33,4 @@
   (define (write-stack-lang path stack-lang) 
     (call-with-output-file path (lambda (port) (pretty-write stack-lang port)) #:exists 'replace))
 
-  (for-each test (directory-list original-nocells #:build? #f)))
+  (for-each test (filter (lambda (p) (string-suffix? (path->string p) ".nocell")) (directory-list original-nocells #:build? #f))))
