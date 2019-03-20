@@ -1,0 +1,6 @@
+(#(struct:assignment %f0 (result) () %sum10 3 result)
+ #(struct:assignment %sum10 () ((14 . %f0)) ((+ () ()) %arg14 %arg15) 3 body)
+ #(struct:assignment %arg15 (y) () %e30 1 last-arg)
+ #(struct:assignment %arg14 (x) () %e31 2 arg)
+ #(struct:assignment %e30 () () 1 1 body)
+ #(struct:assignment %e31 () () 2 2 body))

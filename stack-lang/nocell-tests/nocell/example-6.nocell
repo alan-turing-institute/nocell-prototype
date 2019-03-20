@@ -1,0 +1,4 @@
+(module example "../../nocell.rkt"
+  (define (a) 4)
+  (define result (a))
+  (provide result))

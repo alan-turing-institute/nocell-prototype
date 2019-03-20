@@ -183,7 +183,7 @@
     (check-equal? actual expected)))
 
 (module+ test
-  (require (submod "example-2.rkt" example))
+  (require "nocell-tests/nocell/example-2.nocell")
   (let ((epsilon  1e-7)
         (actual   (sheet-eval (stack->sheet result)))
         (expected (mutable-array
