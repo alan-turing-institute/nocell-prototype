@@ -27,9 +27,9 @@ TODO
 (provide
  (contract-out
   ;; Create a cell. Use within (row ...)
-  [cell  (case-> (-> cell-spec/c)
-                 (cell-expr? . -> . cell-spec/c)
-                 (cell-expr? string? . -> . cell-spec/c))]
+  [cell  (case-> (-> cell-spec/c)                            ; empty cell
+                 (cell-expr? . -> . cell-spec/c)             ; cell with content
+                 (cell-expr? string? . -> . cell-spec/c))]   ; cell with content and a name
   
   ;; Create a row of cells. Use within (sheet ..)
   [row   (() (#:meta any/c) #:rest (listof cell-spec/c) . ->* . row-spec?)]
@@ -42,9 +42,9 @@ TODO
 
 ;; ---------------------------------------------------------------------------------------------------
 
-(struct named-cell-spec (contents id) #:transparent)  ; what is produced by (cell v #:id name)
-(struct anon-cell-spec  (contents) #:transparent)     ; what is produced by (cell v)
-(struct row-spec (meta cells ids) #:transparent)      ; what is produced by (row ...)
+(struct named-cell-spec (contents id) #:transparent)  ; result of (cell v name)
+(struct anon-cell-spec  (contents) #:transparent)     ; result of (cell v)
+(struct row-spec (meta cells ids) #:transparent)      ; result of (row ...)
 (struct id-ref (id) #:transparent)
 
 (define cell-spec/c

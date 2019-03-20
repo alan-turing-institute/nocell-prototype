@@ -1,8 +1,50 @@
 #lang racket/base
 
 #| 
+An abstract representation of a single sheet in a spreadsheet.
+
+A "sheet" is:
+ - a two-dimensional array? of cells; 
+ - a list of names of ranges (not implemented); and
+ - some metadata (not implemented)
+
+A "cell" is:
+ - an expression; and
+ - some other things (not implemented)
+
+An "expression" is either:
+ - a value
+ - an application of a builtin
+ - a reference; or
+ - a name
+
+A "reference" is either:
+ - a single cell address; or
+ - a rectangular range of cells
+
+A "value" is an array of atomic-value
+
+An "atomic value" is either:
+ - a real number
+ - a string
+ - a boolean; or
+ - nothing
+
+Note that a cell with a single number in it is represented as a cell containing
+a 1x1 array of numbers.
+
+|#
+
+#|
 TODO
  - at the moment, there are no constructors of the basic structs. We can let grid handle that?
+ - documentation
+
+Notes on design (JG)
+
+I don't really know whether this module should just be the definition of sheet
+types as well as some utilities; or whether it should be the interface to the
+sheet type and hide all the interals of the structs. For now, it's the former.
 |#
 
 ;; ---------------------------------------------------------------------------------------------------
@@ -42,10 +84,6 @@ TODO
   [cell-value-return (atomic-value? . -> . simple-cell-value?)]
   [atomise (cell-value? . -> . atomic-value?)] 
 
-  ;;; lists->sheet and sheet->lists no longer used
-  ;; [lists->sheet ((listof (listof (or/c atomic-value? cell-expr?))) . -> . sheet?)]
-  ;; [sheet->lists (sheet? . -> . (listof (listof (or/c atomic-value? cell-expr?))))]
-
   ;; Indexing and reference
   [range-extent (cell-range? . -> . range-extent/c)]
   [sheet-resolve-name (sheet? string? . -> . (or/c cell-ref? #f))]
@@ -70,49 +108,6 @@ TODO
 (define range-extent/c
   (vector/c exact-positive-integer? exact-positive-integer?))
 
-#| 
-
-An abstract representation of a single sheet in a spreadsheet.
-
-A "sheet" is:
- - a two-dimensional array? of cells; 
- - a list of names of ranges (not implemented); and
- - some metadata (not implemented)
-
-A "cell" is:
- - an expression; and
- - some other things (not implemented)
-
-An "expression" is either:
- - a value
- - an application of a builtin
- - a reference; or
- - a name
-
-A "reference" is either:
- - a single cell address; or
- - a rectangular range of cells
-
-A "value" is an array of atomic-value
-
-An "atomic value" is either:
- - a real number
- - a string
- - a boolean; or
- - nothing
-
-Note that a cell with a single number in it is represented as a cell containing
-a 1x1 array of numbers.
-
-|#
-
-#|
-Notes on design (JG)
-
-I don't really know whether this module should just be the definition of sheet
-types as well as some utilities; or whether it should be the interface to the
-sheet type and hide all the interals of the structs. For now, it's the former.
-|#
 
 (struct sheet (cells refs meta name) #:transparent)
 (struct cell (content) #:transparent)

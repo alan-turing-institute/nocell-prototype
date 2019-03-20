@@ -60,21 +60,26 @@ TODO and LIMITATIONS
     ,(ods-table sheet)))
 
 ;; ---------------------------------------------------------------------------------------------------
-;; Emit an office:table version of a sheet
-
+;; Array and list manipulation to turn an array into sxml
 ;; TODO: Information about named ranges is lost after this point
+
+;; ods-table : sheet? -> sxml?
+;; Create an office:table version of a sheet
 (define (ods-table sheet)
   `(table:table
     (@ (table:name ,(or (sheet-name sheet) "Sheet 1")))
     (table:table-column) ; Why is this required?
     ,@(ods-rows (sheet-cells sheet)))) ; Splice in the rows
 
-;; array2d? -> [List-of sxml?]
+;; ods-rows : array2d? -> [List-of sxml?]
+;; Helper function to map ods-row over the rows of an array, where the values of the array have
+;; already been converted to sxml
 (define (ods-rows cells)
   (let ([cells-array (ods-cells-array cells)])
     (map ods-row (array->list* cells-array))))
 
-;; array2d? -> array2d? 
+;; ods-cells-array : array2d? -> array2d?
+;; Helper function to map ods-cell over the values of an array
 (define (ods-cells-array cells)
   (let ([arr-shape (array-shape cells)])
     (array-map ods-cell
@@ -82,19 +87,32 @@ TODO and LIMITATIONS
                (axis-index-array arr-shape 0)
                (axis-index-array arr-shape 1))))
 
-;; [List-of sxml?] -> [List-of sxml?]
+;; ods-row : [List-of sxml?] -> [List-of sxml?]
+;; Wrap the required ods boilerplate around each row
 (define (ods-row cells)
   (cons 'table:table-row cells))
 
+;; ---------------------------------------------------------------------------------------------------
+;; The work of parsing cells 
+
 ;; ods-cell : cell? integer? integer? -> sxml?
-;; TODO: Only cell-value? handled
+;; TODO: Currently handles only:
+;; - cell-value?
+;; - cell-ref? 
 (define (ods-cell c row col)
   (let ([expr (cell-content c)])
     (cond
       [(cell-value? expr) (ods-cell-value expr)]
-      [else #f])))
+      [(cell-ref? expr)   (ods-cell-ref expr)]
+      [else               #f])))
 
-;; TODO: What happens if elems is not a simple-cell-value? ?
+
+;; ---------------------------------------------------------------------------------------------------
+;; Deal with values
+
+;; ods-cell-value : cell-value? -> sxml?
+;; Convert a cell-value
+;; TODO: Currently handles only simple-cell-value?
 (define (ods-cell-value v)
   (if (simple-cell-value? v)
       (let ([val (atomise v)])
@@ -125,9 +143,23 @@ TODO and LIMITATIONS
        (office:value-type "boolean"))
     (text:p ,(if v "TRUE" "FALSE"))))
 
+;; ---------------------------------------------------------------------------------------------------
+;; Deal with references
 
+;; ods-cell-ref : cell-ref? -> sxml?
+;; TODO: Currently only handles single-cell references (not ranges)
+(define (ods-cell-ref r)
+  (if (cell-addr? r)
+      (ods-cell-addr (cell-addr-row r)
+                     (cell-addr-col r)
+                     (cell-addr-row-is-rel r)
+                     (cell-addr-col-is-rel r))
+      #f))
 
-
+;; ods-cell-addr : integer? integer? bool? bool? -> sxml?
+;; Note: row and col are always absolute; flags are only used to set output style
+(define (ods-cell-addr row col row-is-rel col-is-rel)
+  #f)
 
 
 
