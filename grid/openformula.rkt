@@ -15,7 +15,9 @@ TODO
 |#
 
 (require (only-in racket/string string-join)
-         (only-in racket/list range)
+         (only-in racket/list
+                  flatten
+                  range)
          racket/contract
          racket/format
          racket/match
