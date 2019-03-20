@@ -2,9 +2,8 @@
 
 #|
 
-Parse and generate (a small subset of) OpenFormula format formulae from
-cell-values.  OpenFormula is the formula language used within OpenDocument
-spreadsheets [1].
+Generate (a small subset of) OpenFormula format formulae from cell-values.  OpenFormula is the formula
+language used within OpenDocument spreadsheets [1].
 
 [1] "Open Document Format for Office Applications (OpenDocument)
     Version 1.2, part 2: Recalculated Formula (OpenFormula)
@@ -12,25 +11,46 @@ spreadsheets [1].
 
 TODO
 - Only a limited set of functions are supported
-- Doesn't work with ranges
 
 |#
 
-(require racket/format
-         racket/string
+(require (only-in racket/string string-join)
+         (only-in racket/list range)
+         racket/contract
+         racket/format
          racket/match
-         racket/list
-         rackunit
          math/array
-         "sheet.rkt"
-         )
+         "sheet.rkt")
 
-(provide cell-expr->openformula
-         openformula->cell-expr)
+(require rackunit)
+
+(provide
+ (contract-out (cell-expr->openformula (cell-expr? . -> . string?))))
 
 ;; ---------------------------------------------------------------------------------------------------
 
 (define (transpose arr) (array-axis-swap arr 0 1))
+
+;; cell-expr->openformula : cell-expr? -> string?
+(define (cell-expr->openformula expr)
+  (match expr
+    [(cell-value elements)
+     (if (simple-cell-value? expr)
+         (format-element (array-ref elements #(0 0)))
+         (format-array elements))]
+    
+    [(struct cell-addr _) (string-append "[" (format-ref expr) "]")]
+    
+    [(cell-range tl br)
+     (string-append "[" (format-ref tl) ":" (format-ref br) "]")]
+    
+    [(cell-name id)
+     (~a id)]
+    
+    [(cell-app builtin args)
+     (let ((fmt-args (map cell-expr->openformula args)))
+       (format-app builtin fmt-args))]))
+
 
 ;; format-element : atomic-value? -> string
 (define (format-element elt)
@@ -57,10 +77,6 @@ TODO
      #:after-last   "}"
      )))
 
-(module+ test
-  (check-equal?
-   (format-array (array #[#[1 2 3] #[4 5 6]]))
-   "{1;4|2;5|3;6}"))
 
 (define (fmt-infix op a1 a2)
   (format "(~a~a~a)" a1 op a2))
@@ -73,21 +89,21 @@ TODO
 ;; symbol? (List-of cell-expr?) -> string?
 (define (format-app builtin fmt-args)
   (match `(,builtin . ,fmt-args)
-    [(list op x y) #:when (memq op '(+ - * /))
-                   (fmt-infix op x y)]
-    [(list 'expt x y) (fmt-infix "POWER" x y)]
+    [(list op x y)      #:when (memq op '(+ - * /))
+                        (fmt-infix op x y)]
+    [(list 'expt x y)   (fmt-infix "POWER" x y)]
     [(list 'modulo x y) (fmt-infix "MOD" x y)]
     [(list 'truncate x) (fmt-infix "TRUNC" x)]
-    [(list '+ xs ...) (fmt-prefix "SUM" xs)]
-    [(list '* xs ...) (fmt-prefix "PRODUCT" xs)]
-    [(list fn xs ...) (fmt-prefix (string-upcase (symbol->string fn)) xs)]
+    [(list '+ xs ...)   (fmt-prefix "SUM" xs)]
+    [(list '* xs ...)   (fmt-prefix "PRODUCT" xs)]
+    [(list fn xs ...)   (fmt-prefix (string-upcase (symbol->string fn)) xs)]
     ))
 
 ;; --------------------------------------------------------------------------------
 ;;
 ;; convert a numeric (zero-indexed) column reference to and from a
 ;; column letter (A,...,Z,AA,...,AZ,...,ZZ,AAA,...) 
-;;
+
 (define codepoint-A 65)
 
 (define (integer->column-letter n)
@@ -105,6 +121,20 @@ TODO
                  (string->list cs))))
     (- (foldl (lambda (a b) (+ (* 26 b) (+ a 1))) 0 ds) 1)))
 
+;; cell-addr? -> string?
+(define (format-ref ref)
+  (let ((col-$ (if (cell-addr-col-is-rel ref) "" "$"))
+        (row-$ (if (cell-addr-row-is-rel ref) "" "$"))
+        (col-A (integer->column-letter (cell-addr-col ref)))
+        (row-1 (add1 (cell-addr-row ref))))
+    (format ".~a~a~a~a" col-$ col-A row-$ row-1)))
+
+
+
+;; ---------------------------------------------------------------------------------------------------
+;; Tests
+
+;; Check we can write column names correctly
 (module+ test
   (test-case "Column letter"
     (check-equal? (integer->column-letter 0)   "A")
@@ -122,265 +152,69 @@ TODO
                        (column-letter->integer
                         (integer->column-letter n)))))
      (range 0 10000))))
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-;; cell-addr? -> string?
-(define (format-ref ref)
-  (let ((col-$ (if (cell-addr-col-is-rel ref) "$" ""))
-        (row-$ (if (cell-addr-row-is-rel ref) "$" ""))
-        (col-A (integer->column-letter (cell-addr-col ref)))
-        (row-1 (add1 (cell-addr-row ref))))
-    (format ".~a~a~a~a" col-$ col-A row-$ row-1)))
-
-;; cell-expr->openformula : cell-expr? -> string?
-(define (cell-expr->openformula expr)
-  (match expr
-    [(cell-value elements)
-     (if (simple-cell-value? expr)
-         (format-element (array-ref elements #(0 0)))
-         (format-array elements))]
-    
-    [(struct cell-addr _) (string-append "[" (format-ref expr) "]")]
-    
-    [(cell-range tl br)
-     (string-append "[" (format-ref tl) ":" (format-ref br) "]")]
-    
-    [(cell-name id) (~a id)]
-    
-    [(cell-app builtin args)
-     (let ((fmt-args (map cell-expr->openformula args)))
-       (format-app builtin fmt-args))]
-    ))
-
-
-;; --------------------------------------------------------------------------------
-;;
-;; Openformula parser
-;;
-
-(require parsack)
-
-(define (maybe s)
-  (<or> s (return null)))
-
-(define (withSpaces s)
-  (parser-one
-   $spaces
-   (~> s)
-   $spaces))
-
-(define (char->symbol c) (string->symbol (list->string (list c))))
-
-;; parse infix operator parser by their precedence
-(define ($infix-op prec)
-  (case prec
-    ((0) (oneOf "+-"))
-    ((1) (oneOf "/*"))
-    ((2) (oneOf "^"))
-    (else #f)))
-
-(define (($openformula-expr/prec prec) s)
-  (let (($op ($infix-op prec)))
-    ((parser-compose
-      (left <- (withSpaces (if (not $op)
-                               $l-expr
-                               ($openformula-expr/prec (+ prec 1)))))
-      (<or> (try (parser-compose
-                  (op <- (or $op $err)) ; $op is #f after last
-                                        ; precedence level - call
-                                        ; error parser to skip to the
-                                        ; other <or> case
-                  (op-sym <- (return (char->symbol op)))
-                  (right <- (withSpaces ($openformula-expr/prec prec)))
-                  (return (cell-app op-sym (list left right)))))
-            (return left)))
-     s)))
-
-(define $openformula-expr ($openformula-expr/prec 0))
-
-(define $parenthesized-expr
-  (between (string "(") (string ")") $openformula-expr))
-
-(define $function-name
-  (parser-compose
-   (fn <- $identifier)
-   (fn-str <- (return (string-downcase (list->string fn))))
-   (return
-    (case fn-str
-      (("sum")     '+)
-      (("power")   'expr)
-      (("product") '*)
-      (("mod")     'modulo)
-      (("trunc")   'truncate)
-      (else        (string->symbol fn-str))))))
-
-(define $prefix-app
-  (parser-compose
-   (fn <- $function-name)
-   $spaces
-   (args <- (between (char #\() (char #\))
-                     (sepBy (parser-one $spaces
-                                        (~> $openformula-expr)
-                                        $spaces)
-                            (char #\;))))
-   $spaces
-   (return (cell-app fn args))
-   ))
-
-(define $cell-name
-  (parser-compose
-   (id <- $identifier)
-   (return (cell-name (list->string id)))))
-
-(define $cell-string
-  (between (string "&quot;") (string "&quot;")
-           (many1 (<!> (string "&quot;")))))
-
-(define $decimal
-  (>>= (parser-seq
-        (maybe (oneOf "+-"))
-        (<or>
-         (parser-seq (char #\.) (many1 $digit))
-         (try (parser-seq (many1 $digit) (char #\.)))
-         (many1 $digit))
-        (many $digit))
-       (lambda (t) (return (flatten t)))))
-
-(define $cell-number
-  (>>= (parser-seq
-        $decimal
-        (maybe (parser-seq (oneOf "eE")
-                           (maybe (oneOf "+-"))
-                           (many1 $digit))))
-       (lambda (t) (return (string->number
-                            (list->string (flatten t)))))))
-
-(define $cell-bool
-  (<or> (>> (string "TRUE") (return #t))
-        (>> (string "FALSE") (return #f))))
-
-(define $cell-atomic
-  (<or> $cell-number
-        $cell-bool))
-
-(define $cell-simple-value
-  (>>= $cell-atomic
-       (lambda (val)
-         (return (cell-value-return val)))))
-
+;; Test cell-value 
 (module+ test
-  (check-equal? (parse-result $cell-atomic "1")   1)
-  (check-equal? (parse-result $cell-atomic "1.")  1.0)
-  (check-equal? (parse-result $cell-atomic ".0")  0.0)
-  (check-equal? (parse-result $cell-atomic "2.4") 2.4)
-  (check-equal? (parse-result $cell-atomic "1.1E+021") 1.1e21)
-
-  (check-equal? (parse-result $cell-simple-value "0.0")
-                (cell-value (array #[#[0.0]]))))
-
-
-(define $cell-row
-  (sepBy (withSpaces (<or> $cell-atomic (return 'nothing))) (char #\;)))
-
-(define $cell-array
-  (>>= (between (char #\{) (char #\})
-                (sepBy (withSpaces $cell-row) (char #\|)))
-       (lambda (elts)
-         (return (cell-value (transpose (list*->array elts atomic-value?)))))))
-(module+ test
+  (test-case "Values"
+    ;; real?
+    (check-equal?
+     (cell-expr->openformula
+      (cell-value-return 42))
+     "42"))
+  ;; string? 
   (check-equal?
-   (parse-result $cell-array "{1;4|2;5|3;6}")
-   (cell-value (array #[#[1 2 3] #[4 5 6]]))))
-
-(define $ref-addr
-  (parser-compose
-   (char #\.)
-   (col-rel-str <- (maybe (char #\$)))
-   (col-rel?    <- (return (not (null? col-rel-str))))
-
-   (col-letter  <- (many1 $letter))
-   (col         <- (return (column-letter->integer
-                            (list->string col-letter))))
-   
-   (row-rel-str <- (maybe (char #\$)))
-   (row-rel?    <- (return (not (null? row-rel-str))))
-
-   (row-str     <- (many1 $digit))
-   (row         <- (return (sub1 (string->number
-                                  (list->string row-str)))))
-   (return (cell-addr col row col-rel? row-rel?))))
-
-(define $cell-ref
-  (between (char #\[) (char #\]) $ref-addr))
-(module+ test
+   (cell-expr->openformula
+    (cell-value-return "Forty-two"))
+   "&quot;Forty-two&quot;")
+  ;; boolean?
   (check-equal?
-   (parse-result $cell-ref "[.D5]")
-   (cell-addr 3 4 #f #f)))
-
-(define $cell-range
-  (between (char #\[) (char #\])
-           (parser-compose
-            (tl <- $ref-addr)
-            (char #\:)
-            (br <- $ref-addr)
-            (return (cell-range tl br)))))
-(module+ test
+   (cell-expr->openformula
+    (cell-value-return #t))
+   "TRUE")
   (check-equal?
-   (parse-result $cell-range "[.A$2:.$C4]")
-   (cell-range (cell-addr 0 1 #f #t) (cell-addr 2 3 #t #f))))
+   (cell-expr->openformula
+    (cell-value-return #f))
+   "FALSE")
+  ;; nothing?
+  (check-equal?
+   (cell-expr->openformula
+    (cell-value-return 'nothing))
+   "")
+  ;; not simple-cell-value?
+  (check-equal?
+   (cell-expr->openformula
+    (cell-value (array #[ #[1 2 3] #[4 5 6]])))
+   "{1;4|2;5|3;6}"))
 
-(define $l-expr
-  (<or> (try $parenthesized-expr)
-        (try $prefix-app)
-        (try $cell-simple-value)
-        (try $cell-array)
-        (try $cell-ref)
-        (try $cell-range)
-        $cell-name))
+;; Test cell-ref
+(module+ test
+  (test-case "References"
+    ;; cell-addr?
+    (check-equal?
+    (cell-expr->openformula
+     (cell-addr 0 0 #t #t))
+    "[.A1]")
+   (check-equal?
+    (cell-expr->openformula
+     (cell-addr 1 26 #t #f))
+    "[.$AA2]")
+   (check-equal?
+    (cell-expr->openformula
+     (cell-addr 2 (* 26 27) #f #f))
+    "[.$AAA$3]"))
+  ;; cell-range?
+  (check-equal?
+   (cell-expr->openformula
+    (cell-range (cell-addr 0 0 #t #t)
+                (cell-addr 1 1 #f #f)))
+   "[.A1:.$B$2]"))
 
-(define $openformula
-  (parser-one
-   ;; ignore any starting "=" or "of:="
-   (maybe (string "of:"))
-   (maybe (string "="))
-   ;; allow for "recalculated" formulae (with second "=")
-   (maybe (string "="))
-   (~> $openformula-expr)
-   $eof))
+;; Test cell-name
+;; TODO
 
-(define (openformula->cell-expr x)
-  (parse-result $openformula x))
-
-;; --------------------------------------------------------------------------------
-;;
-
-;; (module+ test
-;;   (require "../eval.rkt")
-;;   (test-case "openformula->cell-expr tests"
-;;     (check-equal?
-;;      (openformula->cell-expr "SUM({ 1;2  ; 3;4};[.A1])+ 5 *MOD( 7;   6)")
-;;      (cell-app
-;;       '+
-;;       (list
-;;        (cell-app
-;;         '+
-;;         (list
-;;          (cell-value (array #[#[1] #[2] #[3] #[4]]))
-;;          (cell-addr 0 0 #f #f)))
-;;        (cell-app
-;;         '*
-;;         (list
-;;          (cell-value (array #[#[5]]))
-;;          (cell-app
-;;           'modulo
-;;           (list (cell-value (array #[#[7]]))
-;;                 (cell-value (array #[#[6]])))))))))
-
-;;     (check-equal?
-;;      (sheet-eval (sheet (array #[#[(openformula->cell-expr
-;;                                     ; note the empty value in the array
-;;                                     "SUM({0;1|2; |4;5})")]])
-;;                         null))
-;;      (mutable-array #[#[12]]))))
+;; Test cell-app
+(module+ test
+  (test-case "Applications"
+    (check-equal?
+     (cell-expr->openformula
+      (cell-app 'sqrt )))))
