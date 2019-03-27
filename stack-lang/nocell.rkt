@@ -22,9 +22,9 @@
          (rename-out (expt& expt))
          (rename-out (define& define))
 
-         (rename-out (if-bounded-depth if))
+         ;(rename-out (if-bounded-depth if))
+         (rename-out (if& if))
          if*
-         if**
 
          (rename-out (datum #%datum))
          #%app
@@ -170,24 +170,33 @@
        #'(define f
            (let ((name-counter 0))
              (lambda (args ...)
-               (let* ((args-no-kw (make-arg 'args-no-kw args-no-kw is-last-arg)) ...
-                      (res-name   (make-name f-str (post-inc! name-counter)))
-                      (result-stack
-                       (parameterize ((current-calls (cons (cons (fn-name (datum->syntax #'stx 'f)) res-name)
-                                                           (current-calls))))
-                         body ...))
-                      (top        (stack-top result-stack))
-                      (result-val (val top))
-                      (args-stack (splice-argument-stacks rargs ...)))
-                 (remove-duplicates-before
-                  (stack-push
-                   (make-assignment #:id      res-name
-                                    #:expr    (id top)
-                                    #:val     (val top)
-                                    #:context 'result)
-                   (append
-                    result-stack
-                    args-stack))))))))]))
+               (if (> (length (current-calls)) (current-max-branching-depth))
+                   (halt)
+                   (let* ((args-no-kw   (make-arg 'args-no-kw args-no-kw
+                                                  is-last-arg)) ...
+                          (res-name     (make-name f-str (post-inc!
+                                                          name-counter)))
+                          (result-stack (parameterize ((current-calls
+                                                        (cons
+                                                         (cons
+                                                          (fn-name
+                                                           (datum->syntax
+                                                            #'stx 'f))
+                                                          res-name)
+                                                         (current-calls))))
+                                          body ...))
+                          (top        (stack-top result-stack))
+                          (result-val (val top))
+                          (args-stack (splice-argument-stacks rargs ...)))
+                     (remove-duplicates-before
+                      (stack-push
+                       (make-assignment #:id      res-name
+                                        #:expr    (id top)
+                                        #:val     (val top)
+                                        #:context 'result)
+                       (append
+                        result-stack
+                        args-stack)))))))))]))
 
 ;; Given a function fn of two variables, return a function taking
 ;; either scalar or vector arguments and broadcasting any scalar
@@ -317,12 +326,6 @@
       (sequence-fold * 1 xs)
       xs))
 
-;; (define-primitive-stack-fn (nth n a)
-;;   ("n" nth)
-;;   (if (vector? a)
-;;       (vector-ref a n)
-;;       a))
-
 (define-primitive-stack-fn (len a)
   ("l" len)
   (if (vector? a)
@@ -349,41 +352,3 @@
      #'(if (val (stack-top test-expr))
            then-expr
            else-expr)]))
-
-(define-syntax (if** stx)
-  (syntax-case stx ()
-    [(_ test-expr then-expr else-expr)
-     #'(if (< (length (current-calls)) (current-max-branching-depth))
-           (if& test-expr then-expr else-expr)
-           (if* test-expr then-expr else-expr))]))
-
-
-(define if-lazy
-  (let ((name-counter 0))
-    (lambda (test then-fn else-fn)
-      (if (> (length (current-calls)) (current-max-branching-depth))
-          (halt)
-          (let* ([then-val   (then-fn)]
-                 [else-val   (else-fn)]
-                 [result-val (if (val (stack-top test)) then-val else-val)]
-                 [args-stack (remove-duplicates-before
-                              (append else-val then-val test))]
-                 [id         (make-name 'branch (post-inc! name-counter))]
-                 )
-            (stack-push
-             (make-assignment
-              #:id   id
-              #:expr `([if ,(shape test) ,(shape then-val) ,(shape else-val)]
-                       ,(assignment-id (stack-top test))
-                       ,(assignment-id (stack-top then-val))
-                       ,(assignment-id (stack-top else-val)))
-              #:val  (assignment-val (stack-top result-val)))
-             args-stack))))))
-
-
-(define-syntax (if-bounded-depth stx)
-  (syntax-case stx ()
-    [(_ test-expr then-expr else-expr)
-     #'(if-lazy test-expr        
-                (λ () then-expr) 
-                (λ () else-expr))]))
