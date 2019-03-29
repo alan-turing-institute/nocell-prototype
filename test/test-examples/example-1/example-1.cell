@@ -1,3 +1,4 @@
+; -*- racket -*-
 #lang racket
 (require "../../../stack-lang/main.rkt")
 
