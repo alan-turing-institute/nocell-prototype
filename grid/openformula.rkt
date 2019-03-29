@@ -132,13 +132,6 @@ TODO
         (row-1 (add1 (cell-addr-row ref))))
     (format ".~a~a~a~a" col-$ col-A row-$ row-1)))
 
-
-;; ---------------------------------------------------------------------------------------------------
-;; Functions
-
-;; 
-
-
 ;; ---------------------------------------------------------------------------------------------------
 ;; Tests
 
@@ -216,14 +209,3 @@ TODO
     (cell-range (cell-addr 0 0 #t #t)
                 (cell-addr 1 1 #f #f)))
    "[.A1:.$B$2]"))
-
-;; Test cell-name
-;; TODO
-
-;; Test cell-app
-
-;; (module+ test
-;;   (test-case "Openformula: Applications"
-;;     (check-equal?
-;;      (cell-expr->openformula
-;;       (cell-app 'sqrt )))))

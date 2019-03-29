@@ -23,40 +23,6 @@ TODO
 
 (provide openformula->cell-expr)
 
-;; --------------------------------------------------------------------------------
-;;
-;; convert a numeric (zero-indexed) column reference to and from a
-;; column letter (A,...,Z,AA,...,AZ,...,ZZ,AAA,...) 
-
-(define codepoint-A 65)
-
-(define (integer->column-letter n)
-  (define (recur rems b)
-    (if (< (car rems) b)
-        rems
-        (let-values ([(q r) (quotient/remainder (car rems) b)])
-          (recur (list* (- q 1) r (cdr rems)) b))))
-  (list->string
-   (map (lambda (d) (integer->char (+ d codepoint-A)))
-        (recur (list n) 26))))
-
-(define (column-letter->integer cs)
-  (let ((ds (map (lambda (c) (- (char->integer c) codepoint-A))
-                 (string->list cs))))
-    (- (foldl (lambda (a b) (+ (* 26 b) (+ a 1))) 0 ds) 1)))
-
-;; cell-addr? -> string?
-(define (format-ref ref)
-  (let ((col-$ (if (cell-addr-col-is-rel ref) "" "$"))
-        (row-$ (if (cell-addr-row-is-rel ref) "" "$"))
-        (col-A (integer->column-letter (cell-addr-col ref)))
-        (row-1 (add1 (cell-addr-row ref))))
-    (format ".~a~a~a~a" col-$ col-A row-$ row-1)))
-
-;; ---------------------------------------------------------------------------------------------------
-;; Parser
-
-
 (define (transpose arr) (array-axis-swap arr 0 1))
 
 (define (maybe s)
