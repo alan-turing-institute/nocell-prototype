@@ -1,0 +1,25 @@
+#lang racket
+(require "../../../stack-lang/main.rkt")
+
+(provide result)
+
+(define result
+  (list
+   (assignment '%a0 '(result) '() '%sum3 103 'result)
+   (assignment '%sum3 '() '((1 . %a0)) '((+ () ()) %b0 %e4) 103 'body)
+   (assignment '%e4 '() '((1 . %a0)) 0 0 'body)
+   (assignment '%b0 '(tmp) '((1 . %a0)) '%sum2 103 'result)
+   (assignment
+    '%sum2
+    '()
+    '((2 . %b0) (1 . %a0))
+    '((+ () ()) %arg0 %sum1)
+    103
+    'body)
+   (assignment '%sum1 '() '((2 . %b0) (1 . %a0)) '((+ () ()) %e2 %e3) 101 'body)
+   (assignment '%e3 '(c) '((2 . %b0) (1 . %a0)) 1 1 'body)
+   (assignment '%e2 '(z) '((1 . %a0)) 100 100 'body)
+   (assignment '%arg0 '(x) '() '%sum0 2 'last-arg)
+   (assignment '%sum0 '() '() '((+ () ()) %e0 %e1) 2 'body)
+   (assignment '%e1 '() '() 2 2 'body)
+   (assignment '%e0 '(z) '() 0 0 'body)))

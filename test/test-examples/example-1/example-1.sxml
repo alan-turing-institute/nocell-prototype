@@ -1,0 +1,47 @@
+; -*- racket -*-
+#lang racket
+(provide result)
+(define result
+  '(*TOP*
+    (@
+     (*NAMESPACES*
+      (office "urn:oasis:names:tc:opendocument:xmlns:office:1.0")
+      (table "urn:oasis:names:tc:opendocument:xmlns:table:1.0")
+      (text "urn:oasis:names:tc:opendocument:xmlns:text:1.0")))
+    (*PI* xml "version=\"1.0\" encoding=\"UTF-8\"")
+    (office:document
+     (@
+      (office:version "1.2")
+      (office:mimetype "application/vnd.oasis.opendocument.spreadsheet"))
+     (office:body
+      (office:spreadsheet
+       (table:table
+        (@ (table:name "unnamed-sheet"))
+        (table:table-column)
+        (table:table-row
+         (table:table-cell
+          (@ (office:value "0") (office:value-type "float"))
+          (text:p 0)))
+        (table:table-row
+         (table:table-cell
+          (@ (office:value "2") (office:value-type "float"))
+          (text:p 2)))
+        (table:table-row #f)
+        (table:table-row #f)
+        (table:table-row
+         (table:table-cell
+          (@ (office:value "100") (office:value-type "float"))
+          (text:p 100)))
+        (table:table-row
+         (table:table-cell
+          (@ (office:value "1") (office:value-type "float"))
+          (text:p 1)))
+        (table:table-row #f)
+        (table:table-row #f)
+        (table:table-row #f)
+        (table:table-row
+         (table:table-cell
+          (@ (office:value "0") (office:value-type "float"))
+          (text:p 0)))
+        (table:table-row #f)
+        (table:table-row #f)))))))
