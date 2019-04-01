@@ -1,0 +1,7 @@
+(module example "../../nocell.rkt"
+  (define (a x y) (* x y))
+  (define (b x) (* x x))
+  (define z 0)
+  (define w 1.0)
+  (define result (a (b w) (+ z 0)))
+  (provide result))

@@ -1,0 +1,146 @@
+(#(struct:assignment %dcf0 (result) () %sum7 5881.700118063753 result)
+ #(struct:assignment
+   %sum7
+   ()
+   ((3 . %dcf0))
+   ((+ () ()) %vsum3 %vsum4)
+   5881.700118063753
+   body)
+ #(struct:assignment
+   %vsum4
+   ()
+   ((3 . %dcf0))
+   ((sum (4)) %prod4)
+   5527.530320918749
+   body)
+ #(struct:assignment
+   %prod4
+   ()
+   ((3 . %dcf0))
+   ((* (4) (4)) %select3 %quot2)
+   #(0 0 0 5527.530320918749)
+   body)
+ #(struct:assignment
+   %quot2
+   (discounted-terminal-value)
+   ((3 . %dcf0))
+   ((/ () (4)) %quot1 %expn1)
+   #(7357.142857142857 6688.311688311687 6080.2833530106245 5527.530320918749)
+   body)
+ #(struct:assignment
+   %expn1
+   ()
+   ((3 . %dcf0))
+   ((expt () (4)) %sum6 %diff3)
+   #(1 1.1 1.2100000000000002 1.3310000000000004)
+   body)
+ #(struct:assignment
+   %diff3
+   ()
+   ((3 . %dcf0))
+   ((- (4) ()) %arg1 %vsum2)
+   #(0 1 2 3)
+   body)
+ #(struct:assignment %vsum2 () ((3 . %dcf0)) ((sum (4)) %prod3) 2010 body)
+ #(struct:assignment
+   %prod3
+   ()
+   ((3 . %dcf0))
+   ((* (4) (4)) %select2 %arg1)
+   #(2010 0 0 0)
+   body)
+ #(struct:assignment %select2 () ((3 . %dcf0)) #(1 0 0 0) #(1 0 0 0) body)
+ #(struct:assignment %sum6 () ((3 . %dcf0)) ((+ () ()) %e13 %arg4) 1.1 body)
+ #(struct:assignment %e13 () ((3 . %dcf0)) 1 1 body)
+ #(struct:assignment
+   %quot1
+   (terminal-value)
+   ((3 . %dcf0))
+   ((/ () ()) %prod2 %diff2)
+   7357.142857142857
+   body)
+ #(struct:assignment %diff2 () ((3 . %dcf0)) ((- () ()) %arg4 %arg3) 0.07 body)
+ #(struct:assignment
+   %prod2
+   ()
+   ((3 . %dcf0))
+   ((* () ()) %vsum0 %sum5)
+   515.0
+   body)
+ #(struct:assignment %sum5 () ((3 . %dcf0)) ((+ () ()) %arg3 %e12) 1.03 body)
+ #(struct:assignment %e12 () ((3 . %dcf0)) 1 1 body)
+ #(struct:assignment
+   %vsum0
+   (final-year-cash-flow)
+   ((3 . %dcf0))
+   ((sum (4)) %prod0)
+   500
+   body)
+ #(struct:assignment
+   %prod0
+   ()
+   ((3 . %dcf0))
+   ((* (4) (4)) %select0 %arg2)
+   #(0 0 0 500)
+   body)
+ #(struct:assignment %select0 () ((3 . %dcf0)) #(0 0 0 1) #(0 0 0 1) body)
+ #(struct:assignment %select3 () ((3 . %dcf0)) #(0 0 0 1) #(0 0 0 1) body)
+ #(struct:assignment
+   %vsum3
+   ()
+   ((3 . %dcf0))
+   ((sum (4)) %quot0)
+   354.16979714500366
+   body)
+ #(struct:assignment
+   %quot0
+   (discounted-cash-flow)
+   ((3 . %dcf0))
+   ((/ (4) (4)) %arg2 %expn0)
+   #(-100 -45.45454545454545 123.96694214876031 375.65740045078877)
+   body)
+ #(struct:assignment
+   %expn0
+   ()
+   ((3 . %dcf0))
+   ((expt () (4)) %sum4 %diff1)
+   #(1 1.1 1.2100000000000002 1.3310000000000004)
+   body)
+ #(struct:assignment
+   %diff1
+   ()
+   ((3 . %dcf0))
+   ((- (4) ()) %arg1 %vsum1)
+   #(0 1 2 3)
+   body)
+ #(struct:assignment %vsum1 () ((3 . %dcf0)) ((sum (4)) %prod1) 2010 body)
+ #(struct:assignment
+   %prod1
+   ()
+   ((3 . %dcf0))
+   ((* (4) (4)) %select1 %arg1)
+   #(2010 0 0 0)
+   body)
+ #(struct:assignment %select1 () ((3 . %dcf0)) #(1 0 0 0) #(1 0 0 0) body)
+ #(struct:assignment %sum4 () ((3 . %dcf0)) ((+ () ()) %e10 %arg4) 1.1 body)
+ #(struct:assignment %e10 () ((3 . %dcf0)) 1 1 body)
+ #(struct:assignment %arg4 (discount-rate) () %e8 0.1 last-arg)
+ #(struct:assignment %arg3 (terminal-growth) () %e7 0.03 arg)
+ #(struct:assignment %arg2 (cash-flow) () %e6 #(-100 -50 150 500) arg)
+ #(struct:assignment %arg1 (years) () %e5 #(2010 2011 2012 2013) arg)
+ #(struct:assignment %e8 (discount-rate) () 0.1 0.1 body)
+ #(struct:assignment %e7 (terminal-growth) () 0.03 0.03 body)
+ #(struct:assignment
+   %e6
+   (cash-flow)
+   ()
+   #(-100 -50 150 500)
+   #(-100 -50 150 500)
+   body)
+ #(struct:assignment
+   %e5
+   (years)
+   ()
+   #(2010 2011 2012 2013)
+   #(2010 2011 2012 2013)
+   body))

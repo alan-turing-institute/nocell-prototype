@@ -113,19 +113,21 @@
                              (make-name (assignment-id a) idx))))))])))
 
 (module+ test
-  (let ((expected (row (cell 1 "%e1") (cell) (cell)))
+  (let ((expected (row #:meta '(body 0 0 exact) (cell 1 "%e1") (cell) (cell)))
         (actual   (assignment->row 3
                    (make-assignment #:id '%e1 #:expr 1 #:val 1))))
     (check-equal? actual expected))
 
-  (let ((expected (row (cell 3 "%e1[0]")
+  (let ((expected (row #:meta '(body 0 0 exact)
+                       (cell 3 "%e1[0]")
                        (cell 1 "%e1[1]")
                        (cell 4 "%e1[2]")))
         (actual   (assignment->row 3
                    (make-assignment #:id '%e1 #:expr #(3 1 4) #:val #(3 1 4)))))
     (check-equal? actual expected))
 
-  (let ((expected (row (cell (list '+ (ref "%e1[0]") (ref "%e2"))
+  (let ((expected (row #:meta '(body 0 0 exact)
+                       (cell (list '+ (ref "%e1[0]") (ref "%e2"))
                              "%sum1[0]")
                        (cell (list '+ (ref "%e1[1]") (ref "%e2"))
                              "%sum1[1]")
@@ -137,7 +139,7 @@
                                      #:val  #(0 1 2)))))
     (check-equal? actual expected))
 
-  (let ((expected (row (cell (ref "target") "a")))
+  (let ((expected (row #:meta '(body 0 0 exact) (cell (ref "target") "a")))
         (actual   (assignment->row 1
                     (make-assignment #:id   'a
                                      #:expr 'target
@@ -145,7 +147,7 @@
     (check-equal? actual expected))
 
   ;; "sum" results in a fold
-  (let ((expected (row (cell (list '+ (list '+ (ref "a[0]") (ref "a[1]"))
+  (let ((expected (row #:meta '(body 0 0 exact) (cell (list '+ (list '+ (ref "a[0]") (ref "a[1]"))
                                    (ref "a[2]")) "result")))
         (actual   (assignment->row 1
                     (make-assignment #:id   'result
@@ -160,17 +162,20 @@
   (apply sheet (map (curry assignment->row max-width) (reverse stack))))
 
 (module+ test
-  (let ((expected (sheet (row (cell  0 "a[0]")
+  (let ((expected (sheet (row #:meta '(body 0 0 exact)
+                              (cell  0 "a[0]")
                               (cell -1 "a[1]")
                               (cell -2 "a[2]"))
-                         (row (cell  0 "b[0]")
+                         (row #:meta '(body 0 0 exact)
+                              (cell  0 "b[0]")
                               (cell  2 "b[1]")
                               (cell  4 "b[2]"))
-                         (row (cell (list '+ (ref "a[0]") (ref "b[0]")))
+                         (row #:meta '(body 0 0 exact)
+                              (cell (list '+ (ref "a[0]") (ref "b[0]")))
                               (cell (list '+ (ref "a[1]") (ref "b[1]")))
                               (cell (list '+ (ref "a[2]") (ref "b[2]"))))))
         (actual   (stack->sheet
-                   (list
+                    (list
                     (make-assignment #:id   'result
                                      #:expr '([+ (3) (3)] a b)
                                      #:val  #(0 1 2))
@@ -183,7 +188,7 @@
     (check-equal? actual expected)))
 
 (module+ test
-  (require (submod "example-2.rkt" example))
+  (require "nocell-tests/nocell/example-2.nocell")
   (let ((epsilon  1e-7)
         (actual   (sheet-eval (stack->sheet result)))
         (expected (mutable-array

@@ -1,0 +1,167 @@
+(#(struct:assignment %fact0 (result) () %fact1 120 result)
+ #(struct:assignment %fact1 () ((16 . %fact0)) %fact2 120 result)
+ #(struct:assignment %fact2 () ((16 . %fact1) (16 . %fact0)) %fact3 120 result)
+ #(struct:assignment
+   %fact3
+   ()
+   ((16 . %fact2) (16 . %fact1) (16 . %fact0))
+   %fact4
+   120
+   result)
+ #(struct:assignment
+   %fact4
+   ()
+   ((16 . %fact3) (16 . %fact2) (16 . %fact1) (16 . %fact0))
+   %fact5
+   120
+   result)
+ #(struct:assignment
+   %fact5
+   ()
+   ((16 . %fact4) (16 . %fact3) (16 . %fact2) (16 . %fact1) (16 . %fact0))
+   %arg33
+   120
+   result)
+ #(struct:assignment
+   %arg33
+   (acc)
+   ((16 . %fact4) (16 . %fact3) (16 . %fact2) (16 . %fact1) (16 . %fact0))
+   %prod17
+   120
+   last-arg)
+ #(struct:assignment
+   %arg32
+   (n)
+   ((16 . %fact4) (16 . %fact3) (16 . %fact2) (16 . %fact1) (16 . %fact0))
+   %diff14
+   0
+   arg)
+ #(struct:assignment
+   %prod17
+   ()
+   ((16 . %fact4) (16 . %fact3) (16 . %fact2) (16 . %fact1) (16 . %fact0))
+   ((* () ()) %arg30 %arg31)
+   120
+   body)
+ #(struct:assignment
+   %diff14
+   ()
+   ((16 . %fact4) (16 . %fact3) (16 . %fact2) (16 . %fact1) (16 . %fact0))
+   ((- () ()) %arg30 %e56)
+   0
+   body)
+ #(struct:assignment
+   %e56
+   ()
+   ((16 . %fact4) (16 . %fact3) (16 . %fact2) (16 . %fact1) (16 . %fact0))
+   1
+   1
+   body)
+ #(struct:assignment
+   %arg31
+   (acc)
+   ((16 . %fact3) (16 . %fact2) (16 . %fact1) (16 . %fact0))
+   %prod16
+   120
+   last-arg)
+ #(struct:assignment
+   %arg30
+   (n)
+   ((16 . %fact3) (16 . %fact2) (16 . %fact1) (16 . %fact0))
+   %diff13
+   1
+   arg)
+ #(struct:assignment
+   %prod16
+   ()
+   ((16 . %fact3) (16 . %fact2) (16 . %fact1) (16 . %fact0))
+   ((* () ()) %arg28 %arg29)
+   120
+   body)
+ #(struct:assignment
+   %diff13
+   ()
+   ((16 . %fact3) (16 . %fact2) (16 . %fact1) (16 . %fact0))
+   ((- () ()) %arg28 %e54)
+   1
+   body)
+ #(struct:assignment
+   %e54
+   ()
+   ((16 . %fact3) (16 . %fact2) (16 . %fact1) (16 . %fact0))
+   1
+   1
+   body)
+ #(struct:assignment
+   %arg29
+   (acc)
+   ((16 . %fact2) (16 . %fact1) (16 . %fact0))
+   %prod15
+   60
+   last-arg)
+ #(struct:assignment
+   %arg28
+   (n)
+   ((16 . %fact2) (16 . %fact1) (16 . %fact0))
+   %diff12
+   2
+   arg)
+ #(struct:assignment
+   %prod15
+   ()
+   ((16 . %fact2) (16 . %fact1) (16 . %fact0))
+   ((* () ()) %arg26 %arg27)
+   60
+   body)
+ #(struct:assignment
+   %diff12
+   ()
+   ((16 . %fact2) (16 . %fact1) (16 . %fact0))
+   ((- () ()) %arg26 %e52)
+   2
+   body)
+ #(struct:assignment
+   %e52
+   ()
+   ((16 . %fact2) (16 . %fact1) (16 . %fact0))
+   1
+   1
+   body)
+ #(struct:assignment
+   %arg27
+   (acc)
+   ((16 . %fact1) (16 . %fact0))
+   %prod14
+   20
+   last-arg)
+ #(struct:assignment %arg26 (n) ((16 . %fact1) (16 . %fact0)) %diff11 3 arg)
+ #(struct:assignment
+   %prod14
+   ()
+   ((16 . %fact1) (16 . %fact0))
+   ((* () ()) %arg24 %arg25)
+   20
+   body)
+ #(struct:assignment
+   %diff11
+   ()
+   ((16 . %fact1) (16 . %fact0))
+   ((- () ()) %arg24 %e50)
+   3
+   body)
+ #(struct:assignment %e50 () ((16 . %fact1) (16 . %fact0)) 1 1 body)
+ #(struct:assignment %arg25 (acc) ((16 . %fact0)) %prod13 5 last-arg)
+ #(struct:assignment %arg24 (n) ((16 . %fact0)) %diff10 4 arg)
+ #(struct:assignment
+   %prod13
+   ()
+   ((16 . %fact0))
+   ((* () ()) %arg22 %arg23)
+   5
+   body)
+ #(struct:assignment %diff10 () ((16 . %fact0)) ((- () ()) %arg22 %e48) 4 body)
+ #(struct:assignment %e48 () ((16 . %fact0)) 1 1 body)
+ #(struct:assignment %arg23 (acc) () %e46 1 last-arg)
+ #(struct:assignment %arg22 (n) () %e45 5 arg)
+ #(struct:assignment %e46 () () 1 1 body)
+ #(struct:assignment %e45 () () 5 5 body))

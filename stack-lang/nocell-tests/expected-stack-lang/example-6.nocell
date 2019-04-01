@@ -1,0 +1,2 @@
+(#(struct:assignment %a0 (result) () %e23 4 result)
+ #(struct:assignment %e23 () ((10 . %a0)) 4 4 body))
