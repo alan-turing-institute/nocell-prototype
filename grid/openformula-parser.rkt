@@ -18,11 +18,15 @@ TODO
 (require parsack
          math/array
          (only-in racket/list flatten)
+<<<<<<< HEAD
          rackunit
+=======
+>>>>>>> c030bf55971fcfd871e6cea7ccd39ffa439803fc
          "sheet.rkt")
 
 (provide openformula->cell-expr)
 
+<<<<<<< HEAD
 ;; --------------------------------------------------------------------------------
 ;;
 ;; convert a numeric (zero-indexed) column reference to and from a
@@ -57,6 +61,8 @@ TODO
 ;; Parser
 
 
+=======
+>>>>>>> c030bf55971fcfd871e6cea7ccd39ffa439803fc
 (define (transpose arr) (array-axis-swap arr 0 1))
 
 (define (maybe s)
