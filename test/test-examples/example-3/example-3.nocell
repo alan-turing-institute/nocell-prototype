@@ -1,0 +1,11 @@
+; -*- racket -*-
+(module example "../../../stack-lang/nocell.rkt"
+  (define z 100)
+  (define (a)
+    (define (b x)
+      (define c x)
+      c)
+    (b z))
+  (define c 1)
+  (define result (+ (a) c))
+  (provide result))

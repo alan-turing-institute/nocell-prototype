@@ -32,7 +32,7 @@ TODO and LIMITATIONS
 ;; sheet? path-string? -> void
 ;; `path` should not be the name of an existing directory.  
 (define (sheet-write-ods sheet path)
-   (call-with-output-file "content.xml"
+  (call-with-output-file "content.xml" #:exists 'replace
     (λ (out) (srl:sxml->xml (ods sheet) out))))
 
 ;; ---------------------------------------------------------------------------------------------------
