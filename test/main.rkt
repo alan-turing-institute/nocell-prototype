@@ -1,9 +1,10 @@
 #lang racket
 (require rackunit
          sxml
-         "../stack-lang/main.rkt"
          "../stack-lang/cell.rkt"
          "../grid/ods.rkt")
+
+(define-namespace-anchor top)
 
 ;; "maybe" implemented with lists
 ;; nothing = null
@@ -37,8 +38,15 @@
                                           (directory-list test-dir #:build? #t)))
     (match-let ([(list nocell-path cell-path grid-path sxml-path)
                  (map paths/suffix '(".nocell" ".cell" ".grid" ".sxml"))])
-      (check:nocell->cell nocell-path cell-path)
-      (check:cell->grid   cell-path   grid-path)
-      (check:grid->sxml   grid-path   sxml-path)
-      ;; check that the conversion succeeds, but not the resulting file
-      (check:grid->fods   grid-path   null))))
+      ;; make a new namespace so that the name counters in nocell
+      ;; begin at zero for each test example
+      (parameterize ([current-namespace (make-base-namespace)])
+        (namespace-attach-module (namespace-anchor->namespace top)
+                                 "../stack-lang/cell.rkt")
+        (namespace-attach-module (namespace-anchor->namespace top)
+                                 "../grid/ods.rkt")
+        (check:nocell->cell nocell-path cell-path)
+        (check:cell->grid   cell-path   grid-path)
+        (check:grid->sxml   grid-path   sxml-path)
+        ;; check that the conversion succeeds, but not the resulting file
+        (check:grid->fods   grid-path   null)))))
