@@ -219,8 +219,9 @@ TODO
 ;; TODO
 
 ;; Test cell-app
-(module+ test
-  (test-case "Openformula: Applications"
-    (check-equal?
-     (cell-expr->openformula
-      (cell-app 'sqrt )))))
+
+;; (module+ test
+;;   (test-case "Openformula: Applications"
+;;     (check-equal?
+;;      (cell-expr->openformula
+;;       (cell-app 'sqrt )))))

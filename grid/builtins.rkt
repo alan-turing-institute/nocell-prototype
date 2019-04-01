@@ -37,15 +37,6 @@ Actual implementations must be provided by each backend
         (cdr nargs)
         nargs)))
 
-<<<<<<< HEAD
-=======
-(define (unary-builtin id)
-  (cons id 1))
-
-(define (binary-builtin id)
-  (cons id 2))
-
->>>>>>> c030bf55971fcfd871e6cea7ccd39ffa439803fc
 ;; Internal list of builtings
 ;; Each entry is a pair, (symbol? . arity?),
 ;; where arity? is either
