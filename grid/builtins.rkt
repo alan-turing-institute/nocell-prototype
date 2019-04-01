@@ -67,11 +67,24 @@ Actual implementations must be provided by each backend
    '[remainder . 2]
    '[modulo    . 2]
 
-   ;; Maths -- Powers and roots
-   '[expt      . 2]
+   ;; Powers and roots
+   '[expt . 2]
+   '[exp  . 1]
+   '[log  . (1 . 2)] ; log of one argument is natural log
+
+   ;; Trigonometric functions
+   '[sin  . 1]
+   '[cos  . 1]
+   '[tan  . 1]
+   '[asin . 1]
+   '[acos . 1]
+   '[atan . 1]
    
-   '[log    . (1 . 2)]
-   '[random . 0]
+   ;; Maths -- Other
+   ;; (rand) is a uniform random variate in the interval [0, 1)
+   ;; (rand k) is a random integer 0 .. (k - 1)
+   ;; (rand min max) is a random integer min ... (max - 1)
+   '[random . (0 . 2)] 
    ))
 
 (define number-builtins

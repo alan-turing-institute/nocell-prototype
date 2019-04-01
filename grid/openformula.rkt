@@ -11,7 +11,8 @@ language used within OpenDocument spreadsheets [1].
 
 TODO
 - Only a limited set of functions are supported
-
+- ROUND has subtly different semantics to Racket
+- Implement test to ensure all builtins are implemented
 |#
 
 (require (only-in racket/string string-join)
@@ -81,25 +82,75 @@ TODO
      )))
 
 
-(define (fmt-infix op a1 a2)
+(define (fmt-binary-op op a1 a2)
   (format "(~a~a~a)" a1 op a2))
 
-(define (fmt-prefix fn-name as)
+(define (fmt-unary-op op a)
+  (format "(~a~a)" op a))
+
+(define (fmt-fn fn-name as)
   (string-join as ";"
                #:before-first (string-append fn-name "(")
                #:after-last ")"))
 
-;; symbol? (List-of cell-expr?) -> string?
+(define (fmt-unary-or-binary-op op args)
+  (if (= (length args) 1)
+      (fmt-unary-op op (car args))
+      (fmt-binary-op op (car args) (cadr args))))
+
+;; format-app : symbol? (List-of cell-expr?) -> string?
 (define (format-app builtin fmt-args)
-  (match `(,builtin . ,fmt-args)
-    [(list op x y)      #:when (memq op '(+ - * /))
-                        (fmt-infix op x y)]
-    [(list 'expt x y)   (fmt-infix "POWER" x y)]
-    [(list 'modulo x y) (fmt-infix "MOD" x y)]
-    [(list 'truncate x) (fmt-infix "TRUNC" x)]
-    [(list '+ xs ...)   (fmt-prefix "SUM" xs)]
-    [(list '* xs ...)   (fmt-prefix "PRODUCT" xs)]
-    [(list fn xs ...)   (fmt-prefix (string-upcase (symbol->string fn)) xs)]
+  (match builtin
+    ;; Lookup and reference
+    ['ref               (error "Ref not yet defined")]
+    ;; Arithmetic
+    ['+                 (fmt-unary-or-binary-op "+" fmt-args)]
+    ['-                 (fmt-unary-or-binary-op "-" fmt-args)]
+    ['*                 (fmt-binary-op "*" (car fmt-args) (cadr fmt-args))]
+    ['/                 (fmt-binary-op "/" (car fmt-args) (cadr fmt-args))]
+    ['abs               (fmt-fn "ABS" fmt-args)]
+    ['round             (fmt-fn "ROUND" fmt-args)]  ;; note slightly different semantics to Racket when
+                                                    ;; resolving ties
+    ['truncate          (fmt-fn "TRUNC" fmt-args)]
+    ['floor             (fmt-fn "FLOOR" fmt-args)]
+    ['ceiling           (fmt-fn "CEILING" fmt-args)]
+    ;; Multiple arity
+    ['sum               (error "sum not yet defined")]
+    ['min               (error "min not yet defined")]
+    ['max               (error "max not yet defined")]
+    ;; Functions of ranges
+    ['range-sum         (error "range-sum not yet defined")]
+    ['range-min         (error "range-min not yet defined")]
+    ['range-max         (error "range-max not yet defined")]
+    ;; Integer artithmetic
+    ['quotient          (fmt-fn "QUOTIENT" fmt-args)]
+    ['remainder         (format "MODULO(~a;SIGN(~a)*ABS(~a))"
+                                (car fmt-args)
+                                (car fmt-args)
+                                (cadr fmt-args))]
+    ['modulo (fmt-fn "MOD" fmt-args)]
+    ;; Powers and roots
+    ['expt (fmt-binary-op "^")]
+    ['exp  (fmt-fn "EXP" fmt-args)]
+    ['log (if (= (length (fmt-args) 1))
+              (fmt-fn "LN" fmt-args) ; Natural log
+              (if (string=? (cadr fmt-args) "10")
+                  (fmt-fn "LOG10" (car fmt-args)) ; Log to base 10
+                  (fmt-fn "LOG" fmt-args)))] ; Log with arbitrary base
+    ['sqrt (fmt-fn "SQRT" fmt-args)]
+    ;; Trigonometic functions
+    ['sin (fmt-fn "SIN" fmt-args)]
+    ['cos (fmt-fn "COS" fmt-args)]
+    ['tan (fmt-fn "TAN" fmt-args)]
+    ['asin (fmt-fn "ASIN" fmt-args)]
+    ['acos (fmt-fn "ACOS" fmt-args)]
+    ['atan (fmt-fn "ATAN" fmt-args)]
+    ;; Other
+    ['random
+     (cond
+       [(= (length fmt-args) 0) (fmt-fn "RAND" fmt-args)]
+       [(= (length fmt-args) 1) (format "RANDBETWEEN(0,(~a-1))" (car fmt-args))]
+       [else (format "RANDBETWEEN(~a,(~a-1))" (car fmt-args) (cadr fmt-args))])]
     ))
 
 ;; --------------------------------------------------------------------------------
@@ -132,11 +183,6 @@ TODO
         (row-1 (add1 (cell-addr-row ref))))
     (format ".~a~a~a~a" col-$ col-A row-$ row-1)))
 
-
-;; ---------------------------------------------------------------------------------------------------
-;; Functions
-
-;; 
 
 
 ;; ---------------------------------------------------------------------------------------------------
@@ -216,3 +262,18 @@ TODO
     (cell-range (cell-addr 0 0 #t #t)
                 (cell-addr 1 1 #f #f)))
    "[.A1:.$B$2]"))
+
+;; Test cell-name
+;; TODO
+
+;; Test cell-app
+(module+ test
+  (test-case "Openformula: Applications"
+    (check-equal?
+     (cell-expr->openformula
+      (cell-app
+       'sqrt (list (cell-app
+                    '+ (list (cell-value-return 2)
+                             (cell-value-return 2))))))
+     "SQRT((2+2))")))
+

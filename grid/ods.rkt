@@ -8,9 +8,10 @@ Part 1, 2.2.4].
 
 TODO and LIMITATIONS
  - Produces fods, the single-file XML format
- - Currently only copes with cells whose values are simple-cell-value? (ie, a single value)
- - Doesn't cope with named ranges
-
+ - Currently only copes with cells whose values are:
+    - cell-value?
+    - cell-addr? (not cell-range?)
+    - cell-app? 
 |#
 
 
@@ -98,12 +99,14 @@ TODO and LIMITATIONS
 ;; ods-cell : cell? integer? integer? -> sxml?
 ;; TODO: Currently handles only:
 ;; - cell-value?
-;; - cell-ref? 
+;; - cell-ref?
+;; - cell-app?
 (define (ods-cell c row col)
   (let ([expr (cell-content c)])
     (cond
       [(cell-value? expr) (ods-cell-value expr)]
       [(cell-ref? expr)   (ods-cell-ref expr)]
+      [(cell-app? expr)   (ods-cell-app expr)]
       [else               #f])))
 
 
@@ -144,23 +147,21 @@ TODO and LIMITATIONS
     (text:p ,(if v "TRUE" "FALSE"))))
 
 ;; ---------------------------------------------------------------------------------------------------
-;; Deal with references
+;; Deal with formulae and references
 
-;; ods-cell-ref : cell-ref? -> sxml?
-;; TODO: Currently only handles single-cell references (not ranges)
-(define (ods-cell-ref r)
-  (if (cell-addr? r)
-      (ods-cell-addr (cell-addr-row r)
-                     (cell-addr-col r)
-                     (cell-addr-row-is-rel r)
-                     (cell-addr-col-is-rel r))
-      #f))
+;; ods-cell-app : cell-app? -> sxml?
+(define (ods-cell-app x)
+  `(table:table-cell
+    (@ (table:formula ,(ods-cell-formula x))
+       (office:value "333"))))
 
-;; ods-cell-addr : integer? integer? bool? bool? -> sxml?
-;; Note: row and col are always absolute; flags are only used to set output style
-(define (ods-cell-addr row col row-is-rel col-is-rel)
-  #f)
+;; ods-cell-ref : cell-app? -> sxml?
+;; Note that this is identical to ods-cell-app
+(define (ods-cell-ref x)
+  `(table:table-cell
+    (@ (table:formula ,(ods-cell-formula x))
+       (office:value "444"))))
 
-
-
-
+;; ods-cell-formula : cell-expr? -> string?
+(define (ods-cell-formula x)
+  (string-append "of:=" (cell-expr->openformula x)))
