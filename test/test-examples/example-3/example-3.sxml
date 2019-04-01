@@ -26,27 +26,28 @@
            (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
             "float")
            (office:value-type "float")
-           (office:value "0"))
-          (text:p "0")))
+           (office:value "100"))
+          (text:p "100")))
         (table:table-row
          (@ (table:style-name "ro1"))
          (table:table-cell
           (@
            (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
             "float")
+           (table:formula "of:=[.$A$1]")
            (office:value-type "float")
-           (office:value "2"))
-          (text:p "2")))
+           (office:value "100"))
+          (text:p "100")))
         (table:table-row
          (@ (table:style-name "ro1"))
          (table:table-cell
           (@
            (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
             "float")
-           (table:formula "of:=[.$A$1]+[.$A$2]")
+           (table:formula "of:=[.$A$2]")
            (office:value-type "float")
-           (office:value "2"))
-          (text:p "2")))
+           (office:value "100"))
+          (text:p "100")))
         (table:table-row
          (@ (table:style-name "ro1"))
          (table:table-cell
@@ -55,14 +56,15 @@
             "float")
            (table:formula "of:=[.$A$3]")
            (office:value-type "float")
-           (office:value "2"))
-          (text:p "2")))
+           (office:value "100"))
+          (text:p "100")))
         (table:table-row
          (@ (table:style-name "ro1"))
          (table:table-cell
           (@
            (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
             "float")
+           (table:formula "of:=[.$A$4]")
            (office:value-type "float")
            (office:value "100"))
           (text:p "100")))
@@ -84,54 +86,5 @@
            (table:formula "of:=[.$A$5]+[.$A$6]")
            (office:value-type "float")
            (office:value "101"))
-          (text:p "101")))
-        (table:table-row
-         (@ (table:style-name "ro1"))
-         (table:table-cell
-          (@
-           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
-            "float")
-           (table:formula "of:=[.$A$4]+[.$A$7]")
-           (office:value-type "float")
-           (office:value "103"))
-          (text:p "103")))
-        (table:table-row
-         (@ (table:style-name "ro1"))
-         (table:table-cell
-          (@
-           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
-            "float")
-           (table:formula "of:=[.$A$8]")
-           (office:value-type "float")
-           (office:value "103"))
-          (text:p "103")))
-        (table:table-row
-         (@ (table:style-name "ro1"))
-         (table:table-cell
-          (@
-           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
-            "float")
-           (office:value-type "float")
-           (office:value "0"))
-          (text:p "0")))
-        (table:table-row
-         (@ (table:style-name "ro1"))
-         (table:table-cell
-          (@
-           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
-            "float")
-           (table:formula "of:=[.$A$9]+[.$A$10]")
-           (office:value-type "float")
-           (office:value "103"))
-          (text:p "103")))
-        (table:table-row
-         (@ (table:style-name "ro1"))
-         (table:table-cell
-          (@
-           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
-            "float")
-           (table:formula "of:=[.$A$11]")
-           (office:value-type "float")
-           (office:value "103"))
-          (text:p "103"))))
+          (text:p "101"))))
        (table:named-expressions))))))
