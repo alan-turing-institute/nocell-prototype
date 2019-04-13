@@ -130,7 +130,7 @@ TODO
                                 (cadr fmt-args))]
     ['modulo (fmt-fn "MOD" fmt-args)]
     ;; Powers and roots
-    ['expt (fmt-binary-op "^")]
+    ['expt (fmt-binary-op "^" (car fmt-args) (cadr fmt-args))]
     ['exp  (fmt-fn "EXP" fmt-args)]
     ['log (if (= (length (fmt-args) 1))
               (fmt-fn "LN" fmt-args) ; Natural log
