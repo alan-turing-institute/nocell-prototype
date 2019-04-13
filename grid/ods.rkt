@@ -1,4 +1,4 @@
-#lang racket/base
+#lang racket
 
 #| 
 Convert a single `sheet` to a bytestream representation of an OpenDocument Spreadsheet document [odf,
@@ -93,6 +93,15 @@ TODO and LIMITATIONS
 (define (ods-row cells)
   (cons 'table:table-row cells))
 
+
+;; Helper function that returns null if the value is empty
+(define (unless-empty-value key value)
+  (if (null? value) null `(,key ,value)))
+
+
+;; Helper function that removes nulls from a list
+(define (without-nulls list) (filter-not null? list))
+
 ;; ---------------------------------------------------------------------------------------------------
 ;; The work of parsing cells 
 
@@ -118,33 +127,39 @@ TODO and LIMITATIONS
 ;; TODO: Currently handles only simple-cell-value?
 (define (ods-cell-value v)
   (if (simple-cell-value? v)
-      (let ([val (atomise v)])
-        (cond
-          [(nothing? val) (ods-cell-empty)]
-          [(real? val)    (ods-cell-real val)]
-          [(string? val)  (ods-cell-string val)]
-          [(boolean? val) (ods-cell-boolean val)]))
-      #f))
+    (table-table-cell (atomise v))
+    #f))
 
-(define (ods-cell-empty)
-  '(table:table-cell))
+(define (table-table-cell v)
+  (if (nothing? v) 
+    '(table:table-cell) 
+    `(table:table-cell 
+       (@ ,(office-value-type v)
+          ,(office-value v))
+       ,(office-text-p v ))))
 
-(define (ods-cell-real v)
-  `(table:table-cell
-    (@ (office:value ,(number->string v))
-       (office:value-type "float"))
-    (text:p ,v)))
+(define (office-value v)
+  (cond
+    [(nothing? v) '()]
+    [(string? v) `(office:string-value ,v)]
+    [(number? v) `(office:value ,v)]
+    [(boolean? v) `(office:boolean-value ,(if v "true" "false"))]))
 
-(define (ods-cell-string v)
-  `(table:table-cell
-    (@  (office:value-type "string"))
-    (text:p ,v)))
+(define (office-value-type v)
+  (let ([t (cond
+             [(nothing? v) '()]
+             [(string? v) "string"]
+             [(number? v) "float"]
+             [(boolean? v) "boolean"])])
+    (unless-empty-value 'office:value-type v)))
 
-(define (ods-cell-boolean v)
-  `(table:table-cell
-    (@ (office:boolean-value ,(if v "true" "false"))
-       (office:value-type "boolean"))
-    (text:p ,(if v "TRUE" "FALSE"))))
+(define (office-text-p v)
+  (let ([t (cond
+              [(nothing? v) '()]
+              [(string? v) v]
+              [(number? v) (number->string v)]
+              [(boolean? v) (if v "TRUE" "FALSE")])])
+    (unless-empty-value 'text:p v)))
 
 ;; ---------------------------------------------------------------------------------------------------
 ;; Deal with formulae and references
