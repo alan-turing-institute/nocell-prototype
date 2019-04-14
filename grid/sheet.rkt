@@ -73,7 +73,10 @@ sheet type and hide all the interals of the structs. For now, it's the former.
                                   (row-definitions any/c)
                                   (meta (listof any/c))
                                   (name (or/c string? #f)))]
-  [struct cell                   ((content cell-expr?))]
+  [struct cell                   ((content cell-expr?)
+                                  (cached-value atomic-value?)
+                                  (style-name string?)
+                                  (number-of-columns-repeated integer?))]
   [struct cell-expr              ()]
   [struct (cell-name  cell-expr) ((id string?))]
   [struct (cell-app   cell-expr) ((builtin symbol?) (args (listof cell-expr?)))]
@@ -130,10 +133,10 @@ sheet type and hide all the interals of the structs. For now, it's the former.
 (struct style-definitions (number-styles column-styles row-styles cell-styles))
 (struct column-definition (style-name number-columns-repeated default-cell-style-name))
 (struct row-definition (style-name number-rows-repeated default-cell-style-name))
-(struct number-style (name decimal-places))
-(struct column-style (name parent-name number-style-name column-width))
-(struct row-style (name parent-name number-style-name row-style-name))
-(struct cell-style (name parent-name cell-style-definition text-style-definition number-style-name))
+(struct number-style (style-name decimal-places))
+(struct column-style (style-name parent-name number-style-name column-width))
+(struct row-style (style-name parent-name number-style-name row-style-name))
+(struct cell-style (style-name parent-name cell-style-definition text-style-definition number-style-name))
 (struct cell-style-definition (background-color border-bottom))
 (struct text-style-definition (font-weight font-color font-style))
 
