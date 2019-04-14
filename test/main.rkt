@@ -19,8 +19,8 @@
 ;; maybe-expected-path.  If the expected path is missing, attempt the
 ;; conversion anyway, even though the check cannot be performed.
 (define ((check-convert conv) maybe-input-path maybe-expect-path)
-  (define maybe-input  (map (curryr dynamic-require 'result) maybe-input-path))
-  (define maybe-expect (map (curryr dynamic-require 'result) maybe-expect-path))
+  (define maybe-input  (attempt-load maybe-input-path))
+  (define maybe-expect (attempt-load maybe-expect-path))
   (define maybe-actual ((lift/maybe conv) maybe-input))
   ((lift/maybe (λ (v1 v2) (check-within v1 v2 1e-8))) maybe-actual maybe-expect))
 
@@ -36,19 +36,15 @@
   (for ([test-dir (directory-list "test-examples" #:build? #t)])
     (define (paths/suffix suffix) (filter (curryr path-has-extension? suffix)
                                           (directory-list test-dir #:build? #t)))
-    (match-let ([(list nocell-path cell-path grid-path sxml-path)
-                 (map paths/suffix '(".nocell" ".cell" ".grid" ".sxml"))])
+    (match-let ([(list nocell-path cell-path grid-path sxml-path ods-path)
+                 (map paths/suffix '(".nocell" ".cell" ".grid" ".sxml" ".ods"))])
       ;; make a new namespace so that the name counters in nocell
       ;; begin at zero for each test example
       (parameterize ([current-namespace (make-base-namespace)])
-        (namespace-attach-module (namespace-anchor->namespace top)
-                                 "../stack-lang/cell.rkt")
-        (namespace-attach-module (namespace-anchor->namespace top)
-                                 "../grid/ods.rkt")
+        (namespace-attach-module (namespace-anchor->namespace top) "../stack-lang/cell.rkt")
+        (namespace-attach-module (namespace-anchor->namespace top) "../grid/ods.rkt")
         (check:nocell->cell nocell-path cell-path)
         (check:cell->grid   cell-path   grid-path)
-        ;; for now, check that grid->sxml succeeds, but don't check the result
-        ;; (check:grid->sxml   grid-path   sxml-path)
         (check:grid->sxml   grid-path   null)
-        ;; check that the conversion succeeds, but not the resulting file
-        (check:grid->fods   grid-path   null)))))
+        (check:grid->fods   grid-path   null)
+        ))))
