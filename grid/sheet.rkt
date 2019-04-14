@@ -74,9 +74,9 @@ sheet type and hide all the interals of the structs. For now, it's the former.
                                   (meta (listof any/c))
                                   (name (or/c string? #f)))]
   [struct cell                   ((content cell-expr?)
-                                  (cached-value atomic-value?)
-                                  (style-name string?)
-                                  (number-of-columns-repeated integer?))]
+                                  (cached-value (or/c null atomic-value?))
+                                  (style-name (or/c null string?))
+                                  (number-of-columns-repeated (or/c null integer?)))]
   [struct cell-expr              ()]
   [struct (cell-name  cell-expr) ((id string?))]
   [struct (cell-app   cell-expr) ((builtin symbol?) (args (listof cell-expr?)))]

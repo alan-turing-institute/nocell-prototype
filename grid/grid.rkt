@@ -128,7 +128,7 @@ TODO
 ;; Turn something made by (cell ...) into an actual cell, replacing any named references with a
 ;; reference
 (define ((anon-cell/ids->cell ids) ac)
-  (s:cell ((expr/ids->cell-expr ids) (anon-cell-spec-contents ac))))
+  (s:cell ((expr/ids->cell-expr ids) (anon-cell-spec-contents ac)) null null null))
 
 ;; epxr/ids->cell-expr : -> cell-expr?
 (define ((expr/ids->cell-expr ids) expr)
