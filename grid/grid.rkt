@@ -110,7 +110,10 @@ TODO
       (if maybe-dup
           (raise-argument-error 'sheet "Duplicate named reference" maybe-dup)
           (s:sheet (make-dereferenced-array rows ids)
-                   null
+                   null ;; refs
+                   null ;; style-definitions
+                   null ;; column-definitions
+                   null ;; row-definitions
                    (map row-spec-meta rows) ;; meta
                    name)))))
 

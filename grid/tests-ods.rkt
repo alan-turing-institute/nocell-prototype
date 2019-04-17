@@ -32,15 +32,15 @@
        (table:table-row
         (table:table-cell
          (@ (office:value "10") (office:value-type "float"))
-         (text:p 10))
+         (text:p "10"))
         (table:table-cell
          (@ (office:value "20") (office:value-type "float"))
-         (text:p 20)))
+         (text:p "20")))
        (table:table-row
         (table:table-cell
          (@ (office:value "30") (office:value-type "float"))
-         (text:p 30))
+         (text:p "30"))
         (table:table-cell
          (@ (office:value "40") (office:value-type "float"))
-         (text:p 40)))))))))
+         (text:p "40")))))))))
 

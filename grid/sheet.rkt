@@ -97,6 +97,7 @@ sheet type and hide all the interals of the structs. For now, it's the former.
   ;; Constructors and conversions 
   [cell-value-return (atomic-value? . -> . simple-cell-value?)]
   [atomise (cell-value? . -> . atomic-value?)] 
+  [unstyled-cell (cell-expr? . -> . cell?)]
 
   ;; Indexing and reference
   [range-extent (cell-range? . -> . range-extent/c)]
@@ -126,6 +127,7 @@ sheet type and hide all the interals of the structs. For now, it's the former.
 (struct sheet (cells refs style-definitions column-definitions row-definitions meta name) #:transparent)
 (struct cell (content cached-value style-name number-of-columns-repeated) #:transparent)
 (struct cell-expr () #:transparent)
+(define (unstyled-cell e) (cell e null null null))
 (struct cell-app cell-expr (builtin args) #:transparent)
 (struct cell-value cell-expr (elements) #:transparent)
 (struct cell-name cell-expr (id) #:transparent)

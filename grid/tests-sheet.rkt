@@ -41,10 +41,10 @@
 ;;                 "(compose sheet->lists lists->sheet) not identity."))
 
 (define sht
-  (let ([contents (array #[#[(cell (cell-value-return 0)) (cell (cell-value-return 1))]     ; row 0
-                           #[(cell (cell-value-return 2)) (cell (cell-value-return 3))]])]  ; row 1
+  (let ([contents (array #[#[(unstyled-cell (cell-value-return 0)) (unstyled-cell (cell-value-return 1))]     ; row 0
+                           #[(unstyled-cell (cell-value-return 2)) (unstyled-cell (cell-value-return 3))]])]  ; row 1
         [refs     `(("id" . ,(cell-addr 1 0 #t #f)))])
-    (sheet contents refs null "a-sheet")))
+    (sheet contents refs null null null null "a-sheet")))
 
 (test-case "Referencing in sheets"
   (check-equal?

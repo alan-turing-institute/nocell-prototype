@@ -134,15 +134,15 @@ TODO and LIMITATIONS
   (if (nothing? v) 
     '(table:table-cell) 
     `(table:table-cell 
-       (@ ,(office-value-type v)
-          ,(office-value v))
+       (@ ,(office-value v)
+          ,(office-value-type v))
        ,(office-text-p v ))))
 
 (define (office-value v)
   (cond
     [(nothing? v) '()]
     [(string? v) `(office:string-value ,v)]
-    [(number? v) `(office:value ,v)]
+    [(number? v) `(office:value ,(number->string v))]
     [(boolean? v) `(office:boolean-value ,(if v "true" "false"))]))
 
 (define (office-value-type v)
@@ -151,7 +151,7 @@ TODO and LIMITATIONS
              [(string? v) "string"]
              [(number? v) "float"]
              [(boolean? v) "boolean"])])
-    (unless-empty-value 'office:value-type v)))
+    (unless-empty-value 'office:value-type t)))
 
 (define (office-text-p v)
   (let ([t (cond
@@ -159,7 +159,7 @@ TODO and LIMITATIONS
               [(string? v) v]
               [(number? v) (number->string v)]
               [(boolean? v) (if v "TRUE" "FALSE")])])
-    (unless-empty-value 'text:p v)))
+    (unless-empty-value 'text:p t)))
 
 ;; ---------------------------------------------------------------------------------------------------
 ;; Deal with formulae and references
