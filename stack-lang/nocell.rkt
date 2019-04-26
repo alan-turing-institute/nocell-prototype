@@ -5,6 +5,7 @@
          syntax/id-table)
 
 (provide stack-print
+         @
          sum
          product
          len
@@ -193,7 +194,8 @@
                        (make-assignment #:id      res-name
                                         #:expr    (id top)
                                         #:val     (val top)
-                                        #:context 'result)
+                                        #:context 'result
+                                        #:note    (note top))
                        (append
                         result-stack
                         args-stack)))))))))]))
@@ -234,7 +236,7 @@
   (define top (stack-top stack))
   (stack-push
    (struct-copy assignment top
-                [name (cons d (name top))])                
+                [name (cons d (name top))])
    (cdr stack)))
 
 (define (copy-define d stack)
@@ -245,7 +247,8 @@
                 [calls (current-calls)]
                 [name (list d)]
                 [expr (id top)]
-                [context 'body])
+                [context 'body]
+                [note null]) ; clear the note
    stack))
 
 ;; Grant an *unnamed* stack-top value a name, or copy a named variable
@@ -266,6 +269,18 @@
 (define-primitive-stack-fn (halt)
   ("halt" halt)
   +nan.0)
+
+;; Label a value with a note (intended to appear as a note on the
+;; cell(s), or as text somewhere adjacent to the value, as the
+;; formatting rules allow).  Appears everywhere the value is
+;; references.
+(define (@ expr . note-strs)
+  (define top (stack-top expr))
+  (stack-push
+   (struct-copy assignment top
+                [note (cons (string-join (map stack-top-val note-strs) "\n")
+                            (note top))])
+   (cdr expr)))
 
 ;; if is a function
 (define-primitive-stack-fn (if& test-expr then-expr else-expr)

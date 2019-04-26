@@ -81,7 +81,7 @@
 ;; - val is the value of the result of evaluating expr
 ;;
 ;; - context either 'arg, 'body, 'result
-(struct assignment (id name calls expr val context) #:transparent)
+(struct assignment (id name calls expr val context note) #:transparent)
 
 ;; more convenient constructor
 (define (make-assignment #:id      id
@@ -89,8 +89,9 @@
                          #:calls   [calls (current-calls)]
                          #:expr    expr
                          #:val     val
-                         #:context [context 'body])
-  (assignment id name calls expr val context))
+                         #:context [context 'body]
+                         #:note    [note null])
+  (assignment id name calls expr val context note))
 
 ;; shorter names for things...
 (define (id      v) (assignment-id      v))
@@ -99,6 +100,7 @@
 (define (expr    v) (assignment-expr    v))
 (define (val     v) (assignment-val     v))
 (define (context v) (assignment-context v))
+(define (note    v) (assignment-note    v))
 
 (define (stack-top-val s) (val (stack-top s)))
 
