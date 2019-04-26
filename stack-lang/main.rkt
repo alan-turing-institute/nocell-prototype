@@ -107,7 +107,7 @@
 ;;
 (define (vector-format a)
   (let ((format-elt (lambda (x)
-                      (if (number? x)
+                      (if (rational? x)
                           (~a (~r x #:min-width 9 #:precision 4)
                               #:width 10 #:align 'right)
                           (~a x #:width 10)))))
@@ -120,20 +120,20 @@
          (name-fmt    (map (compose ~a name) stack))
          (id-fmt      (map (compose ~a id) stack))
          (val-fmt     (map (compose vector-format val) stack))
-         (expr-fmt    (map (compose ~a expr) stack))
+         (expr-fmt    (map (compose (λ (e) (let ((e* (if (pair? e) (cons (caar e) (cdr e)) e))) (~a e*))) expr) stack))
          (calls-width (apply max (map string-length calls-fmt)))
          (name-width  (apply max (map string-length name-fmt)))
          (id-width    (apply max (map string-length id-fmt)))
          (val-width   (apply max (map string-length val-fmt)))
          (expr-width  (apply max (map string-length expr-fmt))))
     (display
-     (foldl (lambda (c n k v e acc)
+     (foldl (lambda (n k v e acc)
               (string-append
-               (format "~a ~a ~a | ~a | ~a~%"
-                       (~a c #:min-width calls-width)
+               (format "~a ~a | ~a | ~a~%"
+                       ;(~a c #:min-width calls-width)
                        (~a n #:min-width name-width)
                        (~a k #:min-width id-width)
                        (~a e #:min-width expr-width)
                        (~a v #:min-width val-width))
                acc))
-            "" calls-fmt name-fmt id-fmt val-fmt expr-fmt))))
+            "" name-fmt id-fmt val-fmt expr-fmt))))

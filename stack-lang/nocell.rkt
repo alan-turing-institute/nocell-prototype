@@ -9,7 +9,12 @@
          product
          len
          nth
+         halt
          (rename-out (=& =))
+         (rename-out (<&  <))
+         (rename-out (<=& <=))
+         (rename-out (>&  >))
+         (rename-out (>=& >=))
          (rename-out (+& +))
          (rename-out (-& -))
          (rename-out (*& *))
@@ -17,6 +22,7 @@
          (rename-out (expt& expt))
          (rename-out (define& define))
 
+         ;(rename-out (if-bounded-depth if))
          (rename-out (if& if))
          if*
 
@@ -28,6 +34,8 @@
 
          require
          provide)
+
+(define current-max-branching-depth (make-parameter 8))
 
 
 ;; Datum
@@ -162,24 +170,33 @@
        #'(define f
            (let ((name-counter 0))
              (lambda (args ...)
-               (let* ((args-no-kw (make-arg 'args-no-kw args-no-kw is-last-arg)) ...
-                      (res-name   (make-name f-str (post-inc! name-counter)))
-                      (result-stack
-                       (parameterize ((current-calls (cons (cons (fn-name (datum->syntax #'stx 'f)) res-name)
-                                                           (current-calls))))
-                         body ...))
-                      (top        (stack-top result-stack))
-                      (result-val (val top))
-                      (args-stack (splice-argument-stacks rargs ...)))
-                 (remove-duplicates-before
-                  (stack-push
-                   (make-assignment #:id      res-name
-                                    #:expr    (id top)
-                                    #:val     (val top)
-                                    #:context 'result)
-                   (append
-                    result-stack
-                    args-stack))))))))]))
+               (if (> (length (current-calls)) (current-max-branching-depth))
+                   (halt)
+                   (let* ((args-no-kw   (make-arg 'args-no-kw args-no-kw
+                                                  is-last-arg)) ...
+                          (res-name     (make-name f-str (post-inc!
+                                                          name-counter)))
+                          (result-stack (parameterize ((current-calls
+                                                        (cons
+                                                         (cons
+                                                          (fn-name
+                                                           (datum->syntax
+                                                            #'stx 'f))
+                                                          res-name)
+                                                         (current-calls))))
+                                          body ...))
+                          (top        (stack-top result-stack))
+                          (result-val (val top))
+                          (args-stack (splice-argument-stacks rargs ...)))
+                     (remove-duplicates-before
+                      (stack-push
+                       (make-assignment #:id      res-name
+                                        #:expr    (id top)
+                                        #:val     (val top)
+                                        #:context 'result)
+                       (append
+                        result-stack
+                        args-stack)))))))))]))
 
 ;; Given a function fn of two variables, return a function taking
 ;; either scalar or vector arguments and broadcasting any scalar
@@ -246,6 +263,10 @@
     [(_ id expr)
      #'(define id (rename-or-copy 'id expr))]))
 
+(define-primitive-stack-fn (halt)
+  ("halt" halt)
+  +nan.0)
+
 ;; if is a function
 (define-primitive-stack-fn (if& test-expr then-expr else-expr)
   ("branch" if)
@@ -272,6 +293,23 @@
   ("eq?" =)
   ((vectorize =) a b))
 
+(define-primitive-stack-fn (<& a b)
+  ("lt?" <)
+  ((vectorize <) a b))
+
+(define-primitive-stack-fn (<=& a b)
+  ("le?" <=)
+  ((vectorize <=) a b))
+
+(define-primitive-stack-fn (>& a b)
+  ("gt?" >)
+  ((vectorize >) a b))
+
+(define-primitive-stack-fn (>=& a b)
+  ("ge?" >=)
+  ((vectorize >=) a b))
+
+
 (define-primitive-stack-fn (expt& a b)
   ("expn" expt)
   ((vectorize expt) a b))
@@ -287,12 +325,6 @@
   (if (vector? xs)
       (sequence-fold * 1 xs)
       xs))
-
-;; (define-primitive-stack-fn (nth n a)
-;;   ("n" nth)
-;;   (if (vector? a)
-;;       (vector-ref a n)
-;;       a))
 
 (define-primitive-stack-fn (len a)
   ("l" len)
