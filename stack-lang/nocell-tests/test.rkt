@@ -6,7 +6,7 @@
 (define-runtime-path actual-stack-langs "actual-stack-lang/")
 (define-runtime-path expected-stack-langs "expected-stack-lang/")
 
-(module+ test
+(module+ test-ignore
   (require "../main.rkt")
   (require rackunit)
 
