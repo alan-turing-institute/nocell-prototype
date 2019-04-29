@@ -1,0 +1,135 @@
+; -*- racket -*-
+#lang racket
+(require "../../../stack-lang/main.rkt")
+
+(provide result)
+
+(define result
+  (list
+   (assignment '%fact0 '(result) '() '%fact1 24 'result '())
+   (assignment '%fact1 '() '((1 . %fact0)) '%fact2 24 'result '())
+   (assignment '%fact2 '() '((1 . %fact1) (1 . %fact0)) '%fact3 24 'result '())
+   (assignment
+    '%fact3
+    '()
+    '((1 . %fact2) (1 . %fact1) (1 . %fact0))
+    '%fact4
+    24
+    'result
+    '())
+   (assignment
+    '%fact4
+    '()
+    '((1 . %fact3) (1 . %fact2) (1 . %fact1) (1 . %fact0))
+    '%arg9
+    24
+    'result
+    '())
+   (assignment
+    '%arg9
+    '(acc)
+    '((1 . %fact3) (1 . %fact2) (1 . %fact1) (1 . %fact0))
+    '%prod3
+    24
+    'last-arg
+    '())
+   (assignment
+    '%arg8
+    '(n)
+    '((1 . %fact3) (1 . %fact2) (1 . %fact1) (1 . %fact0))
+    '%diff3
+    0
+    'arg
+    '())
+   (assignment
+    '%prod3
+    '()
+    '((1 . %fact3) (1 . %fact2) (1 . %fact1) (1 . %fact0))
+    '((* () ()) %arg6 %arg7)
+    24
+    'body
+    '())
+   (assignment
+    '%diff3
+    '()
+    '((1 . %fact3) (1 . %fact2) (1 . %fact1) (1 . %fact0))
+    '((- () ()) %arg6 %e9)
+    0
+    'body
+    '())
+   (assignment
+    '%e9
+    '()
+    '((1 . %fact3) (1 . %fact2) (1 . %fact1) (1 . %fact0))
+    1
+    1
+    'body
+    '())
+   (assignment
+    '%arg7
+    '(acc)
+    '((1 . %fact2) (1 . %fact1) (1 . %fact0))
+    '%prod2
+    24
+    'last-arg
+    '())
+   (assignment
+    '%arg6
+    '(n)
+    '((1 . %fact2) (1 . %fact1) (1 . %fact0))
+    '%diff2
+    1
+    'arg
+    '())
+   (assignment
+    '%prod2
+    '()
+    '((1 . %fact2) (1 . %fact1) (1 . %fact0))
+    '((* () ()) %arg4 %arg5)
+    24
+    'body
+    '())
+   (assignment
+    '%diff2
+    '()
+    '((1 . %fact2) (1 . %fact1) (1 . %fact0))
+    '((- () ()) %arg4 %e7)
+    1
+    'body
+    '())
+   (assignment '%e7 '() '((1 . %fact2) (1 . %fact1) (1 . %fact0)) 1 1 'body '())
+   (assignment
+    '%arg5
+    '(acc)
+    '((1 . %fact1) (1 . %fact0))
+    '%prod1
+    12
+    'last-arg
+    '())
+   (assignment '%arg4 '(n) '((1 . %fact1) (1 . %fact0)) '%diff1 2 'arg '())
+   (assignment
+    '%prod1
+    '()
+    '((1 . %fact1) (1 . %fact0))
+    '((* () ()) %arg2 %arg3)
+    12
+    'body
+    '())
+   (assignment
+    '%diff1
+    '()
+    '((1 . %fact1) (1 . %fact0))
+    '((- () ()) %arg2 %e5)
+    2
+    'body
+    '())
+   (assignment '%e5 '() '((1 . %fact1) (1 . %fact0)) 1 1 'body '())
+   (assignment '%arg3 '(acc) '((1 . %fact0)) '%prod0 4 'last-arg '())
+   (assignment '%arg2 '(n) '((1 . %fact0)) '%diff0 3 'arg '())
+   (assignment '%prod0 '() '((1 . %fact0)) '((* () ()) %arg0 %arg1) 4 'body '())
+   (assignment '%diff0 '() '((1 . %fact0)) '((- () ()) %arg0 %e3) 3 'body '())
+   (assignment '%e3 '() '((1 . %fact0)) 1 1 'body '())
+   (assignment '%arg1 '(acc) '() '%e1 1 'last-arg '())
+   (assignment '%arg0 '(n) '() '%e0 4 'arg '())
+   (assignment '%e1 '() '() 1 1 'body '())
+   (assignment '%e0 '() '() 4 4 'body '())))
