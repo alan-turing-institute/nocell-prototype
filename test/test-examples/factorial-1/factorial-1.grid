@@ -1,0 +1,9 @@
+; -*- racket -*-
+#lang racket
+(require math/array
+         "../../../grid/sheet.rkt")
+
+(provide result)
+
+(define result
+  (sheet (mutable-array #[#[(cell (cell-value (array #[#[4]])))] #[(cell (cell-addr 0 0 #t #t))] #[(cell (cell-value (array #[#[1]])))] #[(cell (cell-app '- (list (cell-addr 1 0 #t #t) (cell-addr 2 0 #t #t))))] #[(cell (cell-addr 3 0 #t #t))] #[(cell (cell-value (array #[#[1]])))] #[(cell (cell-app '- (list (cell-addr 4 0 #t #t) (cell-addr 5 0 #t #t))))] #[(cell (cell-addr 6 0 #t #t))] #[(cell (cell-value (array #[#[1]])))] #[(cell (cell-app '- (list (cell-addr 7 0 #t #t) (cell-addr 8 0 #t #t))))] #[(cell (cell-addr 9 0 #t #t))] #[(cell (cell-value (array #[#[1]])))] #[(cell (cell-app '- (list (cell-addr 10 0 #t #t) (cell-addr 11 0 #t #t))))] #[(cell (cell-addr 12 0 #t #t))] #[(cell (cell-value (array #[#[1]])))] #[(cell (cell-addr 14 0 #t #t))] #[(cell (cell-app '* (list (cell-addr 10 0 #t #t) (cell-addr 15 0 #t #t))))] #[(cell (cell-addr 16 0 #t #t))] #[(cell (cell-app '* (list (cell-addr 7 0 #t #t) (cell-addr 17 0 #t #t))))] #[(cell (cell-addr 18 0 #t #t))] #[(cell (cell-app '* (list (cell-addr 4 0 #t #t) (cell-addr 19 0 #t #t))))] #[(cell (cell-addr 20 0 #t #t))] #[(cell (cell-app '* (list (cell-addr 1 0 #t #t) (cell-addr 21 0 #t #t))))] #[(cell (cell-addr 22 0 #t #t))]]) '() '((body 0 0 exact) (last-arg 0 0 exact) (body 1 1 exact) (body 1 1 exact) (last-arg 1 1 exact) (body 2 1 exact) (body 2 1 exact) (last-arg 2 1 exact) (body 3 1 exact) (body 3 1 exact) (last-arg 3 1 exact) (body 4 1 exact) (body 4 1 exact) (last-arg 4 1 exact) (body 5 1 exact) (result 4 1 exact) (body 4 1 exact) (result 3 1 exact) (body 3 1 exact) (result 2 1 exact) (body 2 1 exact) (result 1 1 exact) (body 1 1 exact) (result 0 0 exact)) "unnamed-sheet"))
