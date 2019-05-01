@@ -1,6 +1,7 @@
 #lang racket
 
-(require racket/syntax)
+(require racket/syntax
+         racket/struct)
 
 (provide (all-defined-out)
          (for-syntax (all-defined-out)))
@@ -80,10 +81,24 @@
 ;;
 ;; - val is the value of the result of evaluating expr
 ;;
-;; - sampler is a thunk returning samples from the distribution of the result
+;; - sampler is a thunk returning samples from the distribution of the
+;; result, intended to be used from inside e.g. a MH sampler
 ;;
-;; - context either 'arg, 'body, 'result
-(struct assignment (id name calls expr val sampler context note) #:transparent)
+;; - context is either 'arg, 'body, 'result, 'result-mean, 'result-stdev
+;;
+;; - note is a list of zero or one strings, intended to provide a
+;; human-readable comment or annotation of the meaning of the value
+(struct assignment (id name calls expr val sampler context note) #:transparent
+  ;; ignore the sampler when comparing assignments
+  #:methods gen:equal+hash
+  [(define (equal-proc a b recursive-equal?)
+     (equal? (struct->list (struct-copy assignment a [sampler #f]))
+             (struct->list (struct-copy assignment b [sampler #f]))))
+   (define (hash-proc a recursive-equal-hash)
+     (equal-hash-code (struct->list (struct-copy assignment a [sampler #f]))))
+   (define (hash2-proc a recursive-equal-hash)
+     (add1 (equal-secondary-hash-code
+            (struct->list (struct-copy assignment a [sampler #f])))))])
 
 ;; more convenient constructor
 (define (make-assignment #:id      id

@@ -1,15 +1,17 @@
 ; -*- racket -*-
 #lang racket
 (require "../../../stack-lang/main.rkt")
-
 (provide result)
-
 (define result
-  (list
-   (assignment '%sum0 '(result) '() '((+ () ()) %a0 %e1) 101 'body '())
-   (assignment '%e1 '(c) '() 1 1 'body '())
-   (assignment '%a0 '() '() '%b0 100 'result '())
-   (assignment '%b0 '() '((1 . %a0)) '%e2 100 'result '())
-   (assignment '%e2 '(c) '((2 . %b0) (1 . %a0)) '%arg0 100 'body '())
-   (assignment '%arg0 '(x) '((1 . %a0)) '%e0 100 'last-arg '())
-   (assignment '%e0 '(z) '() 100 100 'body '())))
+(list
+ (assignment '%sum0 '(result) '() '((+ () ()) %a0 %e1) 101 #f 'body '())
+ (assignment '%e1 '(c) '() 1 1 #f 'body '())
+ (assignment '%a0 '() '() '%b0 100 #f 'result '())
+ (assignment '%a2 '() '() 100 100 #f 'result-mean '())
+ (assignment '%a1 '() '() 0 0 #f 'result-stdev '())
+ (assignment '%b0 '() '((1 . %a0)) '%e2 100 #f 'result '())
+ (assignment '%b2 '() '((1 . %a0)) 100 100 #f 'result-mean '())
+ (assignment '%b1 '() '((1 . %a0)) 0 0 #f 'result-stdev '())
+ (assignment '%e2 '(c) '((2 . %b0) (1 . %a0)) '%arg0 100 #f 'body '())
+ (assignment '%arg0 '(x) '((1 . %a0)) '%e0 100 #f 'last-arg '())
+ (assignment '%e0 '(z) '() 100 100 #f 'body '())))
