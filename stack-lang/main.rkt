@@ -92,12 +92,12 @@
   ;; ignore the sampler when comparing assignments
   #:methods gen:equal+hash
   [(define (equal-proc a b recursive-equal?)
-     (equal? (struct->list (struct-copy assignment a [sampler #f]))
-             (struct->list (struct-copy assignment b [sampler #f]))))
+     (recursive-equal? (struct->list (struct-copy assignment a [sampler #f]))
+                       (struct->list (struct-copy assignment b [sampler #f]))))
    (define (hash-proc a recursive-equal-hash)
-     (equal-hash-code (struct->list (struct-copy assignment a [sampler #f]))))
+     (recursive-equal-hash (struct->list (struct-copy assignment a [sampler #f]))))
    (define (hash2-proc a recursive-equal-hash)
-     (add1 (equal-secondary-hash-code
+     (add1 (recursive-equal-hash
             (struct->list (struct-copy assignment a [sampler #f])))))])
 
 ;; more convenient constructor
