@@ -22,7 +22,7 @@
   (define maybe-input  (map (curryr dynamic-require 'result) maybe-input-path))
   (define maybe-expect (map (curryr dynamic-require 'result) maybe-expect-path))
   (define maybe-actual ((lift/maybe conv) maybe-input))
-  ((lift/maybe check-equal?) maybe-actual maybe-expect))
+  ((lift/maybe (λ (v1 v2) (check-within v1 v2 1e-8))) maybe-actual maybe-expect))
 
 ;; Check conversions nocell -> cell -> grid -> sxml, grid -> fods
 ;;
