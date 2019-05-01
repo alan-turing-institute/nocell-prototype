@@ -38,6 +38,7 @@
          require
          provide)
 
+(define deterministic-sampler?      (make-parameter #t))
 (define current-max-branching-depth (make-parameter 8))
 (define current-mh-burn-steps       (make-parameter 2000))
 (define current-mh-sample-steps     (make-parameter 20000))
@@ -199,12 +200,14 @@
                         (result-val    (val top))
                         (args-stack    (splice-argument-stacks rargs ...)))
                      (let-values ([(result-mean result-var)
-                                   (let ((s (mh-sampler ((sampler top)))))
-                                     (for ([i (current-mh-burn-steps)])
-                                       (s))
-                                     (sampler->mean+variance
-                                      s
-                                      (current-mh-sample-steps)))])
+                                   (begin
+                                     (when (deterministic-sampler?) (random-seed 0))
+                                     (let ((s (mh-sampler ((sampler top)))))
+                                       (for ([i (current-mh-burn-steps)])
+                                         (s))
+                                       (sampler->mean+variance
+                                        s
+                                        (current-mh-sample-steps))))])
                        (remove-duplicates-before
                         (stack-push
                          (make-assignment #:id      res-name
