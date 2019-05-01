@@ -5,7 +5,7 @@ dist: xenial
 install:
   - wget https://mirror.racket-lang.org/installers/7.2/racket-7.2-x86_64-linux.sh
   - sudo bash racket-7.2-x86_64-linux.sh --unix-style --dest /usr
-  - raco pkg install --auto "git://github.com/rmculpepper/gamble" && true
+  - raco pkg install --auto "git://github.com/rmculpepper/gamble" || true
 
 script:
   - raco pkg install --auto
