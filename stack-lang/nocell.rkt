@@ -9,6 +9,7 @@
          ±
          +/-
          ~normal
+         ~uniform
          stack-print
          sum
          product
@@ -200,7 +201,7 @@
                         (result-val    (val top))
                         (args-stack    (splice-argument-stacks rargs ...)))
                      (let-values ([(result-mean result-var)
-                                   (begin
+                                   (parameterize ([default-proposal (proposal:resample)])
                                      (when (deterministic-sampler?) (random-seed 0))
                                      (let ((s (mh-sampler ((sampler top)))))
                                        (for ([i (current-mh-burn-steps)])
@@ -397,18 +398,26 @@
            then-expr
            else-expr)]))
 
-(define (~normal mean stdev #:observations [observations '()])
-  (list (struct-copy assignment (stack-top mean)
+;; two parameter distribution: gamble produces an error when mapping
+;; over rest args here!
+(define ((~2 distribution-kind) a b
+                                #:observations [observations '()]
+                                #:val v)
+  (list (struct-copy assignment (stack-top v)
                      [sampler
                       (λ ()
-                        (define dist (normal-dist ((sampler (stack-top mean)))
-                                                  ((sampler (stack-top stdev)))))
+                        (define dist
+                          (distribution-kind ((sampler (stack-top a)))
+                                             ((sampler (stack-top b)))))
                         (unless (null? observations)
                           (for ([obs (stack-top-val observations)])
                             (observe-sample dist obs)))
                         (sample dist))])))
 
+(define ~normal (~2 normal-dist))
+(define ~uniform (~2 uniform-dist))
+
 ;; don't permit the observations keyword argument with the +/- form
-(define (+/- mean stdev) (~normal mean stdev))
+(define (+/- mean stdev) (~normal mean stdev #:val mean))
 
 (define ± +/-)
