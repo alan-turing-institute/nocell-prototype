@@ -1,0 +1,23 @@
+; -*- racket -*-
+#lang s-exp "../../stack-lang/nocell.rkt"
+
+(provide dcf)
+
+(define (dcf years cash-flow terminal-growth discount-rate)
+  (define m (len cash-flow))
+  (define final-year-cash-flow (nth (- m 1) cash-flow))
+
+  (define discounted-cash-flow
+    (/ cash-flow
+       (expt (+ 1 discount-rate) (- years (nth 0 years)))))
+  
+  (define terminal-value
+    (/ (* final-year-cash-flow (+ terminal-growth 1))
+       (- discount-rate terminal-growth)))
+  
+  (define discounted-terminal-value
+    (/ terminal-value
+       (expt (+ 1 discount-rate) (- years (nth 0 years)))))
+  
+  (+ (sum discounted-cash-flow)
+     (nth (- m 1) discounted-terminal-value)))

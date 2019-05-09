@@ -1,0 +1,17 @@
+; -*- racket -*-
+#lang s-exp "../../../stack-lang/nocell.rkt"
+(provide result)
+
+(require "../../test-lib/timesheet-data.nocell")
+
+(define (daily-hours/person ts)
+  (define mean  (~uniform 3.0 9.0 #:val 6.0))
+  (define stdev (~uniform 0.2 2.0 #:val 1.1))
+  (~normal mean stdev #:val mean #:observations ts))
+
+(define (total-daily-hours)
+  (+ (daily-hours/person timesheet-1)
+     (+ (daily-hours/person timesheet-2)
+        (daily-hours/person timesheet-3))))
+
+(define result (total-daily-hours))

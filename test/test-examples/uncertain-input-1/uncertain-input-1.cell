@@ -9,8 +9,8 @@
   '%dcf2
   '()
   '()
-  5881.700118064677
-  5881.700118064677
+  6009.207896320528
+  6009.207896320528
   #f
   'result-mean
   '())
@@ -18,8 +18,8 @@
   '%dcf1
   '()
   '()
-  9.240697190330499e-10
-  9.240697190330499e-10
+  869.8474501014581
+  869.8474501014581
   #f
   'result-stdev
   '())
@@ -88,8 +88,8 @@
   'body
   '())
  (assignment '%select2 '() '((1 . %dcf0)) '#(1 0 0 0) '#(1 0 0 0) #f 'body '())
- (assignment '%sum2 '() '((1 . %dcf0)) '((+ () ()) %e8 %arg3) 1.1 #f 'body '())
- (assignment '%e8 '() '((1 . %dcf0)) 1 1 #f 'body '())
+ (assignment '%sum2 '() '((1 . %dcf0)) '((+ () ()) %e9 %arg3) 1.1 #f 'body '())
+ (assignment '%e9 '() '((1 . %dcf0)) 1 1 #f 'body '())
  (assignment
   '%quot1
   '(terminal-value)
@@ -121,12 +121,12 @@
   '%sum1
   '()
   '((1 . %dcf0))
-  '((+ () ()) %arg2 %e7)
+  '((+ () ()) %arg2 %e8)
   1.03
   #f
   'body
   '())
- (assignment '%e7 '() '((1 . %dcf0)) 1 1 #f 'body '())
+ (assignment '%e8 '() '((1 . %dcf0)) 1 1 #f 'body '())
  (assignment
   '%vsum0
   '(final-year-cash-flow)
@@ -194,13 +194,13 @@
   'body
   '())
  (assignment '%select1 '() '((1 . %dcf0)) '#(1 0 0 0) '#(1 0 0 0) #f 'body '())
- (assignment '%sum0 '() '((1 . %dcf0)) '((+ () ()) %e5 %arg3) 1.1 #f 'body '())
- (assignment '%e5 '() '((1 . %dcf0)) 1 1 #f 'body '())
- (assignment '%arg3 '(discount-rate) '() '%e3 0.1 #f 'last-arg '())
+ (assignment '%sum0 '() '((1 . %dcf0)) '((+ () ()) %e6 %arg3) 1.1 #f 'body '())
+ (assignment '%e6 '() '((1 . %dcf0)) 1 1 #f 'body '())
+ (assignment '%arg3 '(discount-rate) '() '%e4 0.1 #f 'last-arg '())
  (assignment '%arg2 '(terminal-growth) '() '%e2 0.03 #f 'arg '())
  (assignment '%arg1 '(cash-flow) '() '%e1 '#(-100 -50 150 500) #f 'arg '())
  (assignment '%arg0 '(years) '() '%e0 '#(2010 2011 2012 2013) #f 'arg '())
- (assignment '%e3 '(discount-rate) '() 0.1 0.1 #f 'body '())
+ (assignment '%e4 '(discount-rate) '() 0.1 0.1 #f 'body '())
  (assignment '%e2 '(terminal-growth) '() 0.03 0.03 #f 'body '())
  (assignment
   '%e1

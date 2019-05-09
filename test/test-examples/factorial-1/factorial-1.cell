@@ -1,123 +1,192 @@
 ; -*- racket -*-
 #lang racket
 (require "../../../stack-lang/main.rkt")
-
 (provide result)
-
 (define result
-  (list
-   (assignment '%fact0 '(result) '() '%prod3 24 'result '())
-   (assignment
-    '%prod3
-    '()
-    '((1 . %fact0))
-    '((* () ()) %arg0 %fact1)
-    24
-    'body
-    '())
-   (assignment '%fact1 '() '((1 . %fact0)) '%prod2 6 'result '())
-   (assignment
-    '%prod2
-    '()
-    '((1 . %fact1) (1 . %fact0))
-    '((* () ()) %arg1 %fact2)
-    6
-    'body
-    '())
-   (assignment '%fact2 '() '((1 . %fact1) (1 . %fact0)) '%prod1 2 'result '())
-   (assignment
-    '%prod1
-    '()
-    '((1 . %fact2) (1 . %fact1) (1 . %fact0))
-    '((* () ()) %arg2 %fact3)
-    2
-    'body
-    '())
-   (assignment
-    '%fact3
-    '()
-    '((1 . %fact2) (1 . %fact1) (1 . %fact0))
-    '%prod0
-    1
-    'result
-    '())
-   (assignment
-    '%prod0
-    '()
-    '((1 . %fact3) (1 . %fact2) (1 . %fact1) (1 . %fact0))
-    '((* () ()) %arg3 %fact4)
-    1
-    'body
-    '())
-   (assignment
-    '%fact4
-    '()
-    '((1 . %fact3) (1 . %fact2) (1 . %fact1) (1 . %fact0))
-    '%e10
-    1
-    'result
-    '())
-   (assignment
-    '%e10
-    '()
-    '((1 . %fact4) (1 . %fact3) (1 . %fact2) (1 . %fact1) (1 . %fact0))
-    1
-    1
-    'body
-    '())
-   (assignment
-    '%arg4
-    '(n)
-    '((1 . %fact3) (1 . %fact2) (1 . %fact1) (1 . %fact0))
-    '%diff3
-    0
-    'last-arg
-    '())
-   (assignment
-    '%diff3
-    '()
-    '((1 . %fact3) (1 . %fact2) (1 . %fact1) (1 . %fact0))
-    '((- () ()) %arg3 %e8)
-    0
-    'body
-    '())
-   (assignment
-    '%e8
-    '()
-    '((1 . %fact3) (1 . %fact2) (1 . %fact1) (1 . %fact0))
-    1
-    1
-    'body
-    '())
-   (assignment
-    '%arg3
-    '(n)
-    '((1 . %fact2) (1 . %fact1) (1 . %fact0))
-    '%diff2
-    1
-    'last-arg
-    '())
-   (assignment
-    '%diff2
-    '()
-    '((1 . %fact2) (1 . %fact1) (1 . %fact0))
-    '((- () ()) %arg2 %e6)
-    1
-    'body
-    '())
-   (assignment '%e6 '() '((1 . %fact2) (1 . %fact1) (1 . %fact0)) 1 1 'body '())
-   (assignment '%arg2 '(n) '((1 . %fact1) (1 . %fact0)) '%diff1 2 'last-arg '())
-   (assignment
-    '%diff1
-    '()
-    '((1 . %fact1) (1 . %fact0))
-    '((- () ()) %arg1 %e4)
-    2
-    'body
-    '())
-   (assignment '%e4 '() '((1 . %fact1) (1 . %fact0)) 1 1 'body '())
-   (assignment '%arg1 '(n) '((1 . %fact0)) '%diff0 3 'last-arg '())
-   (assignment '%diff0 '() '((1 . %fact0)) '((- () ()) %arg0 %e2) 3 'body '())
-   (assignment '%e2 '() '((1 . %fact0)) 1 1 'body '())
-   (assignment '%arg0 '(n) '() '%e0 4 'last-arg '())
-   (assignment '%e0 '() '() 4 4 'body '())))
+(list
+ (assignment '%fact0 '(result) '() '%prod3 24 #f 'result '())
+ (assignment '%fact2 '() '() 24 24 #f 'result-mean '())
+ (assignment '%fact1 '() '() 0 0 #f 'result-stdev '())
+ (assignment
+  '%prod3
+  '()
+  '((1 . %fact0))
+  '((* () ()) %arg0 %fact3)
+  24
+  #f
+  'body
+  '())
+ (assignment '%fact3 '() '((1 . %fact0)) '%prod2 6 #f 'result '())
+ (assignment '%fact5 '() '((1 . %fact0)) 6 6 #f 'result-mean '())
+ (assignment '%fact4 '() '((1 . %fact0)) 0 0 #f 'result-stdev '())
+ (assignment
+  '%prod2
+  '()
+  '((1 . %fact3) (1 . %fact0))
+  '((* () ()) %arg1 %fact6)
+  6
+  #f
+  'body
+  '())
+ (assignment '%fact6 '() '((1 . %fact3) (1 . %fact0)) '%prod1 2 #f 'result '())
+ (assignment '%fact8 '() '((1 . %fact3) (1 . %fact0)) 2 2 #f 'result-mean '())
+ (assignment '%fact7 '() '((1 . %fact3) (1 . %fact0)) 0 0 #f 'result-stdev '())
+ (assignment
+  '%prod1
+  '()
+  '((1 . %fact6) (1 . %fact3) (1 . %fact0))
+  '((* () ()) %arg2 %fact9)
+  2
+  #f
+  'body
+  '())
+ (assignment
+  '%fact9
+  '()
+  '((1 . %fact6) (1 . %fact3) (1 . %fact0))
+  '%prod0
+  1
+  #f
+  'result
+  '())
+ (assignment
+  '%fact11
+  '()
+  '((1 . %fact6) (1 . %fact3) (1 . %fact0))
+  1
+  1
+  #f
+  'result-mean
+  '())
+ (assignment
+  '%fact10
+  '()
+  '((1 . %fact6) (1 . %fact3) (1 . %fact0))
+  0
+  0
+  #f
+  'result-stdev
+  '())
+ (assignment
+  '%prod0
+  '()
+  '((1 . %fact9) (1 . %fact6) (1 . %fact3) (1 . %fact0))
+  '((* () ()) %arg3 %fact12)
+  1
+  #f
+  'body
+  '())
+ (assignment
+  '%fact12
+  '()
+  '((1 . %fact9) (1 . %fact6) (1 . %fact3) (1 . %fact0))
+  '%e10
+  1
+  #f
+  'result
+  '())
+ (assignment
+  '%fact14
+  '()
+  '((1 . %fact9) (1 . %fact6) (1 . %fact3) (1 . %fact0))
+  1
+  1
+  #f
+  'result-mean
+  '())
+ (assignment
+  '%fact13
+  '()
+  '((1 . %fact9) (1 . %fact6) (1 . %fact3) (1 . %fact0))
+  0
+  0
+  #f
+  'result-stdev
+  '())
+ (assignment
+  '%e10
+  '()
+  '((1 . %fact12) (1 . %fact9) (1 . %fact6) (1 . %fact3) (1 . %fact0))
+  1
+  1
+  #f
+  'body
+  '())
+ (assignment
+  '%arg4
+  '(n)
+  '((1 . %fact9) (1 . %fact6) (1 . %fact3) (1 . %fact0))
+  '%diff3
+  0
+  #f
+  'last-arg
+  '())
+ (assignment
+  '%diff3
+  '()
+  '((1 . %fact9) (1 . %fact6) (1 . %fact3) (1 . %fact0))
+  '((- () ()) %arg3 %e8)
+  0
+  #f
+  'body
+  '())
+ (assignment
+  '%e8
+  '()
+  '((1 . %fact9) (1 . %fact6) (1 . %fact3) (1 . %fact0))
+  1
+  1
+  #f
+  'body
+  '())
+ (assignment
+  '%arg3
+  '(n)
+  '((1 . %fact6) (1 . %fact3) (1 . %fact0))
+  '%diff2
+  1
+  #f
+  'last-arg
+  '())
+ (assignment
+  '%diff2
+  '()
+  '((1 . %fact6) (1 . %fact3) (1 . %fact0))
+  '((- () ()) %arg2 %e6)
+  1
+  #f
+  'body
+  '())
+ (assignment
+  '%e6
+  '()
+  '((1 . %fact6) (1 . %fact3) (1 . %fact0))
+  1
+  1
+  #f
+  'body
+  '())
+ (assignment
+  '%arg2
+  '(n)
+  '((1 . %fact3) (1 . %fact0))
+  '%diff1
+  2
+  #f
+  'last-arg
+  '())
+ (assignment
+  '%diff1
+  '()
+  '((1 . %fact3) (1 . %fact0))
+  '((- () ()) %arg1 %e4)
+  2
+  #f
+  'body
+  '())
+ (assignment '%e4 '() '((1 . %fact3) (1 . %fact0)) 1 1 #f 'body '())
+ (assignment '%arg1 '(n) '((1 . %fact0)) '%diff0 3 #f 'last-arg '())
+ (assignment '%diff0 '() '((1 . %fact0)) '((- () ()) %arg0 %e2) 3 #f 'body '())
+ (assignment '%e2 '() '((1 . %fact0)) 1 1 #f 'body '())
+ (assignment '%arg0 '(n) '() '%e0 4 #f 'last-arg '())
+ (assignment '%e0 '() '() 4 4 #f 'body '())))

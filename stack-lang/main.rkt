@@ -1,6 +1,7 @@
 #lang racket
 
-(require racket/syntax)
+(require racket/syntax
+         racket/struct)
 
 (provide (all-defined-out)
          (for-syntax (all-defined-out)))
@@ -80,8 +81,24 @@
 ;;
 ;; - val is the value of the result of evaluating expr
 ;;
-;; - context either 'arg, 'body, 'result
-(struct assignment (id name calls expr val context note) #:transparent)
+;; - sampler is a thunk returning samples from the distribution of the
+;; result, intended to be used from inside e.g. a MH sampler
+;;
+;; - context is either 'arg, 'body, 'result, 'result-mean, 'result-stdev
+;;
+;; - note is a list of zero or one strings, intended to provide a
+;; human-readable comment or annotation of the meaning of the value
+(struct assignment (id name calls expr val sampler context note) #:transparent
+  ;; ignore the sampler when comparing assignments
+  #:methods gen:equal+hash
+  [(define (equal-proc a b recursive-equal?)
+     (recursive-equal? (struct->list (struct-copy assignment a [sampler #f]))
+                       (struct->list (struct-copy assignment b [sampler #f]))))
+   (define (hash-proc a recursive-equal-hash)
+     (recursive-equal-hash (struct->list (struct-copy assignment a [sampler #f]))))
+   (define (hash2-proc a recursive-equal-hash)
+     (add1 (recursive-equal-hash
+            (struct->list (struct-copy assignment a [sampler #f])))))])
 
 ;; more convenient constructor
 (define (make-assignment #:id      id
@@ -89,9 +106,10 @@
                          #:calls   [calls (current-calls)]
                          #:expr    expr
                          #:val     val
+                         #:sampler [sampler (const val)]
                          #:context [context 'body]
                          #:note    [note null])
-  (assignment id name calls expr val context note))
+  (assignment id name calls expr val sampler context note))
 
 ;; shorter names for things...
 (define (id      v) (assignment-id      v))
@@ -99,6 +117,7 @@
 (define (calls   v) (assignment-calls   v))
 (define (expr    v) (assignment-expr    v))
 (define (val     v) (assignment-val     v))
+(define (sampler v) (assignment-sampler v))
 (define (context v) (assignment-context v))
 (define (note    v) (assignment-note    v))
 

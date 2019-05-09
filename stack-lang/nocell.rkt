@@ -1,11 +1,16 @@
-#lang racket
+#lang gamble
 
-(require "main.rkt"
+(require (except-in racket #%module-begin #%top-interaction)
+         "main.rkt"
          racket/syntax
          syntax/id-table)
 
-(provide stack-print
-         @
+(provide @
+         ±
+         +/-
+         ~normal
+         ~uniform
+         stack-print
          sum
          product
          len
@@ -22,8 +27,6 @@
          (rename-out (/& /))
          (rename-out (expt& expt))
          (rename-out (define& define))
-
-         ;(rename-out (if-bounded-depth if))
          (rename-out (if& if))
          if*
 
@@ -36,8 +39,10 @@
          require
          provide)
 
+(define deterministic-sampler?      (make-parameter #t))
 (define current-max-branching-depth (make-parameter 8))
-
+(define current-mh-burn-steps       (make-parameter 2000))
+(define current-mh-sample-steps     (make-parameter 20000))
 
 ;; Datum
 ;;----------------------------------------------------------------------
@@ -79,6 +84,7 @@
     ;; body ... : expression? ...
     [(_ (f args ...) (f-str f-symb) body ...)
      (with-syntax ([(arg-vals ...) #'((val (stack-top args)) ...)]
+                   [(arg-samples ...) #'((sampler (stack-top args)) ...)]
                    [(arg-ids ...) #'((id (stack-top args)) ...)]
                    [(rargs ...) (syntax-reverse #'(args ...))])
        #'(define f
@@ -90,15 +96,19 @@
                        ;; expression expecting the value contents of
                        ;; the stacks)
                        (let ((args arg-vals) ...) body ...))
+                      (result-sampler
+                       (λ () (let ((args (arg-samples)) ...)
+                               body ...)))
                       (args-stack (remove-duplicates-before
                        ;; args put on the stack in reverse order
                        (append rargs ...)))
                       (res-name (make-name f-str (post-inc! name-counter))))
                  (stack-push
                   (make-assignment
-                   #:id    res-name
-                   #:expr  `([f-symb ,(shape arg-vals) ...] ,arg-ids ...)
-                   #:val   result)
+                   #:id      res-name
+                   #:expr    `([f-symb ,(shape arg-vals) ...] ,arg-ids ...)
+                   #:val     result
+                   #:sampler result-sampler)
                   args-stack))))))]))
 
 (define next-argument-name (name-generator "arg"))
@@ -110,6 +120,7 @@
     #:name    (list name)
     #:expr    (id (stack-top s))
     #:val     (val (stack-top s))
+    #:sampler (sampler (stack-top s))
     #:context (if is-last 'last-arg 'arg))
    s))
 
@@ -173,32 +184,52 @@
              (lambda (args ...)
                (if (> (length (current-calls)) (current-max-branching-depth))
                    (halt)
-                   (let* ((args-no-kw   (make-arg 'args-no-kw args-no-kw
-                                                  is-last-arg)) ...
-                          (res-name     (make-name f-str (post-inc!
-                                                          name-counter)))
-                          (result-stack (parameterize ((current-calls
-                                                        (cons
-                                                         (cons
-                                                          (fn-name
-                                                           (datum->syntax
-                                                            #'stx 'f))
-                                                          res-name)
-                                                         (current-calls))))
-                                          body ...))
-                          (top        (stack-top result-stack))
-                          (result-val (val top))
-                          (args-stack (splice-argument-stacks rargs ...)))
-                     (remove-duplicates-before
-                      (stack-push
-                       (make-assignment #:id      res-name
-                                        #:expr    (id top)
-                                        #:val     (val top)
-                                        #:context 'result
-                                        #:note    (note top))
-                       (append
-                        result-stack
-                        args-stack)))))))))]))
+                   (let*
+                       ((args-no-kw    (make-arg 'args-no-kw args-no-kw
+                                                 is-last-arg)) ...
+                        (res-name      (make-name f-str (post-inc! name-counter)))
+                        (res-name-var  (make-name f-str (post-inc! name-counter)))
+                        (res-name-mean (make-name f-str (post-inc! name-counter)))
+                        (result-stack
+                         (parameterize ((current-calls
+                                         (cons (cons
+                                                (fn-name (datum->syntax #'stx 'f))
+                                                res-name)
+                                               (current-calls))))
+                           body ...))
+                        (top           (stack-top result-stack))
+                        (result-val    (val top))
+                        (args-stack    (splice-argument-stacks rargs ...)))
+                     (let-values ([(result-mean result-var)
+                                   (parameterize ([default-proposal (proposal:resample)])
+                                     (when (deterministic-sampler?) (random-seed 0))
+                                     (let ((s (mh-sampler ((sampler top)))))
+                                       (for ([i (current-mh-burn-steps)])
+                                         (s))
+                                       (sampler->mean+variance
+                                        s
+                                        (current-mh-sample-steps))))])
+                       (remove-duplicates-before
+                        (stack-push
+                         (make-assignment #:id      res-name
+                                          #:expr    (id top)
+                                          #:val     (val top)
+                                          #:sampler (sampler top)
+                                          #:context 'result
+                                          #:note    (note top))
+                         (stack-push
+                          (make-assignment #:id      res-name-mean
+                                           #:expr    result-mean
+                                           #:val     result-mean
+                                           #:context 'result-mean)
+                          (stack-push
+                           (make-assignment #:id      res-name-var
+                                            #:expr    (sqrt result-var)
+                                            #:val     (sqrt result-var)
+                                            #:context 'result-stdev)
+                           (append
+                            result-stack
+                            args-stack))))))))))))]))
 
 ;; Given a function fn of two variables, return a function taking
 ;; either scalar or vector arguments and broadcasting any scalar
@@ -324,7 +355,6 @@
   ("ge?" >=)
   ((vectorize >=) a b))
 
-
 (define-primitive-stack-fn (expt& a b)
   ("expn" expt)
   ((vectorize expt) a b))
@@ -367,3 +397,27 @@
      #'(if (val (stack-top test-expr))
            then-expr
            else-expr)]))
+
+;; two parameter distribution: gamble produces an error when mapping
+;; over rest args here!
+(define ((~2 distribution-kind) a b
+                                #:observations [observations '()]
+                                #:val v)
+  (list (struct-copy assignment (stack-top v)
+                     [sampler
+                      (λ ()
+                        (define dist
+                          (distribution-kind ((sampler (stack-top a)))
+                                             ((sampler (stack-top b)))))
+                        (unless (null? observations)
+                          (for ([obs (stack-top-val observations)])
+                            (observe-sample dist obs)))
+                        (sample dist))])))
+
+(define ~normal (~2 normal-dist))
+(define ~uniform (~2 uniform-dist))
+
+;; don't permit the observations keyword argument with the +/- form
+(define (+/- mean stdev) (~normal mean stdev #:val mean))
+
+(define ± +/-)
