@@ -207,11 +207,11 @@
       (cell (cell-value (array #[#['nothing]])))
       (cell (cell-value (array #[#['nothing]])))
       (cell (cell-value (array #[#['nothing]])))]
-    #[(cell (cell-value (array #[#[860.2134976274538]])))
+    #[(cell (cell-value (array #[#[869.8474501014581]])))
       (cell (cell-value (array #[#['nothing]])))
       (cell (cell-value (array #[#['nothing]])))
       (cell (cell-value (array #[#['nothing]])))]
-    #[(cell (cell-value (array #[#[6006.1979312309495]])))
+    #[(cell (cell-value (array #[#[6009.207896320528]])))
       (cell (cell-value (array #[#['nothing]])))
       (cell (cell-value (array #[#['nothing]])))
       (cell (cell-value (array #[#['nothing]])))]
