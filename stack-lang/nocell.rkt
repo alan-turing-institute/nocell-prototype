@@ -413,7 +413,7 @@
                             (observe-sample dist obs)))
                         (sample dist))])))
 
-(define ~normal (distribution-2-paramter normal-dist))
+(define ~normal (distribution-2-parameter normal-dist))
 (define ~uniform (distribution-2-parameter uniform-dist))
 
 ;; don't permit the observations keyword argument with the +/- form
