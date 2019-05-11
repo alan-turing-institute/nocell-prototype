@@ -400,9 +400,8 @@
 
 ;; two parameter distribution: gamble produces an error when mapping
 ;; over rest args here!
-(define ((~2 distribution-kind) a b
-                                #:observations [observations '()]
-                                #:val v)
+(define ((distribution-2-parameter distribution-kind)
+         a b #:observations [observations '()] #:val v)
   (list (struct-copy assignment (stack-top v)
                      [sampler
                       (λ ()
@@ -414,8 +413,8 @@
                             (observe-sample dist obs)))
                         (sample dist))])))
 
-(define ~normal (~2 normal-dist))
-(define ~uniform (~2 uniform-dist))
+(define ~normal (distribution-2-paramter normal-dist))
+(define ~uniform (distribution-2-parameter uniform-dist))
 
 ;; don't permit the observations keyword argument with the +/- form
 (define (+/- mean stdev) (~normal mean stdev #:val mean))
