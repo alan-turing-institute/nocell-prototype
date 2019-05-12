@@ -19,7 +19,8 @@ TODO
          math/array
          (only-in racket/list flatten)
          rackunit
-         "sheet.rkt")
+         "sheet.rkt"
+         "column-letters.rkt")
 
 (provide openformula->cell-expr)
 

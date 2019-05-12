@@ -285,16 +285,16 @@
           <table:table-cell />
         </table:table-row>
         <table:table-row>
-          <table:table-cell office:value="9.240697190330499e-10" office:value-type="float">
-            <text:p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0">9.240697190330499e-10</text:p>
+          <table:table-cell office:value="869.8474501014581" office:value-type="float">
+            <text:p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0">869.8474501014581</text:p>
           </table:table-cell>
           <table:table-cell />
           <table:table-cell />
           <table:table-cell />
         </table:table-row>
         <table:table-row>
-          <table:table-cell office:value="5881.700118064677" office:value-type="float">
-            <text:p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0">5881.700118064677</text:p>
+          <table:table-cell office:value="6009.207896320528" office:value-type="float">
+            <text:p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0">6009.207896320528</text:p>
           </table:table-cell>
           <table:table-cell />
           <table:table-cell />

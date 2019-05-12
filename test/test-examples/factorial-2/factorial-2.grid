@@ -6,45 +6,80 @@
 (define result
 (sheet
  (mutable-array
-  #[#[(cell (cell-value (array #[#[4]])))]
-    #[(cell (cell-value (array #[#[1]])))]
-    #[(cell (cell-addr 0 0 #t #t))]
-    #[(cell (cell-addr 1 0 #t #t))]
-    #[(cell (cell-value (array #[#[1]])))]
-    #[(cell (cell-app '- (list (cell-addr 2 0 #t #t) (cell-addr 4 0 #t #t))))]
-    #[(cell (cell-app '* (list (cell-addr 2 0 #t #t) (cell-addr 3 0 #t #t))))]
-    #[(cell (cell-addr 5 0 #t #t))]
-    #[(cell (cell-addr 6 0 #t #t))]
-    #[(cell (cell-value (array #[#[1]])))]
-    #[(cell (cell-app '- (list (cell-addr 7 0 #t #t) (cell-addr 9 0 #t #t))))]
-    #[(cell (cell-app '* (list (cell-addr 7 0 #t #t) (cell-addr 8 0 #t #t))))]
-    #[(cell (cell-addr 10 0 #t #t))]
-    #[(cell (cell-addr 11 0 #t #t))]
-    #[(cell (cell-value (array #[#[1]])))]
-    #[(cell (cell-app '- (list (cell-addr 12 0 #t #t) (cell-addr 14 0 #t #t))))]
-    #[(cell (cell-app '* (list (cell-addr 12 0 #t #t) (cell-addr 13 0 #t #t))))]
-    #[(cell (cell-addr 15 0 #t #t))]
-    #[(cell (cell-addr 16 0 #t #t))]
-    #[(cell (cell-value (array #[#[1]])))]
-    #[(cell (cell-app '- (list (cell-addr 17 0 #t #t) (cell-addr 19 0 #t #t))))]
-    #[(cell (cell-app '* (list (cell-addr 17 0 #t #t) (cell-addr 18 0 #t #t))))]
-    #[(cell (cell-addr 20 0 #t #t))]
-    #[(cell (cell-addr 21 0 #t #t))]
-    #[(cell (cell-value (array #[#[0]])))]
-    #[(cell (cell-value (array #[#[24]])))]
-    #[(cell (cell-addr 23 0 #t #t))]
-    #[(cell (cell-value (array #[#[0]])))]
-    #[(cell (cell-value (array #[#[24]])))]
-    #[(cell (cell-addr 26 0 #t #t))]
-    #[(cell (cell-value (array #[#[0]])))]
-    #[(cell (cell-value (array #[#[24]])))]
-    #[(cell (cell-addr 29 0 #t #t))]
-    #[(cell (cell-value (array #[#[0]])))]
-    #[(cell (cell-value (array #[#[24]])))]
-    #[(cell (cell-addr 32 0 #t #t))]
-    #[(cell (cell-value (array #[#[0]])))]
-    #[(cell (cell-value (array #[#[24]])))]
-    #[(cell (cell-addr 35 0 #t #t))]])
+  #[#[(cell (cell-value (array #[#[4]])) '() '() '())]
+    #[(cell (cell-value (array #[#[1]])) '() '() '())]
+    #[(cell (cell-addr 0 0 #t #t) '() '() '())]
+    #[(cell (cell-addr 1 0 #t #t) '() '() '())]
+    #[(cell (cell-value (array #[#[1]])) '() '() '())]
+    #[(cell
+       (cell-app '- (list (cell-addr 2 0 #t #t) (cell-addr 4 0 #t #t)))
+       '()
+       '()
+       '())]
+    #[(cell
+       (cell-app '* (list (cell-addr 2 0 #t #t) (cell-addr 3 0 #t #t)))
+       '()
+       '()
+       '())]
+    #[(cell (cell-addr 5 0 #t #t) '() '() '())]
+    #[(cell (cell-addr 6 0 #t #t) '() '() '())]
+    #[(cell (cell-value (array #[#[1]])) '() '() '())]
+    #[(cell
+       (cell-app '- (list (cell-addr 7 0 #t #t) (cell-addr 9 0 #t #t)))
+       '()
+       '()
+       '())]
+    #[(cell
+       (cell-app '* (list (cell-addr 7 0 #t #t) (cell-addr 8 0 #t #t)))
+       '()
+       '()
+       '())]
+    #[(cell (cell-addr 10 0 #t #t) '() '() '())]
+    #[(cell (cell-addr 11 0 #t #t) '() '() '())]
+    #[(cell (cell-value (array #[#[1]])) '() '() '())]
+    #[(cell
+       (cell-app '- (list (cell-addr 12 0 #t #t) (cell-addr 14 0 #t #t)))
+       '()
+       '()
+       '())]
+    #[(cell
+       (cell-app '* (list (cell-addr 12 0 #t #t) (cell-addr 13 0 #t #t)))
+       '()
+       '()
+       '())]
+    #[(cell (cell-addr 15 0 #t #t) '() '() '())]
+    #[(cell (cell-addr 16 0 #t #t) '() '() '())]
+    #[(cell (cell-value (array #[#[1]])) '() '() '())]
+    #[(cell
+       (cell-app '- (list (cell-addr 17 0 #t #t) (cell-addr 19 0 #t #t)))
+       '()
+       '()
+       '())]
+    #[(cell
+       (cell-app '* (list (cell-addr 17 0 #t #t) (cell-addr 18 0 #t #t)))
+       '()
+       '()
+       '())]
+    #[(cell (cell-addr 20 0 #t #t) '() '() '())]
+    #[(cell (cell-addr 21 0 #t #t) '() '() '())]
+    #[(cell (cell-value (array #[#[0]])) '() '() '())]
+    #[(cell (cell-value (array #[#[24]])) '() '() '())]
+    #[(cell (cell-addr 23 0 #t #t) '() '() '())]
+    #[(cell (cell-value (array #[#[0]])) '() '() '())]
+    #[(cell (cell-value (array #[#[24]])) '() '() '())]
+    #[(cell (cell-addr 26 0 #t #t) '() '() '())]
+    #[(cell (cell-value (array #[#[0]])) '() '() '())]
+    #[(cell (cell-value (array #[#[24]])) '() '() '())]
+    #[(cell (cell-addr 29 0 #t #t) '() '() '())]
+    #[(cell (cell-value (array #[#[0]])) '() '() '())]
+    #[(cell (cell-value (array #[#[24]])) '() '() '())]
+    #[(cell (cell-addr 32 0 #t #t) '() '() '())]
+    #[(cell (cell-value (array #[#[0]])) '() '() '())]
+    #[(cell (cell-value (array #[#[24]])) '() '() '())]
+    #[(cell (cell-addr 35 0 #t #t) '() '() '())]])
+ '()
+ '()
+ '()
  '()
  '((body 0 0 exact)
    (body 0 0 exact)

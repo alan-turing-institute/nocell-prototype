@@ -42,6 +42,7 @@
         (define nocell-path (car nocell-paths))
         (define cell-path (path-replace-extension nocell-path ".cell"))
         (define grid-path (path-replace-extension nocell-path ".grid"))
+        (define fods-path (path-replace-extension nocell-path ".fods"))
         (define result (dynamic-require nocell-path 'result))
         (with-output-to-file cell-path #:exists 'replace
           (λ () (printf cell-template
@@ -51,4 +52,8 @@
 
         (with-output-to-file grid-path #:exists 'replace
           (λ () (printf grid-template
-                        (pretty-format (stack->sheet result)))))))))
+                        (pretty-format (stack->sheet result)))))
+
+        (with-output-to-file fods-path #:exists 'replace
+          (λ () (display (srl:sxml->xml (ods (stack->sheet result))))))
+        ))))

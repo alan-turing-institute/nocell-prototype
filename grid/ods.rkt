@@ -45,7 +45,8 @@ TODO and LIMITATIONS
     (@ (*NAMESPACES*
         [office "urn:oasis:names:tc:opendocument:xmlns:office:1.0"]
         [table  "urn:oasis:names:tc:opendocument:xmlns:table:1.0"]
-        [text   "urn:oasis:names:tc:opendocument:xmlns:text:1.0"]))
+        [text   "urn:oasis:names:tc:opendocument:xmlns:text:1.0"]
+        ))
     (*PI* xml "version=\"1.0\" encoding=\"UTF-8\"")
     (office:document
      (@ (office:version "1.2")
@@ -179,4 +180,4 @@ TODO and LIMITATIONS
 
 ;; ods-cell-formula : cell-expr? -> string?
 (define (ods-cell-formula x)
-  (string-append "of:=" (cell-expr->openformula x)))
+  (string-append "=" (cell-expr->openformula x)))

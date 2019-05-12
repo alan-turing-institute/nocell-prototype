@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" office:version="1.2" office:mimetype="application/vnd.oasis.opendocument.spreadsheet">
+  <office:body>
+    <office:spreadsheet>
+      <table:table xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" table:name="unnamed-sheet">
+        <table:table-column />
+        <table:table-row>
+          <table:table-cell office:value="4" office:value-type="float">
+            <text:p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0">4</text:p>
+          </table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell office:value="1" office:value-type="float">
+            <text:p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0">1</text:p>
+          </table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:formula="=[.A1]" office:value="444" />
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:formula="=[.A2]" office:value="444" />
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell office:value="1" office:value-type="float">
+            <text:p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0">1</text:p>
+          </table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:formula="=([.A3]-[.A5])" office:value="333" />
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:formula="=([.A3]*[.A4])" office:value="333" />
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:formula="=[.A6]" office:value="444" />
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:formula="=[.A7]" office:value="444" />
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell office:value="1" office:value-type="float">
+            <text:p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0">1</text:p>
+          </table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:formula="=([.A8]-[.A10])" office:value="333" />
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:formula="=([.A8]*[.A9])" office:value="333" />
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:formula="=[.A11]" office:value="444" />
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:formula="=[.A12]" office:value="444" />
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell office:value="1" office:value-type="float">
+            <text:p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0">1</text:p>
+          </table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:formula="=([.A13]-[.A15])" office:value="333" />
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:formula="=([.A13]*[.A14])" office:value="333" />
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:formula="=[.A16]" office:value="444" />
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:formula="=[.A17]" office:value="444" />
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell office:value="1" office:value-type="float">
+            <text:p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0">1</text:p>
+          </table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:formula="=([.A18]-[.A20])" office:value="333" />
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:formula="=([.A18]*[.A19])" office:value="333" />
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:formula="=[.A21]" office:value="444" />
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:formula="=[.A22]" office:value="444" />
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell office:value="0" office:value-type="float">
+            <text:p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0">0</text:p>
+          </table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell office:value="24" office:value-type="float">
+            <text:p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0">24</text:p>
+          </table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:formula="=[.A24]" office:value="444" />
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell office:value="0" office:value-type="float">
+            <text:p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0">0</text:p>
+          </table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell office:value="24" office:value-type="float">
+            <text:p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0">24</text:p>
+          </table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:formula="=[.A27]" office:value="444" />
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell office:value="0" office:value-type="float">
+            <text:p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0">0</text:p>
+          </table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell office:value="24" office:value-type="float">
+            <text:p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0">24</text:p>
+          </table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:formula="=[.A30]" office:value="444" />
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell office:value="0" office:value-type="float">
+            <text:p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0">0</text:p>
+          </table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell office:value="24" office:value-type="float">
+            <text:p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0">24</text:p>
+          </table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:formula="=[.A33]" office:value="444" />
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell office:value="0" office:value-type="float">
+            <text:p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0">0</text:p>
+          </table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell office:value="24" office:value-type="float">
+            <text:p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0">24</text:p>
+          </table:table-cell>
+        </table:table-row>
+        <table:table-row>
+          <table:table-cell table:formula="=[.A36]" office:value="444" />
+        </table:table-row>
+      </table:table>
+    </office:spreadsheet>
+  </office:body>
+</office:document>
