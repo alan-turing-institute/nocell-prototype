@@ -110,7 +110,10 @@ TODO
       (if maybe-dup
           (raise-argument-error 'sheet "Duplicate named reference" maybe-dup)
           (s:sheet (make-dereferenced-array rows ids)
-                   null
+                   null ;; refs
+                   null ;; style-definitions
+                   null ;; column-definitions
+                   null ;; row-definitions
                    (map row-spec-meta rows) ;; meta
                    name)))))
 
@@ -128,7 +131,7 @@ TODO
 ;; Turn something made by (cell ...) into an actual cell, replacing any named references with a
 ;; reference
 (define ((anon-cell/ids->cell ids) ac)
-  (s:cell ((expr/ids->cell-expr ids) (anon-cell-spec-contents ac))))
+  (s:cell ((expr/ids->cell-expr ids) (anon-cell-spec-contents ac)) null null null))
 
 ;; epxr/ids->cell-expr : -> cell-expr?
 (define ((expr/ids->cell-expr ids) expr)

@@ -6,17 +6,24 @@
 (define result
 (sheet
  (mutable-array
-  #[#[(cell (cell-value (array #[#[100]])))]
-    #[(cell (cell-addr 0 0 #t #t))]
-    #[(cell (cell-addr 1 0 #t #t))]
-    #[(cell (cell-value (array #[#[0]])))]
-    #[(cell (cell-value (array #[#[100]])))]
-    #[(cell (cell-addr 2 0 #t #t))]
-    #[(cell (cell-value (array #[#[0]])))]
-    #[(cell (cell-value (array #[#[100]])))]
-    #[(cell (cell-addr 5 0 #t #t))]
-    #[(cell (cell-value (array #[#[1]])))]
-    #[(cell (cell-app '+ (list (cell-addr 8 0 #t #t) (cell-addr 9 0 #t #t))))]])
+  #[#[(cell (cell-value (array #[#[100]])) '() '() '())]
+    #[(cell (cell-addr 0 0 #t #t) '() '() '())]
+    #[(cell (cell-addr 1 0 #t #t) '() '() '())]
+    #[(cell (cell-value (array #[#[0]])) '() '() '())]
+    #[(cell (cell-value (array #[#[100]])) '() '() '())]
+    #[(cell (cell-addr 2 0 #t #t) '() '() '())]
+    #[(cell (cell-value (array #[#[0]])) '() '() '())]
+    #[(cell (cell-value (array #[#[100]])) '() '() '())]
+    #[(cell (cell-addr 5 0 #t #t) '() '() '())]
+    #[(cell (cell-value (array #[#[1]])) '() '() '())]
+    #[(cell
+       (cell-app '+ (list (cell-addr 8 0 #t #t) (cell-addr 9 0 #t #t)))
+       '()
+       '()
+       '())]])
+ '()
+ '()
+ '()
  '()
  '((body 0 0 exact)
    (last-arg 1 1 exact)

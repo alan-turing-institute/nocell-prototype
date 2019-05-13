@@ -4,13 +4,21 @@
 An abstract representation of a single sheet in a spreadsheet.
 
 A "sheet" is:
- - a two-dimensional array? of cells; 
- - a list of names of ranges (not implemented); and
- - some metadata (not implemented)
+ - a name
+ - a two-dimensional array? of cells;  <- NB: Real spreadsheets are not, because of grouping
+ - a list of names of ranges (not implemented)
+ - a list of style definitions
+ - a list of column definitions (mainly defining the column style, esp its width)
+ - a list of row definitions (mainly defining the row style, esp its height)
+ - some metadata (not implemented) <- What is this?
+
+Note, for styles to work, need to have a repeated column at the end to 'fill' the remaining sheet, and an empty cell that repeats at the end of each row, and an empty row that repeats at the end of the document
 
 A "cell" is:
- - an expression; and
- - some other things (not implemented)
+ - an expression; 
+ - a cached value that should be the result of evaluating the expression
+ - an optional style name
+ - an optional number of columns it repeats over
 
 An "expression" is either:
  - a value
@@ -60,9 +68,15 @@ sheet type and hide all the interals of the structs. For now, it's the former.
   ;; Types
   [struct sheet                  ((cells array2d?)
                                   (refs (listof pair?))
+                                  (style-definitions any/c)
+                                  (column-definitions any/c)
+                                  (row-definitions any/c)
                                   (meta (listof any/c))
                                   (name (or/c string? #f)))]
-  [struct cell                   ((content cell-expr?))]
+  [struct cell                   ((content cell-expr?)
+                                  (cached-value (or/c null atomic-value?))
+                                  (style-name (or/c null string?))
+                                  (number-of-columns-repeated (or/c null integer?)))]
   [struct cell-expr              ()]
   [struct (cell-name  cell-expr) ((id string?))]
   [struct (cell-app   cell-expr) ((builtin symbol?) (args (listof cell-expr?)))]
@@ -83,6 +97,7 @@ sheet type and hide all the interals of the structs. For now, it's the former.
   ;; Constructors and conversions 
   [cell-value-return (atomic-value? . -> . simple-cell-value?)]
   [atomise (cell-value? . -> . atomic-value?)] 
+  [unstyled-cell (cell-expr? . -> . cell?)]
 
   ;; Indexing and reference
   [range-extent (cell-range? . -> . range-extent/c)]
@@ -109,13 +124,23 @@ sheet type and hide all the interals of the structs. For now, it's the former.
   (vector/c exact-positive-integer? exact-positive-integer?))
 
 
-(struct sheet (cells refs meta name) #:transparent)
-(struct cell (content) #:transparent)
+(struct sheet (cells refs style-definitions column-definitions row-definitions meta name) #:transparent)
+(struct cell (content cached-value style-name number-of-columns-repeated) #:transparent)
 (struct cell-expr () #:transparent)
+(define (unstyled-cell e) (cell e null null null))
 (struct cell-app cell-expr (builtin args) #:transparent)
 (struct cell-value cell-expr (elements) #:transparent)
 (struct cell-name cell-expr (id) #:transparent)
 (struct cell-ref cell-expr () #:transparent)
+(struct style-definitions (number-styles column-styles row-styles cell-styles))
+(struct column-definition (style-name number-columns-repeated default-cell-style-name))
+(struct row-definition (style-name number-rows-repeated default-cell-style-name))
+(struct number-style (style-name decimal-places))
+(struct column-style (style-name parent-name number-style-name column-width))
+(struct row-style (style-name parent-name number-style-name row-style-name))
+(struct cell-style (style-name parent-name cell-style-definition text-style-definition number-style-name))
+(struct cell-style-definition (background-color border-bottom))
+(struct text-style-definition (font-weight font-color font-style))
 
 ;; `col` and `row` are always absolute indices of the referent; the flags
 ;; `col-is-rel` and `row-is-rel` affect only the output 

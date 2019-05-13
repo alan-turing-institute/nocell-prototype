@@ -6,22 +6,41 @@
 (define result
 (sheet
  (mutable-array
-  #[#[(cell (cell-value (array #[#[0]])))]
-    #[(cell (cell-value (array #[#[2]])))]
-    #[(cell (cell-app '+ (list (cell-addr 0 0 #t #t) (cell-addr 1 0 #t #t))))]
-    #[(cell (cell-addr 2 0 #t #t))]
-    #[(cell (cell-value (array #[#[100]])))]
-    #[(cell (cell-value (array #[#[1]])))]
-    #[(cell (cell-app '+ (list (cell-addr 4 0 #t #t) (cell-addr 5 0 #t #t))))]
-    #[(cell (cell-app '+ (list (cell-addr 3 0 #t #t) (cell-addr 6 0 #t #t))))]
-    #[(cell (cell-value (array #[#[0]])))]
-    #[(cell (cell-value (array #[#[103]])))]
-    #[(cell (cell-addr 7 0 #t #t))]
-    #[(cell (cell-value (array #[#[0]])))]
-    #[(cell (cell-app '+ (list (cell-addr 10 0 #t #t) (cell-addr 11 0 #t #t))))]
-    #[(cell (cell-value (array #[#[0]])))]
-    #[(cell (cell-value (array #[#[103]])))]
-    #[(cell (cell-addr 12 0 #t #t))]])
+  #[#[(cell (cell-value (array #[#[0]])) '() '() '())]
+    #[(cell (cell-value (array #[#[2]])) '() '() '())]
+    #[(cell
+       (cell-app '+ (list (cell-addr 0 0 #t #t) (cell-addr 1 0 #t #t)))
+       '()
+       '()
+       '())]
+    #[(cell (cell-addr 2 0 #t #t) '() '() '())]
+    #[(cell (cell-value (array #[#[100]])) '() '() '())]
+    #[(cell (cell-value (array #[#[1]])) '() '() '())]
+    #[(cell
+       (cell-app '+ (list (cell-addr 4 0 #t #t) (cell-addr 5 0 #t #t)))
+       '()
+       '()
+       '())]
+    #[(cell
+       (cell-app '+ (list (cell-addr 3 0 #t #t) (cell-addr 6 0 #t #t)))
+       '()
+       '()
+       '())]
+    #[(cell (cell-value (array #[#[0]])) '() '() '())]
+    #[(cell (cell-value (array #[#[103]])) '() '() '())]
+    #[(cell (cell-addr 7 0 #t #t) '() '() '())]
+    #[(cell (cell-value (array #[#[0]])) '() '() '())]
+    #[(cell
+       (cell-app '+ (list (cell-addr 10 0 #t #t) (cell-addr 11 0 #t #t)))
+       '()
+       '()
+       '())]
+    #[(cell (cell-value (array #[#[0]])) '() '() '())]
+    #[(cell (cell-value (array #[#[103]])) '() '() '())]
+    #[(cell (cell-addr 12 0 #t #t) '() '() '())]])
+ '()
+ '()
+ '()
  '()
  '((body 0 0 exact)
    (body 0 0 exact)

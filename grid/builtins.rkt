@@ -37,6 +37,12 @@ Actual implementations must be provided by each backend
         (cdr nargs)
         nargs)))
 
+(define (unary-builtin id)
+  (cons id 1))
+
+(define (binary-builtin id)
+  (cons id 2))
+
 ;; Internal list of builtings
 ;; Each entry is a pair, (symbol? . arity?),
 ;; where arity? is either
@@ -45,34 +51,16 @@ Actual implementations must be provided by each backend
 
 (define *builtins*
   (list
-   ;; -- Lookup and reference --
-
-   ;; (ref range idx) for one-dimensional ranges
-   ;; (ref range col-idx row-idx) for two-dimenisional ranges
-   '[ref . (2 . 3)]
-   
-   ;; -- Maths --
-
    ;; Arithmetic
    '[+ . (1 .  2)]  ; + and - can also be unary prefix operators
    '[- . (1 .  2)]
    '[* . 2]
    '[/ . 2]
-   '[abs      . 1]
-   '[round    . 1]
-   '[truncate . 1]
-   '[floor    . 1]
-   '[ceiling  . 1]
 
-   ;; Multiple arity
+   ;; Functions of ranges
    '[sum . (1 . #f)]
    '[min . (1 . #f)] 
    '[max . (1 . #f)]
-   
-   ;; Functions of ranges
-   '[range-sum . 1]
-   '[range-min . 1] 
-   '[range-max . 1]
 
    ;; Integer arithmetic
    '[quotient  . 2]
@@ -81,6 +69,7 @@ Actual implementations must be provided by each backend
 
    ;; Powers and roots
    '[expt . 2]
+   '[exp  . 1]
    '[log  . (1 . 2)] ; log of one argument is natural log
 
    ;; Trigonometric functions
@@ -96,7 +85,17 @@ Actual implementations must be provided by each backend
    ;; (rand k) is a random integer 0 .. (k - 1)
    ;; (rand min max) is a random integer min ... (max - 1)
    '[random . (0 . 2)] 
-   
    ))
 
-
+(define number-builtins
+  (append
+  
+   (map binary-builtin
+        '(* /
+          quotient remainder modulo
+          expt))
+   (map unary-builtin
+        '(abs floor ceiling truncate 
+          sin cos tan
+          asin acos atan
+          sqrt exp))))

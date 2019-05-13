@@ -1,4 +1,4 @@
-#lang racket/base
+#lang racket
 
 #| 
 Convert a single `sheet` to a bytestream representation of an OpenDocument Spreadsheet document [odf,
@@ -8,9 +8,10 @@ Part 1, 2.2.4].
 
 TODO and LIMITATIONS
  - Produces fods, the single-file XML format
- - Currently only copes with cells whose values are simple-cell-value? (ie, a single value)
- - Doesn't cope with named ranges
-
+ - Currently only copes with cells whose values are:
+    - cell-value?
+    - cell-addr? (not cell-range?)
+    - cell-app? 
 |#
 
 
@@ -44,7 +45,8 @@ TODO and LIMITATIONS
     (@ (*NAMESPACES*
         [office "urn:oasis:names:tc:opendocument:xmlns:office:1.0"]
         [table  "urn:oasis:names:tc:opendocument:xmlns:table:1.0"]
-        [text   "urn:oasis:names:tc:opendocument:xmlns:text:1.0"]))
+        [text   "urn:oasis:names:tc:opendocument:xmlns:text:1.0"]
+        ))
     (*PI* xml "version=\"1.0\" encoding=\"UTF-8\"")
     (office:document
      (@ (office:version "1.2")
@@ -92,18 +94,29 @@ TODO and LIMITATIONS
 (define (ods-row cells)
   (cons 'table:table-row cells))
 
+
+;; Helper function that returns null if the value is empty
+(define (unless-empty-value key value)
+  (if (null? value) null `(,key ,value)))
+
+
+;; Helper function that removes nulls from a list
+(define (without-nulls list) (filter-not null? list))
+
 ;; ---------------------------------------------------------------------------------------------------
 ;; The work of parsing cells 
 
 ;; ods-cell : cell? integer? integer? -> sxml?
 ;; TODO: Currently handles only:
 ;; - cell-value?
-;; - cell-ref? 
+;; - cell-ref?
+;; - cell-app?
 (define (ods-cell c row col)
   (let ([expr (cell-content c)])
     (cond
       [(cell-value? expr) (ods-cell-value expr)]
       [(cell-ref? expr)   (ods-cell-ref expr)]
+      [(cell-app? expr)   (ods-cell-app expr)]
       [else               #f])))
 
 
@@ -115,52 +128,56 @@ TODO and LIMITATIONS
 ;; TODO: Currently handles only simple-cell-value?
 (define (ods-cell-value v)
   (if (simple-cell-value? v)
-      (let ([val (atomise v)])
-        (cond
-          [(nothing? val) (ods-cell-empty)]
-          [(real? val)    (ods-cell-real val)]
-          [(string? val)  (ods-cell-string val)]
-          [(boolean? val) (ods-cell-boolean val)]))
-      #f))
+    (table-table-cell (atomise v))
+    #f))
 
-(define (ods-cell-empty)
-  '(table:table-cell))
+(define (table-table-cell v)
+  (if (nothing? v) 
+    '(table:table-cell) 
+    `(table:table-cell 
+       (@ ,(office-value v)
+          ,(office-value-type v))
+       ,(office-text-p v ))))
 
-(define (ods-cell-real v)
-  `(table:table-cell
-    (@ (office:value ,(number->string v))
-       (office:value-type "float"))
-    (text:p ,v)))
+(define (office-value v)
+  (cond
+    [(nothing? v) '()]
+    [(string? v) `(office:string-value ,v)]
+    [(number? v) `(office:value ,(number->string v))]
+    [(boolean? v) `(office:boolean-value ,(if v "true" "false"))]))
 
-(define (ods-cell-string v)
-  `(table:table-cell
-    (@  (office:value-type "string"))
-    (text:p ,v)))
+(define (office-value-type v)
+  (let ([t (cond
+             [(nothing? v) '()]
+             [(string? v) "string"]
+             [(number? v) "float"]
+             [(boolean? v) "boolean"])])
+    (unless-empty-value 'office:value-type t)))
 
-(define (ods-cell-boolean v)
-  `(table:table-cell
-    (@ (office:boolean-value ,(if v "true" "false"))
-       (office:value-type "boolean"))
-    (text:p ,(if v "TRUE" "FALSE"))))
+(define (office-text-p v)
+  (let ([t (cond
+              [(nothing? v) '()]
+              [(string? v) v]
+              [(number? v) (number->string v)]
+              [(boolean? v) (if v "TRUE" "FALSE")])])
+    (unless-empty-value 'text:p t)))
 
 ;; ---------------------------------------------------------------------------------------------------
-;; Deal with references
+;; Deal with formulae and references
 
-;; ods-cell-ref : cell-ref? -> sxml?
-;; TODO: Currently only handles single-cell references (not ranges)
-(define (ods-cell-ref r)
-  (if (cell-addr? r)
-      (ods-cell-addr (cell-addr-row r)
-                     (cell-addr-col r)
-                     (cell-addr-row-is-rel r)
-                     (cell-addr-col-is-rel r))
-      #f))
+;; ods-cell-app : cell-app? -> sxml?
+(define (ods-cell-app x)
+  `(table:table-cell
+    (@ (table:formula ,(ods-cell-formula x))
+       (office:value "333"))))
 
-;; ods-cell-addr : integer? integer? bool? bool? -> sxml?
-;; Note: row and col are always absolute; flags are only used to set output style
-(define (ods-cell-addr row col row-is-rel col-is-rel)
-  #f)
+;; ods-cell-ref : cell-app? -> sxml?
+;; Note that this is identical to ods-cell-app
+(define (ods-cell-ref x)
+  `(table:table-cell
+    (@ (table:formula ,(ods-cell-formula x))
+       (office:value "444"))))
 
-
-
-
+;; ods-cell-formula : cell-expr? -> string?
+(define (ods-cell-formula x)
+  (string-append "=" (cell-expr->openformula x)))
