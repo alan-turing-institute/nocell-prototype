@@ -1,5 +1,5 @@
 #lang scribble/manual
-@require[@for-label[nocell]]
+@require[@for-label["../main.rkt"]]
 
 @title{nocell}
 @author{ots22, tamc, triangle-man}

@@ -1,6 +1,6 @@
 ; -*- racket -*-
 #lang racket
-(require "../../../stack-lang/main.rkt")
+(require "../../../private/stack-lang/main.rkt")
 (provide result)
 (define result
 (list

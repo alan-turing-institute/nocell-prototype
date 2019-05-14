@@ -1,7 +1,7 @@
 ; -*- racket -*-
 #lang racket
 (require math/array
-         "../../../grid/sheet.rkt")
+         "../../../private/grid/sheet.rkt")
 (provide result)
 (define result
 (sheet

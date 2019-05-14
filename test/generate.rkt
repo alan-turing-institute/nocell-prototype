@@ -1,8 +1,8 @@
 #lang racket
 (require sxml
-         "../stack-lang/main.rkt"
-         "../stack-lang/cell.rkt"
-         "../grid/ods.rkt"
+         "../private/stack-lang/main.rkt"
+         "../private/stack-lang/cell.rkt"
+         "../private/grid/ods.rkt"
          syntax/to-string)
 
 (define-namespace-anchor top)
@@ -10,7 +10,7 @@
 (define cell-template
   "; -*- racket -*-
 #lang racket
-(require \"../../../stack-lang/main.rkt\")
+(require \"../../../private/stack-lang/main.rkt\")
 (provide result)
 (define result
 ~a)")
@@ -19,7 +19,7 @@
   "; -*- racket -*-
 #lang racket
 (require math/array
-         \"../../../grid/sheet.rkt\")
+         \"../../../private/grid/sheet.rkt\")
 (provide result)
 (define result
 ~a)")
@@ -33,9 +33,9 @@
          [suffix '(".cell")])
     (parameterize ([current-namespace (make-base-namespace)])
       (namespace-attach-module (namespace-anchor->namespace top)
-                               "../stack-lang/cell.rkt")
+                               "../private/stack-lang/cell.rkt")
       (namespace-attach-module (namespace-anchor->namespace top)
-                               "../grid/ods.rkt")
+                               "../private/grid/ods.rkt")
       (define nocell-paths (filter (curryr path-has-extension? ".nocell")
                                    (directory-list test-dir #:build? #t)))
       (unless (null? nocell-paths)
