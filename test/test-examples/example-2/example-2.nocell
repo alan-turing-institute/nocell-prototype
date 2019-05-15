@@ -1,5 +1,5 @@
 ; -*- racket -*-
-(module example "../../../private/stack-lang/nocell.rkt"
+(module example "../../../private/nocell/nocell.rkt"
   (require "../../test-lib/dcf.nocell")
   (define years     #(2010 2011 2012 2013))
   (define cash-flow #(-100  -50  150  500))
