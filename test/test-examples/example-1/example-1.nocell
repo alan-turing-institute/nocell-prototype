@@ -1,5 +1,5 @@
 ; -*- racket -*-
-#lang s-exp "../../../stack-lang/nocell.rkt"
+#lang s-exp "../../../private/nocell/nocell.rkt"
 (define (a x)
   (define z 100)
   (define (b)

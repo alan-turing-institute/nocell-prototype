@@ -1,5 +1,5 @@
 ; -*- racket -*-
-(module example "../../../stack-lang/nocell.rkt"
+(module example "../../../private/nocell/nocell.rkt"
   (define z 100)
   (define (a)
     (define (b x)

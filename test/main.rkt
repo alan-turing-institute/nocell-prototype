@@ -1,8 +1,8 @@
 #lang racket
 (require rackunit
          sxml
-         "../stack-lang/cell.rkt"
-         "../grid/ods.rkt")
+         "../private/nocell/cell.rkt"
+         "../private/grid/ods.rkt")
 
 (define-namespace-anchor top)
 
@@ -47,9 +47,9 @@
       ;; begin at zero for each test example
       (parameterize ([current-namespace (make-base-namespace)])
         (namespace-attach-module (namespace-anchor->namespace top)
-                                 "../stack-lang/cell.rkt")
+                                 "../private/nocell/cell.rkt")
         (namespace-attach-module (namespace-anchor->namespace top)
-                                 "../grid/ods.rkt")
+                                 "../private/grid/ods.rkt")
         (check:nocell->cell nocell-path cell-path)
         (check:cell->grid   cell-path   grid-path)
         (check:grid->sxml   grid-path   null)

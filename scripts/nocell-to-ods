@@ -1,8 +1,8 @@
 #!/usr/bin/env racket
 #lang racket
-(require "./nocell/main.rkt")
-(require "./raw/to-raw.rkt")
-(require "./raw/to-zip.rkt")
+(require "../private/nocell-old/main.rkt")
+(require "../private/raw/to-raw.rkt")
+(require "../private/raw/to-zip.rkt")
 
 (let* ([arguments (vector->list (current-command-line-arguments))])
     (unless (equal? 2 (length arguments)) (begin (printf "nocell-to-ods <nocell-source> <ods-target>~n~nWill translate a nocell source file into an ods spreadshet~ne.g., nocell-to-ods examples/dcf.nocell dcf.ods~n") (exit -1)))
