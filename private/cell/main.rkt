@@ -1,9 +1,11 @@
 #lang racket
 
-(provide stack->sheet
+(provide (all-from-out "assignment.rkt")
+         stack->sheet
          ->vector)
 
-(require "main.rkt"
+(require "assignment.rkt"
+         "../nocell/util.rkt"
          "../grid/grid.rkt"
          "../grid/eval.rkt"
          math/array)
@@ -188,7 +190,7 @@
     (check-equal? actual expected)))
 
 (module+ test
-  (require "nocell-tests/nocell/example-2.nocell")
+  (require "../../test/test-examples/example-2/example-2.nocell")
   (let ((epsilon  1e-7)
         (actual   (sheet-eval (stack->sheet result)))
         (expected   (mutable-array

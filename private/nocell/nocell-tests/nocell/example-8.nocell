@@ -1,6 +1,0 @@
-(module example "../../nocell.rkt"
-  (define (f x) (define a x)
-    (define (f y) (define b y) b)
-    (f a))
-  (define result (f 1))
-  (provide result))

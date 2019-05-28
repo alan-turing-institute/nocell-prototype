@@ -1,9 +1,0 @@
-(module factorial "../../nocell.rkt"
- (define (fact n acc)
-  (if* (= n 0)
-   acc
-   (fact (- n 1) (* n acc))))
-
- (define result (fact 5 1))
-
- (provide result))

@@ -1,7 +1,0 @@
-(#(struct:assignment %sum8 (result) () ((+ () ()) %a0 %e17) 101 body)
- #(struct:assignment %e17 (c) () 1 1 body)
- #(struct:assignment %a0 () () %b0 100 result)
- #(struct:assignment %b0 () ((4 . %a0)) %e18 100 result)
- #(struct:assignment %e18 (c) ((5 . %b0) (4 . %a0)) %arg5 100 body)
- #(struct:assignment %arg5 (x) ((4 . %a0)) %e16 100 last-arg)
- #(struct:assignment %e16 (z) () 100 100 body))

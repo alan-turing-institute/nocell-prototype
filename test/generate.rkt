@@ -1,7 +1,7 @@
 #lang racket
 (require sxml
-         "../private/nocell/main.rkt"
-         "../private/nocell/cell.rkt"
+         "../private/cell/main.rkt"
+         "../private/cell/assignment.rkt"
          "../private/grid/ods.rkt"
          syntax/to-string)
 
@@ -10,7 +10,7 @@
 (define cell-template
   "; -*- racket -*-
 #lang racket
-(require \"../../../private/nocell/main.rkt\")
+(require \"../../../cell.rkt\")
 (provide result)
 (define result
 ~a)")
@@ -33,7 +33,7 @@
          [suffix '(".cell")])
     (parameterize ([current-namespace (make-base-namespace)])
       (namespace-attach-module (namespace-anchor->namespace top)
-                               "../private/nocell/cell.rkt")
+                               "../private/cell/main.rkt")
       (namespace-attach-module (namespace-anchor->namespace top)
                                "../private/grid/ods.rkt")
       (define nocell-paths (filter (curryr path-has-extension? ".nocell")
