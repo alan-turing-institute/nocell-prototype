@@ -36,7 +36,7 @@
       (cell (cell-value (array #[#['nothing]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())]
-    #[(cell (cell-value (array #[#[1.2203021471090312]])) '() '() '())
+    #[(cell (cell-value (array #[#[1.222017871035681]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())
@@ -46,7 +46,7 @@
       (cell (cell-value (array #[#['nothing]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())]
-    #[(cell (cell-value (array #[#[7.542783454204736]])) '() '() '())
+    #[(cell (cell-value (array #[#[7.514640573876508]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())
@@ -96,7 +96,7 @@
       (cell (cell-value (array #[#['nothing]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())]
-    #[(cell (cell-value (array #[#[1.8031828666871974]])) '() '() '())
+    #[(cell (cell-value (array #[#[1.798057351965663]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())
@@ -106,7 +106,7 @@
       (cell (cell-value (array #[#['nothing]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())]
-    #[(cell (cell-value (array #[#[7.418154117091587]])) '() '() '())
+    #[(cell (cell-value (array #[#[7.363004867192112]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())
@@ -156,7 +156,7 @@
       (cell (cell-value (array #[#['nothing]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())]
-    #[(cell (cell-value (array #[#[0.2495894573502747]])) '() '() '())
+    #[(cell (cell-value (array #[#[0.25165182739250785]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())
@@ -166,7 +166,7 @@
       (cell (cell-value (array #[#['nothing]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())]
-    #[(cell (cell-value (array #[#[4.049625380510429]])) '() '() '())
+    #[(cell (cell-value (array #[#[4.041498500265284]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())
@@ -214,7 +214,7 @@
       (cell (cell-value (array #[#['nothing]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())]
-    #[(cell (cell-value (array #[#[2.1071997773040407]])) '() '() '())
+    #[(cell (cell-value (array #[#[2.110226970845971]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())
@@ -224,7 +224,7 @@
       (cell (cell-value (array #[#['nothing]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())]
-    #[(cell (cell-value (array #[#[18.927124257319445]])) '() '() '())
+    #[(cell (cell-value (array #[#[18.811650422691937]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())

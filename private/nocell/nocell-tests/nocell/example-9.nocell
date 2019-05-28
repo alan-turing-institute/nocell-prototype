@@ -1,4 +1,0 @@
-(module example "../../nocell.rkt"
-  (define (f #:x x #:y y) (+ x y))
-  (define result (f #:y 1 #:x 2))
-  (provide result))

@@ -1,7 +1,0 @@
-(#(struct:assignment %f1 (result) () %e26 5 result)
- #(struct:assignment %e26 (r) ((11 . %f1)) %arg11 5 body)
- #(struct:assignment %arg11 (x) () %f0 5 last-arg)
- #(struct:assignment %f0 () () %e25 5 result)
- #(struct:assignment %e25 (r) ((11 . %f0)) %arg10 5 body)
- #(struct:assignment %arg10 (x) () %e24 5 last-arg)
- #(struct:assignment %e24 () () 5 5 body))

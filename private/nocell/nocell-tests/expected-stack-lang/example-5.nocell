@@ -1,5 +1,0 @@
-(#(struct:assignment %a0 (result) () %prod7 25 result)
- #(struct:assignment %prod7 () ((9 . %a0)) ((* () ()) %arg9 %arg9) 25 body)
- #(struct:assignment %arg9 (x) () %my-number0 5 last-arg)
- #(struct:assignment %my-number0 () () %e22 5 result)
- #(struct:assignment %e22 () ((8 . %my-number0)) 5 5 body))
