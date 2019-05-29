@@ -5,7 +5,8 @@
          "util.rkt"
          "parameters.rkt"
          racket/syntax
-         syntax/id-table)
+         syntax/id-table
+         (prefix-in m: math/array))
 
 (provide @
          ±
@@ -55,8 +56,8 @@
   (syntax-case stx ()
     [(_ . d)
      #'(list (make-assignment #:id    (next-datum-name)
-                              #:expr  (#%datum . d)
-                              #:val   (#%datum . d)))]))
+                              #:expr  (m:vector*->array (#%datum . d) number?)
+                              #:val   (m:vector*->array (#%datum . d) number?)))]))
 
 
 ;; Defining stack functions
@@ -93,9 +94,15 @@
                        ;; expression expecting the value contents of
                        ;; the stacks)
                        (let ((args arg-vals) ...) body ...))
+                      ;; (result-sampler
+                      ;;  (λ ()
+                      ;;    (array->vector*
+                      ;;     (let ((args (vector*->array (arg-samples) number?)) ...)
+                      ;;       body ...))))
                       (result-sampler
-                       (λ () (let ((args (arg-samples)) ...)
-                               body ...)))
+                       (λ ()
+                         (let ((args (arg-samples)) ...)
+                           body ...)))
                       (args-stack (remove-duplicates-before
                        ;; args put on the stack in reverse order
                        (append rargs ...)))
@@ -163,6 +170,11 @@
 
 (require (for-syntax racket/syntax))
 
+(define (statistics-get-mean stats)
+  (vector-ref (struct->vector stats) 3))
+(define (statistics-get-cov stats)
+  (vector-ref (struct->vector stats) 4))
+
 (define-syntax (define-stack-fn stx)
   (syntax-case stx ()
     ;; f        : id?
@@ -200,12 +212,27 @@
                      (let-values ([(result-mean result-var)
                                    (parameterize ([default-proposal (proposal:resample)])
                                      (when (deterministic-sampler?) (random-seed 0))
-                                     (let ((s (mh-sampler ((sampler top)))))
+                                     (let ((d (m:array-shape ((sampler top))))
+                                           (s (mh-sampler
+                                               (m:array->vector ((sampler top))))))
                                        (for ([i (current-mh-burn-steps)])
                                          (s))
-                                       (sampler->mean+variance
-                                        s
-                                        (current-mh-sample-steps))))])
+                                       (let ((stats
+                                              (sampler->statistics
+                                               s
+                                               (current-mh-sample-steps))))
+                                         (values 
+                                          (m:vector->array
+                                           d
+                                           (m:array->vector
+                                            (Array-contents
+                                             (statistics-get-mean stats))))
+                                          (m:array-reshape
+                                           (array-diag
+                                            (Array-contents
+                                             (statistics-get-cov stats)))
+                                           d))
+                                         )))])
                        (remove-duplicates-before
                         (stack-push
                          (make-assignment #:id      res-name
@@ -218,12 +245,14 @@
                           (make-assignment #:id      res-name-mean
                                            #:expr    result-mean
                                            #:val     result-mean
+                                           ;; #:sampler (const result-mean)
                                            #:context 'result-mean)
                           (stack-push
                            (make-assignment #:id      res-name-var
-                                            #:expr    (sqrt result-var)
-                                            #:val     (sqrt result-var)
-                                            #:context 'result-stdev)
+                                            #:expr    result-var
+                                            #:val     result-var
+                                            ;; #:sampler (const result-var)
+                                            #:context 'result-var)
                            (append
                             result-stack
                             args-stack))))))))))))]))
@@ -233,17 +262,17 @@
 ;; arguments to the length of any vector arguments (which are assumed
 ;; to have the same length).
 ;;
-(define ((vectorize fn) . args)
-  (let* ((ns (map (lambda (a)
-                    (and (vector? a) (vector-length a)))
-                  args))
-         (ns* (remove #f ns))
-         ;; all vector arguments are assumed to have the same length,
-         ;; so take the length of the first, if there are any
-         (n (and (cons? ns*) (car ns*))))
-    (if n
-        (apply vector-map fn (map (curry vector-broadcast n) args))
-        (apply fn args))))
+;; (define ((vectorize fn) . args)
+;;   (let* ((ns (map (lambda (a)
+;;                     (and (vector? a) (vector-length a)))
+;;                   args))
+;;          (ns* (remove #f ns))
+;;          ;; all vector arguments are assumed to have the same length,
+;;          ;; so take the length of the first, if there are any
+;;          (n (and (cons? ns*) (car ns*))))
+;;     (if n
+;;         (apply vector-map fn (map (curry vector-broadcast n) args))
+;;         (apply fn args))))
 
 
 ;; Stack operator definitions
@@ -296,7 +325,7 @@
 
 (define-primitive-stack-fn (halt)
   ("halt" halt)
-  +nan.0)
+  (m:array +nan.0))
 
 ;; Label a value with a note (intended to appear as a note on the
 ;; cell(s), or as text somewhere adjacent to the value, as the
@@ -313,87 +342,96 @@
 ;; if is a function
 (define-primitive-stack-fn (if& test-expr then-expr else-expr)
   ("branch" if)
-  (if test-expr then-expr else-expr))
+  (m:array-if test-expr then-expr else-expr))
 
 (define-primitive-stack-fn (+& a b)
   ("sum" +) ;; results show up on the stack with names like "sum0"
             ;; and with expressions in terms of "+"
-  ((vectorize +) a b))
+  (m:array+ a b))
 
 (define-primitive-stack-fn (-& a b)
   ("diff" -)
-  ((vectorize -) a b))
+  (m:array- a b))
 
 (define-primitive-stack-fn (*& a b)
   ("prod" *)
-  ((vectorize *) a b))
+  (m:array* a b))
 
 (define-primitive-stack-fn (/& a b)
   ("quot" /)
-  ((vectorize /) a b))
+  (m:array/ a b))
 
 (define-primitive-stack-fn (=& a b)
   ("eq?" =)
-  ((vectorize =) a b))
+  (m:array= a b))
 
 (define-primitive-stack-fn (<& a b)
   ("lt?" <)
-  ((vectorize <) a b))
+  (m:array< a b))
 
 (define-primitive-stack-fn (<=& a b)
   ("le?" <=)
-  ((vectorize <=) a b))
+  (m:array<= a b))
 
 (define-primitive-stack-fn (>& a b)
   ("gt?" >)
-  ((vectorize >) a b))
+  (m:array> a b))
 
 (define-primitive-stack-fn (>=& a b)
   ("ge?" >=)
-  ((vectorize >=) a b))
+  (m:array>= a b))
 
 (define-primitive-stack-fn (expt& a b)
   ("expn" expt)
-  ((vectorize expt) a b))
+  (m:array-map expt a b))
 
 (define-primitive-stack-fn (sum xs)
   ("vsum" sum)
-  (if (vector? xs)
-      (sequence-fold + 0 xs)
-      xs))
+  (m:array (m:array-all-fold xs +)))
 
 (define-primitive-stack-fn (product xs)
   ("vprod" product)
-  (if (vector? xs)
-      (sequence-fold * 1 xs)
-      xs))
+  (m:array (m:array-all-fold xs *)))
 
+;; emit the shape of an array (could be empty if a scalar)
 (define-primitive-stack-fn (len a)
   ("l" len)
-  (if (vector? a)
-      (vector-length a)
-      0))
+  (m:vector->array (m:array-shape a)))
 
-(define ((indicator n) i) (if (= i n) 1 0))
+; (define ((indicator n) i) (if (= i n) 1 0))
 
+;; indexing
 (define nth
   (let ((name-counter 0))
     (lambda (n a)
-      (let* ((n*      (val (stack-top n)))
-             (len-a*  (val (stack-top (len a))))
-             (select* (build-vector len-a* (indicator n*)))
-             (id      (make-name 'select (post-inc! name-counter)))
-             (select  (list (make-assignment #:id      id
-                                             #:expr    select*
-                                             #:val     select*))))
+      (let* ((n*       (m:array->vector (stack-top-val n)))
+             (shape-a* (m:array-shape (stack-top-val a)))
+             (select*  (m:build-array shape-a*
+                                    (λ (idx) (if (equal? idx n*) 1 0))))
+             (id       (make-name 'select (post-inc! name-counter)))
+             (select   (list (make-assignment #:id   id
+                                              #:expr select*
+                                              #:val  select*))))
         (sum (*& select a))))))
+
+;; (define nth
+;;   (let ((name-counter 0))
+;;     (lambda (n a)
+;;       (let* ((n*      (val (stack-top n)))
+;;              (len-a*  (val (stack-top (len a))))
+;;              (select* (build-vector len-a* (indicator n*)))
+;;              (id      (make-name 'select (post-inc! name-counter)))
+;;              (select  (list (make-assignment #:id      id
+;;                                              #:expr    select*
+;;                                              #:val     select*))))
+;;         (sum (*& select a))))))
 
 (define-syntax (if* stx)
   (syntax-case stx ()
     [(_ test-expr then-expr else-expr)
-     #'(if (val (stack-top test-expr))
-           then-expr
-           else-expr)]))
+     #'(m:array-if (val (stack-top test-expr))
+                 then-expr
+                 else-expr)]))
 
 ;; two parameter distribution: gamble produces an error when mapping
 ;; over rest args here!
