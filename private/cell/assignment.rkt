@@ -5,6 +5,7 @@
 
 (require racket/syntax
          racket/struct
+         math/array
          (only-in "../nocell/parameters.rkt" current-calls))
 
 ;; Stacks
@@ -64,6 +65,8 @@
                          #:calls   [calls (current-calls)]
                          #:expr    expr
                          #:val     val
+                         ;; sampler assumes an 'array' that is really a scalar
+                         ; #:sampler [sampler (const (array->vector* val))]
                          #:sampler [sampler (const val)]
                          #:context [context 'body]
                          #:note    [note null])

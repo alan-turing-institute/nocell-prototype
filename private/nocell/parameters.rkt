@@ -10,8 +10,8 @@
 (define deterministic-sampler?      (make-parameter #t))
 
 ;; Metropolis-Hastings sampler properties
-(define current-mh-burn-steps       (make-parameter 2000))
-(define current-mh-sample-steps     (make-parameter 20000))
+(define current-mh-burn-steps       (make-parameter 200))
+(define current-mh-sample-steps     (make-parameter 2000))
 
 ;; The call stack of nocell functions
 (define current-calls               (make-parameter '()))
