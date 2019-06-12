@@ -292,16 +292,19 @@
                 [name (cons d (name top))])
    (cdr stack)))
 
+(define (copy-define-one-assignment d a)
+  (struct-copy assignment a
+               [id (next-datum-name)]
+               [calls (current-calls)]
+               [name (list d)]
+               [expr (id a)]
+               [context 'body]
+               [note null])) ;; clear any note
+
 (define (copy-define d stack)
   (define top (stack-top stack))
   (stack-push
-   (struct-copy assignment top
-                [id (next-datum-name)]
-                [calls (current-calls)]
-                [name (list d)]
-                [expr (id top)]
-                [context 'body]
-                [note null]) ; clear the note
+   (copy-define-one-assignment d top)
    stack))
 
 ;; Grant an *unnamed* stack-top value a name, or copy a named variable
@@ -318,6 +321,17 @@
 
     [(_ id expr)
      #'(define id (rename-or-copy 'id expr))]))
+
+(define-syntax (define-values& stx)
+  (syntax-case stx ()
+    [(_ (ids ...) expr)
+     ;; copy-define (always), the first few elements of the stack to the ids
+     ;;
+     (with-syntax ([n (length (syntax->list #'(ids ...)))])
+       #'(define-values (ids ...)
+           (apply values (map (λ (id assn) (copy-define-one-assignment id assn))
+                              '(ids ...)
+                              (take expr n)))))]))
 
 (define-primitive-stack-fn (halt)
   ("halt" halt)
