@@ -93,9 +93,7 @@
                           (~a (~r x #:min-width 9 #:precision 4)
                               #:width 10 #:align 'right)
                           (~a x #:width 10)))))
-    (if (vector? a)
-        (string-join (map format-elt (vector->list a)) " ")
-        (format-elt a))))
+    (~a (array->vector* (array-map format-elt a)))))
 
 (define (stack-print stack)
   (let* ((calls-fmt   (map (compose ~a calls) stack))
