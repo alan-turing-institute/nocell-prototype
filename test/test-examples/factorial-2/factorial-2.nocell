@@ -3,8 +3,8 @@
 (provide result)
 
 (define (fact n acc)
-  (if* (= n 0)
-       acc
-       (fact (- n 1) (* n acc))))
+  (if (= n 0)
+      acc
+      (fact (- n 1) (* n acc))))
 
 (define result (fact 4 1))
