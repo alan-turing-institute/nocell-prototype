@@ -1,6 +1,7 @@
 #lang gamble
 
 (require (except-in racket #%module-begin #%top-interaction)
+         (only-in "../grid/sheet.rkt" atomic-value?)
          "../cell/assignment.rkt"
          "util.rkt"
          "parameters.rkt"
@@ -56,8 +57,8 @@
   (syntax-case stx ()
     [(_ . d)
      #'(list (make-assignment #:id    (next-datum-name)
-                              #:expr  (m:vector*->array (#%datum . d) number?)
-                              #:val   (m:vector*->array (#%datum . d) number?)))]))
+                              #:expr  (m:vector*->array (#%datum . d) atomic-value?)
+                              #:val   (m:vector*->array (#%datum . d) atomic-value?)))]))
 
 
 ;; Defining stack functions
@@ -94,11 +95,6 @@
                        ;; expression expecting the value contents of
                        ;; the stacks)
                        (let ((args arg-vals) ...) body ...))
-                      ;; (result-sampler
-                      ;;  (λ ()
-                      ;;    (array->vector*
-                      ;;     (let ((args (vector*->array (arg-samples) number?)) ...)
-                      ;;       body ...))))
                       (result-sampler
                        (λ ()
                          (let ((args (arg-samples)) ...)
