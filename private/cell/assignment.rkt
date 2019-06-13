@@ -17,7 +17,8 @@
 ;; on the stack) and val is the value of the result.
 ;;
 (define (make-stack)        (list))
-(define (stack-push v s)    (cons v s))
+;(define (stack-push v s)    (cons v s))
+(define stack-push list*)
 (define (stack-top s)       (car s))
 
 ;; Our stack is a list with elements that are the following struct,
