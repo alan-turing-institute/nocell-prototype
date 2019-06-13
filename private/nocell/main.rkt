@@ -7,7 +7,9 @@
          "parameters.rkt"
          racket/syntax
          syntax/id-table
-         (prefix-in m: math/array))
+         (prefix-in m: math/array)
+         (for-syntax racket/syntax
+                     (only-in racket make-list)))
 
 (provide @
          ±
@@ -31,8 +33,8 @@
          (rename-out (/& /))
          (rename-out (expt& expt))
          (rename-out (define& define))
+         (rename-out (define-values& define-values))
          (rename-out (if& if))
-         if*
 
          (rename-out (datum #%datum))
          #%app
@@ -136,25 +138,24 @@
          (map (lambda (x) (car x)) stacks)
          (map cdr stacks)))
 
-;; Like define-primitive-stack-fn, but the function body is assumed to
-;; already be in terms of stack functions (that is, accepting stacks
-;; as arguments and returning a stack).  Names of these functions do
-;; not appear on the expression stack (although their primitive
-;; subexpressions do).  This is a helper for implementing "define" in
-;; the language.
+;; Work-around for failing gamble contract
 ;;
+(define (statistics-get-mean stats)
+  (vector-ref (struct->vector stats) 3))
+(define (statistics-get-cov stats)
+  (vector-ref (struct->vector stats) 4))
 
+;; helpers for define-stack-fn
+;;
 (define stack-fn-counter 1)
 (define stack-fn-ids (make-bound-id-table))
-
 (define (fn-name f)
   (let ((r (bound-id-table-ref stack-fn-ids f #f)))
     (if r
         r
         (begin (bound-id-table-set! stack-fn-ids f (post-inc! stack-fn-counter))
                (bound-id-table-ref stack-fn-ids f)))))
-        
-(require (for-syntax (only-in racket make-list)))
+
 (define-for-syntax (is-last stx)
   (define stxe (syntax-e stx))
   (define len (length stxe))
@@ -164,13 +165,27 @@
        null
        (append (make-list (sub1 len) #f) '(#t)))))
 
-(require (for-syntax racket/syntax))
+;; is-last: syntax -> syntax
+;;
+;; When given a syntax list, returns a syntax list of the same length,
+;; where each element is #f, apart from the last, which is #t.
+(define (is-last stx)
+  (define stxe (syntax-e stx))
+  (define len (length stxe))
+  (datum->syntax
+   stx
+   (if (= len 0)
+       null
+       (append (make-list (sub1 len) #f) '(#t)))))
 
-(define (statistics-get-mean stats)
-  (vector-ref (struct->vector stats) 3))
-(define (statistics-get-cov stats)
-  (vector-ref (struct->vector stats) 4))
 
+;; Like define-primitive-stack-fn, but the function body is assumed to
+;; already be in terms of stack functions (that is, accepting stacks
+;; as arguments and returning a stack).  Names of these functions do
+;; not appear on the expression stack (although their primitive
+;; subexpressions do).  This is a helper for implementing "define" in
+;; the language.
+;;
 (define-syntax (define-stack-fn stx)
   (syntax-case stx ()
     ;; f        : id?
@@ -190,11 +205,10 @@
                (if (> (length (current-calls)) (current-max-branching-depth))
                    (halt)
                    (let*
-                       ((args-no-kw    (make-arg 'args-no-kw args-no-kw
-                                                 is-last-arg)) ...
+                       ((args-no-kw    (make-arg 'args-no-kw args-no-kw is-last-arg)) ...
                         (res-name      (make-name f-str (post-inc! name-counter)))
-                        (res-name-var  (make-name f-str (post-inc! name-counter)))
                         (res-name-mean (make-name f-str (post-inc! name-counter)))
+                        (res-name-var  (make-name f-str (post-inc! name-counter)))
                         (result-stack
                          (parameterize ((current-calls
                                          (cons (cons
@@ -208,27 +222,14 @@
                      (let-values ([(result-mean result-var)
                                    (parameterize ([default-proposal (proposal:resample)])
                                      (when (deterministic-sampler?) (random-seed 0))
-                                     (let ((d (m:array-shape ((sampler top))))
-                                           (s (mh-sampler
-                                               (m:array->vector ((sampler top))))))
+                                     (let ([s (mh-sampler (m:array->vector ((sampler top))))]
+                                           [result-shape (m:array-shape ((sampler top)))])
                                        (for ([i (current-mh-burn-steps)])
                                          (s))
-                                       (let ((stats
-                                              (sampler->statistics
-                                               s
-                                               (current-mh-sample-steps))))
+                                       (let ([stats (sampler->statistics s (current-mh-sample-steps))])
                                          (values 
-                                          (m:vector->array
-                                           d
-                                           (m:array->vector
-                                            (Array-contents
-                                             (statistics-get-mean stats))))
-                                          (m:array-reshape
-                                           (array-diag
-                                            (Array-contents
-                                             (statistics-get-cov stats)))
-                                           d))
-                                         )))])
+                                          (m:vector->array result-shape (m:array->vector (Array-contents (statistics-get-mean stats))))
+                                          (m:array-reshape (array-diag (Array-contents (statistics-get-cov stats))) result-shape)))))])
                        (remove-duplicates-before
                         (stack-push
                          (make-assignment #:id      res-name
@@ -241,34 +242,15 @@
                           (make-assignment #:id      res-name-mean
                                            #:expr    result-mean
                                            #:val     result-mean
-                                           ;; #:sampler (const result-mean)
                                            #:context 'result-mean)
                           (stack-push
                            (make-assignment #:id      res-name-var
                                             #:expr    result-var
                                             #:val     result-var
-                                            ;; #:sampler (const result-var)
                                             #:context 'result-var)
                            (append
                             result-stack
                             args-stack))))))))))))]))
-
-;; Given a function fn of two variables, return a function taking
-;; either scalar or vector arguments and broadcasting any scalar
-;; arguments to the length of any vector arguments (which are assumed
-;; to have the same length).
-;;
-;; (define ((vectorize fn) . args)
-;;   (let* ((ns (map (lambda (a)
-;;                     (and (vector? a) (vector-length a)))
-;;                   args))
-;;          (ns* (remove #f ns))
-;;          ;; all vector arguments are assumed to have the same length,
-;;          ;; so take the length of the first, if there are any
-;;          (n (and (cons? ns*) (car ns*))))
-;;     (if n
-;;         (apply vector-map fn (map (curry vector-broadcast n) args))
-;;         (apply fn args))))
 
 
 ;; Stack operator definitions
@@ -329,10 +311,17 @@
      ;;
      (with-syntax ([n (length (syntax->list #'(ids ...)))])
        #'(define-values (ids ...)
-           (apply values (map (λ (id assn) (copy-define-one-assignment id assn))
-                              '(ids ...)
-                              (take expr n)))))]))
+           (let ((expr* expr))
+             (apply values
+                    (map
+                     (λ (id assn)
+                       (stack-push (copy-define-one-assignment id assn) expr*))
+                     '(ids ...)
+                     (take expr* n))))))]))
 
+;; halt represents termination of a calculation (called if the maximum
+;; call depth is exceeded)
+;;
 (define-primitive-stack-fn (halt)
   ("halt" halt)
   (m:array +nan.0))
@@ -349,7 +338,7 @@
                             (note top))])
    (cdr expr)))
 
-;; if is a function
+;; if is a function (and consequently, its arguments are evaluated)
 (define-primitive-stack-fn (if& test-expr then-expr else-expr)
   ("branch" if)
   (m:array-if test-expr then-expr else-expr))
@@ -408,8 +397,6 @@
   ("l" len)
   (m:vector->array (m:array-shape a)))
 
-; (define ((indicator n) i) (if (= i n) 1 0))
-
 ;; indexing
 (define nth
   (let ((name-counter 0))
@@ -423,25 +410,6 @@
                                               #:expr select*
                                               #:val  select*))))
         (sum (*& select a))))))
-
-;; (define nth
-;;   (let ((name-counter 0))
-;;     (lambda (n a)
-;;       (let* ((n*      (val (stack-top n)))
-;;              (len-a*  (val (stack-top (len a))))
-;;              (select* (build-vector len-a* (indicator n*)))
-;;              (id      (make-name 'select (post-inc! name-counter)))
-;;              (select  (list (make-assignment #:id      id
-;;                                              #:expr    select*
-;;                                              #:val     select*))))
-;;         (sum (*& select a))))))
-
-(define-syntax (if* stx)
-  (syntax-case stx ()
-    [(_ test-expr then-expr else-expr)
-     #'(m:array-if (val (stack-top test-expr))
-                 then-expr
-                 else-expr)]))
 
 ;; two parameter distribution: gamble produces an error when mapping
 ;; over rest args here!
