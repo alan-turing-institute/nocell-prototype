@@ -238,19 +238,19 @@
                                           #:sampler (sampler top)
                                           #:context 'result
                                           #:note    (note top))
-                         (stack-push
-                          (make-assignment #:id      res-name-mean
-                                           #:expr    result-mean
-                                           #:val     result-mean
-                                           #:context 'result-mean)
-                          (stack-push
-                           (make-assignment #:id      res-name-var
-                                            #:expr    result-var
-                                            #:val     result-var
-                                            #:context 'result-var)
-                           (append
-                            result-stack
-                            args-stack))))))))))))]))
+                         
+                         (make-assignment #:id      res-name-mean
+                                          #:expr    result-mean
+                                          #:val     result-mean
+                                          #:context 'result-mean)
+                         
+                         (make-assignment #:id      res-name-var
+                                          #:expr    result-var
+                                          #:val     result-var
+                                          #:context 'result-var)
+                         (append
+                          result-stack
+                          args-stack))))))))))]))
 
 
 ;; Stack operator definitions
