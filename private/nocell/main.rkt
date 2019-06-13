@@ -1,5 +1,7 @@
 #lang gamble
 
+(provide (all-defined-out))
+
 (require (except-in racket #%module-begin #%top-interaction)
          (only-in "../grid/sheet.rkt" atomic-value?)
          "../cell/assignment.rkt"
@@ -10,40 +12,6 @@
          (prefix-in m: math/array)
          (for-syntax racket/syntax
                      (only-in racket make-list)))
-
-(provide @
-         ±
-         +/-
-         ~normal
-         ~uniform
-         stack-print
-         sum
-         product
-         len
-         nth
-         halt
-         (rename-out (=& =))
-         (rename-out (<&  <))
-         (rename-out (<=& <=))
-         (rename-out (>&  >))
-         (rename-out (>=& >=))
-         (rename-out (+& +))
-         (rename-out (-& -))
-         (rename-out (*& *))
-         (rename-out (/& /))
-         (rename-out (expt& expt))
-         (rename-out (define& define))
-         (rename-out (define-values& define-values))
-         (rename-out (if& if))
-
-         (rename-out (datum #%datum))
-         #%app
-         #%module-begin
-         #%top
-         #%top-interaction
-
-         require
-         provide)
 
 ;; Datum
 ;;----------------------------------------------------------------------
