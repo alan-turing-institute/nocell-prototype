@@ -1,5 +1,5 @@
 #lang racket
 
-(provide (all-from-out "private/nocell/main.rkt"))
+(provide (all-from-out "private/nocell/lang.rkt"))
 
-(require "private/nocell/main.rkt")
+(require "private/nocell/lang.rkt")
