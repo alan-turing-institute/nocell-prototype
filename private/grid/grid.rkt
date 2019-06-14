@@ -143,6 +143,8 @@ TODO
 ;; reference-to : string? (listof string? int int) -> cell-addr? 
 ;; Look up the reference in ids, replace with address found therein
 (define (reference-to name ids)
+  (unless (assoc name ids)
+    (raise-user-error 'reference-to "Unknown name ~a (have ~a)" name ids))
   (let ([index (cdr (assoc name ids))])
     (s:cell-addr (car index) (cadr index) #t #t)))
 

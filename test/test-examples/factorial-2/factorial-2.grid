@@ -10,9 +10,15 @@
     #[(cell (cell-value (array #[#[1]])) '() '() '())]
     #[(cell (cell-addr 0 0 #t #t) '() '() '())]
     #[(cell (cell-addr 1 0 #t #t) '() '() '())]
+    #[(cell (cell-value (array #[#[0]])) '() '() '())]
+    #[(cell
+       (cell-app '= (list (cell-addr 2 0 #t #t) (cell-addr 4 0 #t #t)))
+       '()
+       '()
+       '())]
     #[(cell (cell-value (array #[#[1]])) '() '() '())]
     #[(cell
-       (cell-app '- (list (cell-addr 2 0 #t #t) (cell-addr 4 0 #t #t)))
+       (cell-app '- (list (cell-addr 2 0 #t #t) (cell-addr 6 0 #t #t)))
        '()
        '()
        '())]
@@ -21,62 +27,137 @@
        '()
        '()
        '())]
-    #[(cell (cell-addr 5 0 #t #t) '() '() '())]
-    #[(cell (cell-addr 6 0 #t #t) '() '() '())]
+    #[(cell (cell-addr 7 0 #t #t) '() '() '())]
+    #[(cell (cell-addr 8 0 #t #t) '() '() '())]
+    #[(cell (cell-value (array #[#[0]])) '() '() '())]
+    #[(cell
+       (cell-app '= (list (cell-addr 9 0 #t #t) (cell-addr 11 0 #t #t)))
+       '()
+       '()
+       '())]
     #[(cell (cell-value (array #[#[1]])) '() '() '())]
     #[(cell
-       (cell-app '- (list (cell-addr 7 0 #t #t) (cell-addr 9 0 #t #t)))
+       (cell-app '- (list (cell-addr 9 0 #t #t) (cell-addr 13 0 #t #t)))
        '()
        '()
        '())]
     #[(cell
-       (cell-app '* (list (cell-addr 7 0 #t #t) (cell-addr 8 0 #t #t)))
+       (cell-app '* (list (cell-addr 9 0 #t #t) (cell-addr 10 0 #t #t)))
        '()
        '()
        '())]
-    #[(cell (cell-addr 10 0 #t #t) '() '() '())]
-    #[(cell (cell-addr 11 0 #t #t) '() '() '())]
-    #[(cell (cell-value (array #[#[1]])) '() '() '())]
-    #[(cell
-       (cell-app '- (list (cell-addr 12 0 #t #t) (cell-addr 14 0 #t #t)))
-       '()
-       '()
-       '())]
-    #[(cell
-       (cell-app '* (list (cell-addr 12 0 #t #t) (cell-addr 13 0 #t #t)))
-       '()
-       '()
-       '())]
+    #[(cell (cell-addr 14 0 #t #t) '() '() '())]
     #[(cell (cell-addr 15 0 #t #t) '() '() '())]
-    #[(cell (cell-addr 16 0 #t #t) '() '() '())]
+    #[(cell (cell-value (array #[#[0]])) '() '() '())]
+    #[(cell
+       (cell-app '= (list (cell-addr 16 0 #t #t) (cell-addr 18 0 #t #t)))
+       '()
+       '()
+       '())]
     #[(cell (cell-value (array #[#[1]])) '() '() '())]
     #[(cell
-       (cell-app '- (list (cell-addr 17 0 #t #t) (cell-addr 19 0 #t #t)))
+       (cell-app '- (list (cell-addr 16 0 #t #t) (cell-addr 20 0 #t #t)))
        '()
        '()
        '())]
     #[(cell
-       (cell-app '* (list (cell-addr 17 0 #t #t) (cell-addr 18 0 #t #t)))
+       (cell-app '* (list (cell-addr 16 0 #t #t) (cell-addr 17 0 #t #t)))
        '()
        '()
        '())]
-    #[(cell (cell-addr 20 0 #t #t) '() '() '())]
     #[(cell (cell-addr 21 0 #t #t) '() '() '())]
+    #[(cell (cell-addr 22 0 #t #t) '() '() '())]
     #[(cell (cell-value (array #[#[0]])) '() '() '())]
-    #[(cell (cell-value (array #[#[24]])) '() '() '())]
-    #[(cell (cell-addr 23 0 #t #t) '() '() '())]
-    #[(cell (cell-value (array #[#[0]])) '() '() '())]
-    #[(cell (cell-value (array #[#[24]])) '() '() '())]
-    #[(cell (cell-addr 26 0 #t #t) '() '() '())]
-    #[(cell (cell-value (array #[#[0]])) '() '() '())]
-    #[(cell (cell-value (array #[#[24]])) '() '() '())]
+    #[(cell
+       (cell-app '= (list (cell-addr 23 0 #t #t) (cell-addr 25 0 #t #t)))
+       '()
+       '()
+       '())]
+    #[(cell (cell-value (array #[#[1]])) '() '() '())]
+    #[(cell
+       (cell-app '- (list (cell-addr 23 0 #t #t) (cell-addr 27 0 #t #t)))
+       '()
+       '()
+       '())]
+    #[(cell
+       (cell-app '* (list (cell-addr 23 0 #t #t) (cell-addr 24 0 #t #t)))
+       '()
+       '()
+       '())]
+    #[(cell (cell-addr 28 0 #t #t) '() '() '())]
     #[(cell (cell-addr 29 0 #t #t) '() '() '())]
     #[(cell (cell-value (array #[#[0]])) '() '() '())]
-    #[(cell (cell-value (array #[#[24]])) '() '() '())]
-    #[(cell (cell-addr 32 0 #t #t) '() '() '())]
+    #[(cell
+       (cell-app '= (list (cell-addr 30 0 #t #t) (cell-addr 32 0 #t #t)))
+       '()
+       '()
+       '())]
+    #[(cell (cell-app 'halt '()) '() '() '())]
+    #[(cell
+       (cell-app
+        'if
+        (list
+         (cell-addr 33 0 #t #t)
+         (cell-addr 31 0 #t #t)
+         (cell-addr 34 0 #t #t)))
+       '()
+       '()
+       '())]
     #[(cell (cell-value (array #[#[0]])) '() '() '())]
     #[(cell (cell-value (array #[#[24]])) '() '() '())]
-    #[(cell (cell-addr 35 0 #t #t) '() '() '())]])
+    #[(cell (cell-addr 35 0 #t #t) '() '() '())]
+    #[(cell
+       (cell-app
+        'if
+        (list
+         (cell-addr 26 0 #t #t)
+         (cell-addr 24 0 #t #t)
+         (cell-addr 38 0 #t #t)))
+       '()
+       '()
+       '())]
+    #[(cell (cell-value (array #[#[0]])) '() '() '())]
+    #[(cell (cell-value (array #[#[24]])) '() '() '())]
+    #[(cell (cell-addr 39 0 #t #t) '() '() '())]
+    #[(cell
+       (cell-app
+        'if
+        (list
+         (cell-addr 19 0 #t #t)
+         (cell-addr 17 0 #t #t)
+         (cell-addr 42 0 #t #t)))
+       '()
+       '()
+       '())]
+    #[(cell (cell-value (array #[#[0]])) '() '() '())]
+    #[(cell (cell-value (array #[#[24]])) '() '() '())]
+    #[(cell (cell-addr 43 0 #t #t) '() '() '())]
+    #[(cell
+       (cell-app
+        'if
+        (list
+         (cell-addr 12 0 #t #t)
+         (cell-addr 10 0 #t #t)
+         (cell-addr 46 0 #t #t)))
+       '()
+       '()
+       '())]
+    #[(cell (cell-value (array #[#[0]])) '() '() '())]
+    #[(cell (cell-value (array #[#[24]])) '() '() '())]
+    #[(cell (cell-addr 47 0 #t #t) '() '() '())]
+    #[(cell
+       (cell-app
+        'if
+        (list
+         (cell-addr 5 0 #t #t)
+         (cell-addr 3 0 #t #t)
+         (cell-addr 50 0 #t #t)))
+       '()
+       '()
+       '())]
+    #[(cell (cell-value (array #[#[0]])) '() '() '())]
+    #[(cell (cell-value (array #[#[24]])) '() '() '())]
+    #[(cell (cell-addr 51 0 #t #t) '() '() '())]])
  '()
  '()
  '()
@@ -86,38 +167,54 @@
    (arg 0 0 exact)
    (last-arg 0 0 exact)
    (body 1 1 exact)
+   (body 1 1 inexact)
+   (body 1 1 exact)
    (body 1 1 exact)
    (body 1 1 exact)
    (arg 1 1 exact)
    (last-arg 1 1 exact)
+   (body 2 1 exact)
+   (body 2 1 inexact)
    (body 2 1 exact)
    (body 2 1 exact)
    (body 2 1 exact)
    (arg 2 1 exact)
    (last-arg 2 1 exact)
    (body 3 1 exact)
+   (body 3 1 inexact)
+   (body 3 1 exact)
    (body 3 1 exact)
    (body 3 1 exact)
    (arg 3 1 exact)
    (last-arg 3 1 exact)
    (body 4 1 exact)
+   (body 4 1 inexact)
+   (body 4 1 exact)
    (body 4 1 exact)
    (body 4 1 exact)
    (arg 4 1 exact)
    (last-arg 4 1 exact)
-   (result-stdev 4 1 exact)
+   (body 5 1 exact)
+   (body 5 1 inexact)
+   (body 5 1 inexact)
+   (body 5 1 exact)
+   (result-var 4 1 exact)
    (result-mean 4 1 exact)
    (result 4 1 exact)
-   (result-stdev 3 1 exact)
+   (body 4 1 exact)
+   (result-var 3 1 exact)
    (result-mean 3 1 exact)
    (result 3 1 exact)
-   (result-stdev 2 1 exact)
+   (body 3 1 exact)
+   (result-var 2 1 exact)
    (result-mean 2 1 exact)
    (result 2 1 exact)
-   (result-stdev 1 1 exact)
+   (body 2 1 exact)
+   (result-var 1 1 exact)
    (result-mean 1 1 exact)
    (result 1 1 exact)
-   (result-stdev 0 0 exact)
+   (body 1 1 exact)
+   (result-var 0 0 exact)
    (result-mean 0 0 exact)
    (result 0 0 exact))
  "unnamed-sheet"))

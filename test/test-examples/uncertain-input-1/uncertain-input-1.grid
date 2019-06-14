@@ -402,11 +402,11 @@
       (cell (cell-value (array #[#['nothing]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())]
-    #[(cell (cell-value (array #[#[869.8474501014581]])) '() '() '())
+    #[(cell (cell-value (array #[#[25783.963326352605]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())]
-    #[(cell (cell-value (array #[#[6009.207896320528]])) '() '() '())
+    #[(cell (cell-value (array #[#[6251.580579681629]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())
       (cell (cell-value (array #[#['nothing]])) '() '() '())]
@@ -455,7 +455,7 @@
    (body 1 1 exact)
    (body 1 1 inexact)
    (body 1 1 inexact)
-   (result-stdev 0 0 inexact)
+   (result-var 0 0 inexact)
    (result-mean 0 0 inexact)
    (result 0 0 inexact))
  "unnamed-sheet"))

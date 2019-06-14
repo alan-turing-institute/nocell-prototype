@@ -2,7 +2,8 @@
 
 (provide (all-from-out "assignment.rkt")
          stack->sheet
-         ->vector)
+         array
+         mutable-array)
 
 (require "assignment.rkt"
          "../nocell/util.rkt"
@@ -48,26 +49,25 @@
 (define (pad-to-width w lst)
   (take (append lst (make-list w (cell))) w))
 
-(define (->vector x)
-  (if (vector? x) x (vector x)))
+(define (element-type a)
+  (if (exact-integer? (vector-ref (array->vector (assignment-val a)) 0))
+      'exact 'inexact))
 
 (define (assignment->row pad-width a)
   (let* ((val  (assignment-val a))
          (expr (assignment-expr a))
-         (vector-vals (->vector val))
          ;; meta contains a list of three items:
          ;;  - the context (one of: 'arg, 'body, 'result)
          ;;  - the nesting/grouping level (integer, 0 = top level)
          ;;  - a unique integer for each function ("0" means top level)
          ;;  - the type of the result
-         ;; the idea of the last item is that this provides a way of assigning
+         ;; the idea of the third item is that this provides a way of assigning
          ;; unique colours to functions
          (calls (assignment-calls a))
          (meta (list (assignment-context a)
                      (length calls)
-                     ;(and (cons? calls) (caar calls))
                      (if (cons? calls) (caar calls) 0)
-                     (if (exact-integer? (vector-ref (->vector (assignment-val a)) 0)) 'exact 'inexact))))
+                     (element-type a))))
     (cond [(eq? (expr-op expr) 'nth)
            (keyword-apply row '(#:meta) (list meta)
                   (pad-to-width
@@ -79,7 +79,8 @@
            (keyword-apply row '(#:meta) (list meta)
                   (pad-to-width
                    pad-width
-                   (list (cell val (make-name (assignment-id a) null)))))]
+                   (list (cell (array-ref val #[])
+                               (make-name (assignment-id a) null)))))]
 
           [(eq? (expr-op expr) 'sum) ;; folds (just sum for now)
            (let* ((args           (cdr expr))
@@ -98,26 +99,23 @@
            (keyword-apply row '(#:meta) (list meta)
                   (pad-to-width
                    pad-width
-                   (for/list ([v (in-vector vector-vals)]
+                   (for/list ([v (in-array val)]
                               [col (in-naturals)])
-                     (let* ((idx (if (null? (shape val))
+                     (let* ((idx (if (= (array-dims val) 0)
                                      null
                                      (list col)))
                             (cell-expr
                              (cond
-                               [(equal? expr val) ;; expr is a value
-                                (vector-ref vector-vals col)]
-                               [(symbol? expr)
-                                (ref (make-name expr idx))]
-                               [else
-                                (unwrap-binary-op-expr expr idx)])))
+                               [(equal? expr val) v]
+                               [(symbol? expr)    (ref (make-name expr idx))]
+                               [else              (unwrap-binary-op-expr expr idx)])))
                        (cell cell-expr
                              (make-name (assignment-id a) idx))))))])))
 
 (module+ test
   (let ((expected (row #:meta '(body 0 0 exact) (cell 1 "%e1") (cell) (cell)))
         (actual   (assignment->row 3
-                   (make-assignment #:id '%e1 #:expr 1 #:val 1))))
+                   (make-assignment #:id '%e1 #:expr (array 1) #:val (array 1)))))
     (check-equal? actual expected))
 
   (let ((expected (row #:meta '(body 0 0 exact)
@@ -125,7 +123,7 @@
                        (cell 1 "%e1[1]")
                        (cell 4 "%e1[2]")))
         (actual   (assignment->row 3
-                   (make-assignment #:id '%e1 #:expr #(3 1 4) #:val #(3 1 4)))))
+                   (make-assignment #:id '%e1 #:expr (array #[3 1 4]) #:val (array #[3 1 4])))))
     (check-equal? actual expected))
 
   (let ((expected (row #:meta '(body 0 0 exact)
@@ -138,14 +136,14 @@
         (actual   (assignment->row 3
                     (make-assignment #:id   '%sum1
                                      #:expr '([+ (3) ()] %e1 %e2)
-                                     #:val  #(0 1 2)))))
+                                     #:val  (array #[0 1 2])))))
     (check-equal? actual expected))
 
   (let ((expected (row #:meta '(body 0 0 exact) (cell (ref "target") "a")))
         (actual   (assignment->row 1
                     (make-assignment #:id   'a
                                      #:expr 'target
-                                     #:val  0))))
+                                     #:val  (array 0)))))
     (check-equal? actual expected))
 
   ;; "sum" results in a fold
@@ -154,12 +152,12 @@
         (actual   (assignment->row 1
                     (make-assignment #:id   'result
                                      #:expr '([sum (3)] a)
-                                     #:val  0))))
+                                     #:val  (array 0)))))
     (check-equal? actual expected)))
 
 ;; assignments->sheet :: (List assignment?) -> sheet?
- (define (stack->sheet stack)
-  (define widths (map (lambda (a) (vector-length (->vector (val a)))) stack))
+(define (stack->sheet stack)
+  (define widths (map (compose array-size assignment-val) stack))
   (define max-width (apply max widths))
   (apply sheet (map (curry assignment->row max-width) (reverse stack))))
 
@@ -180,13 +178,13 @@
                     (list
                     (make-assignment #:id   'result
                                      #:expr '([+ (3) (3)] a b)
-                                     #:val  #(0 1 2))
+                                     #:val  (array #[0 1 2]))
                     (make-assignment #:id   'b
-                                     #:expr #(0 2 4)
-                                     #:val  #(0 2 4))
+                                     #:expr (array #[0 2 4])
+                                     #:val  (array #[0 2 4]))
                     (make-assignment #:id   'a
-                                     #:expr #(0 -1 -2)
-                                     #:val  #(0 -1 -2))))))
+                                     #:expr (array #[0 -1 -2])
+                                     #:val  (array #[0 -1 -2]))))))
     (check-equal? actual expected)))
 
 (module+ test

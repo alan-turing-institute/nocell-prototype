@@ -1,5 +1,5 @@
 ; -*- racket -*-
-#lang s-exp "../../private/nocell/main.rkt"
+#lang s-exp "../../main.rkt"
 
 (provide day timesheet-1 timesheet-2 timesheet-3)
 
