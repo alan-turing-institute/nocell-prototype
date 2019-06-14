@@ -4,20 +4,52 @@
 (provide result)
 (define result
 (list
- (assignment '%a0 '(result) '() '%sum3 103 #f 'result '())
- (assignment '%a2 '() '() 103 103 #f 'result-mean '())
- (assignment '%a1 '() '() 0 0 #f 'result-stdev '())
- (assignment '%sum3 '() '((1 . %a0)) '((+ () ()) %b0 %e4) 103 #f 'body '())
- (assignment '%e4 '() '((1 . %a0)) 0 0 #f 'body '())
- (assignment '%b0 '(tmp) '((1 . %a0)) '%sum2 103 #f 'result '())
- (assignment '%b2 '() '((1 . %a0)) 103 103 #f 'result-mean '())
- (assignment '%b1 '() '((1 . %a0)) 0 0 #f 'result-stdev '())
+ (assignment '%a0 '(result) '() '%sum3 (array 103) #f 'result '())
+ (assignment
+  '%a1
+  '()
+  '()
+  (mutable-array 103)
+  (mutable-array 103)
+  #f
+  'result-mean
+  '())
+ (assignment '%a2 '() '() (array 0) (array 0) #f 'result-var '())
+ (assignment
+  '%sum3
+  '()
+  '((1 . %a0))
+  '((+ () ()) %b0 %e4)
+  (array 103)
+  #f
+  'body
+  '())
+ (assignment
+  '%e4
+  '()
+  '((1 . %a0))
+  (mutable-array 0)
+  (mutable-array 0)
+  #f
+  'body
+  '())
+ (assignment '%b0 '(tmp) '((1 . %a0)) '%sum2 (array 103) #f 'result '())
+ (assignment
+  '%b1
+  '()
+  '((1 . %a0))
+  (mutable-array 103)
+  (mutable-array 103)
+  #f
+  'result-mean
+  '())
+ (assignment '%b2 '() '((1 . %a0)) (array 0) (array 0) #f 'result-var '())
  (assignment
   '%sum2
   '()
   '((2 . %b0) (1 . %a0))
   '((+ () ()) %arg0 %sum1)
-  103
+  (array 103)
   #f
   'body
   '())
@@ -26,13 +58,29 @@
   '()
   '((2 . %b0) (1 . %a0))
   '((+ () ()) %e2 %e3)
-  101
+  (array 101)
   #f
   'body
   '())
- (assignment '%e3 '(c) '((2 . %b0) (1 . %a0)) 1 1 #f 'body '())
- (assignment '%e2 '(z) '((1 . %a0)) 100 100 #f 'body '())
- (assignment '%arg0 '(x) '() '%sum0 2 #f 'last-arg '())
- (assignment '%sum0 '() '() '((+ () ()) %e0 %e1) 2 #f 'body '())
- (assignment '%e1 '() '() 2 2 #f 'body '())
- (assignment '%e0 '(z) '() 0 0 #f 'body '())))
+ (assignment
+  '%e3
+  '(c)
+  '((2 . %b0) (1 . %a0))
+  (mutable-array 1)
+  (mutable-array 1)
+  #f
+  'body
+  '())
+ (assignment
+  '%e2
+  '(z)
+  '((1 . %a0))
+  (mutable-array 100)
+  (mutable-array 100)
+  #f
+  'body
+  '())
+ (assignment '%arg0 '(x) '() '%sum0 (array 2) #f 'last-arg '())
+ (assignment '%sum0 '() '() '((+ () ()) %e0 %e1) (array 2) #f 'body '())
+ (assignment '%e1 '() '() (mutable-array 2) (mutable-array 2) #f 'body '())
+ (assignment '%e0 '(z) '() (mutable-array 0) (mutable-array 0) #f 'body '())))

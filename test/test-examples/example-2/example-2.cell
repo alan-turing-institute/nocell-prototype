@@ -4,31 +4,31 @@
 (provide result)
 (define result
 (list
- (assignment '%dcf0 '(result) '() '%sum3 5881.700118063753 #f 'result '())
  (assignment
-  '%dcf2
+  '%dcf0
+  '(result)
   '()
-  '()
-  5881.700118064677
-  5881.700118064677
+  '%sum3
+  (array 5881.700118063753)
   #f
-  'result-mean
+  'result
   '())
  (assignment
   '%dcf1
   '()
   '()
-  9.240697190330499e-10
-  9.240697190330499e-10
+  (mutable-array 5881.700118063753)
+  (mutable-array 5881.700118063753)
   #f
-  'result-stdev
+  'result-mean
   '())
+ (assignment '%dcf2 '() '() (array 0.0) (array 0.0) #f 'result-var '())
  (assignment
   '%sum3
   '()
   '((1 . %dcf0))
   '((+ () ()) %vsum3 %vsum4)
-  5881.700118063753
+  (array 5881.700118063753)
   #f
   'body
   '())
@@ -37,7 +37,7 @@
   '()
   '((1 . %dcf0))
   '((sum (4)) %prod4)
-  5527.530320918749
+  (array 5527.530320918749)
   #f
   'body
   '())
@@ -46,7 +46,7 @@
   '()
   '((1 . %dcf0))
   '((* (4) (4)) %select3 %quot2)
-  '#(0 0 0 5527.530320918749)
+  (array #[0 0 0 5527.530320918749])
   #f
   'body
   '())
@@ -55,7 +55,11 @@
   '(discounted-terminal-value)
   '((1 . %dcf0))
   '((/ () (4)) %quot1 %expn1)
-  '#(7357.142857142857 6688.311688311687 6080.2833530106245 5527.530320918749)
+  (array
+   #[7357.142857142857
+     6688.311688311687
+     6080.2833530106245
+     5527.530320918749])
   #f
   'body
   '())
@@ -64,7 +68,7 @@
   '()
   '((1 . %dcf0))
   '((expt () (4)) %sum2 %diff3)
-  '#(1 1.1 1.2100000000000002 1.3310000000000004)
+  (array #[1 1.1 1.2100000000000002 1.3310000000000004])
   #f
   'body
   '())
@@ -73,29 +77,61 @@
   '()
   '((1 . %dcf0))
   '((- (4) ()) %arg0 %vsum2)
-  '#(0 1 2 3)
+  (array #[0 1 2 3])
   #f
   'body
   '())
- (assignment '%vsum2 '() '((1 . %dcf0)) '((sum (4)) %prod3) 2010 #f 'body '())
+ (assignment
+  '%vsum2
+  '()
+  '((1 . %dcf0))
+  '((sum (4)) %prod3)
+  (array 2010)
+  #f
+  'body
+  '())
  (assignment
   '%prod3
   '()
   '((1 . %dcf0))
   '((* (4) (4)) %select2 %arg0)
-  '#(2010 0 0 0)
+  (array #[2010 0 0 0])
   #f
   'body
   '())
- (assignment '%select2 '() '((1 . %dcf0)) '#(1 0 0 0) '#(1 0 0 0) #f 'body '())
- (assignment '%sum2 '() '((1 . %dcf0)) '((+ () ()) %e8 %arg3) 1.1 #f 'body '())
- (assignment '%e8 '() '((1 . %dcf0)) 1 1 #f 'body '())
+ (assignment
+  '%select2
+  '()
+  '((1 . %dcf0))
+  (array #[1 0 0 0])
+  (array #[1 0 0 0])
+  #f
+  'body
+  '())
+ (assignment
+  '%sum2
+  '()
+  '((1 . %dcf0))
+  '((+ () ()) %e8 %arg3)
+  (array 1.1)
+  #f
+  'body
+  '())
+ (assignment
+  '%e8
+  '()
+  '((1 . %dcf0))
+  (mutable-array 1)
+  (mutable-array 1)
+  #f
+  'body
+  '())
  (assignment
   '%quot1
   '(terminal-value)
   '((1 . %dcf0))
   '((/ () ()) %prod2 %diff2)
-  7357.142857142857
+  (array 7357.142857142857)
   #f
   'body
   '())
@@ -104,7 +140,7 @@
   '()
   '((1 . %dcf0))
   '((- () ()) %arg3 %arg2)
-  0.07
+  (array 0.07)
   #f
   'body
   '())
@@ -113,7 +149,7 @@
   '()
   '((1 . %dcf0))
   '((* () ()) %vsum0 %sum1)
-  515.0
+  (array 515.0)
   #f
   'body
   '())
@@ -122,17 +158,25 @@
   '()
   '((1 . %dcf0))
   '((+ () ()) %arg2 %e7)
-  1.03
+  (array 1.03)
   #f
   'body
   '())
- (assignment '%e7 '() '((1 . %dcf0)) 1 1 #f 'body '())
+ (assignment
+  '%e7
+  '()
+  '((1 . %dcf0))
+  (mutable-array 1)
+  (mutable-array 1)
+  #f
+  'body
+  '())
  (assignment
   '%vsum0
   '(final-year-cash-flow)
   '((1 . %dcf0))
   '((sum (4)) %prod0)
-  500
+  (array 500)
   #f
   'body
   '())
@@ -141,18 +185,34 @@
   '()
   '((1 . %dcf0))
   '((* (4) (4)) %select0 %arg1)
-  '#(0 0 0 500)
+  (array #[0 0 0 500])
   #f
   'body
   '())
- (assignment '%select0 '() '((1 . %dcf0)) '#(0 0 0 1) '#(0 0 0 1) #f 'body '())
- (assignment '%select3 '() '((1 . %dcf0)) '#(0 0 0 1) '#(0 0 0 1) #f 'body '())
+ (assignment
+  '%select0
+  '()
+  '((1 . %dcf0))
+  (array #[0 0 0 1])
+  (array #[0 0 0 1])
+  #f
+  'body
+  '())
+ (assignment
+  '%select3
+  '()
+  '((1 . %dcf0))
+  (array #[0 0 0 1])
+  (array #[0 0 0 1])
+  #f
+  'body
+  '())
  (assignment
   '%vsum3
   '()
   '((1 . %dcf0))
   '((sum (4)) %quot0)
-  354.16979714500366
+  (array 354.16979714500366)
   #f
   'body
   '())
@@ -161,7 +221,7 @@
   '(discounted-cash-flow)
   '((1 . %dcf0))
   '((/ (4) (4)) %arg1 %expn0)
-  '#(-100 -45.45454545454545 123.96694214876031 375.65740045078877)
+  (array #[-100 -45.45454545454545 123.96694214876031 375.65740045078877])
   #f
   'body
   '())
@@ -170,7 +230,7 @@
   '()
   '((1 . %dcf0))
   '((expt () (4)) %sum0 %diff1)
-  '#(1 1.1 1.2100000000000002 1.3310000000000004)
+  (array #[1 1.1 1.2100000000000002 1.3310000000000004])
   #f
   'body
   '())
@@ -179,35 +239,115 @@
   '()
   '((1 . %dcf0))
   '((- (4) ()) %arg0 %vsum1)
-  '#(0 1 2 3)
+  (array #[0 1 2 3])
   #f
   'body
   '())
- (assignment '%vsum1 '() '((1 . %dcf0)) '((sum (4)) %prod1) 2010 #f 'body '())
+ (assignment
+  '%vsum1
+  '()
+  '((1 . %dcf0))
+  '((sum (4)) %prod1)
+  (array 2010)
+  #f
+  'body
+  '())
  (assignment
   '%prod1
   '()
   '((1 . %dcf0))
   '((* (4) (4)) %select1 %arg0)
-  '#(2010 0 0 0)
+  (array #[2010 0 0 0])
   #f
   'body
   '())
- (assignment '%select1 '() '((1 . %dcf0)) '#(1 0 0 0) '#(1 0 0 0) #f 'body '())
- (assignment '%sum0 '() '((1 . %dcf0)) '((+ () ()) %e5 %arg3) 1.1 #f 'body '())
- (assignment '%e5 '() '((1 . %dcf0)) 1 1 #f 'body '())
- (assignment '%arg3 '(discount-rate) '() '%e3 0.1 #f 'last-arg '())
- (assignment '%arg2 '(terminal-growth) '() '%e2 0.03 #f 'arg '())
- (assignment '%arg1 '(cash-flow) '() '%e1 '#(-100 -50 150 500) #f 'arg '())
- (assignment '%arg0 '(years) '() '%e0 '#(2010 2011 2012 2013) #f 'arg '())
- (assignment '%e3 '(discount-rate) '() 0.1 0.1 #f 'body '())
- (assignment '%e2 '(terminal-growth) '() 0.03 0.03 #f 'body '())
+ (assignment
+  '%select1
+  '()
+  '((1 . %dcf0))
+  (array #[1 0 0 0])
+  (array #[1 0 0 0])
+  #f
+  'body
+  '())
+ (assignment
+  '%sum0
+  '()
+  '((1 . %dcf0))
+  '((+ () ()) %e5 %arg3)
+  (array 1.1)
+  #f
+  'body
+  '())
+ (assignment
+  '%e5
+  '()
+  '((1 . %dcf0))
+  (mutable-array 1)
+  (mutable-array 1)
+  #f
+  'body
+  '())
+ (assignment
+  '%arg3
+  '(discount-rate)
+  '()
+  '%e3
+  (mutable-array 0.1)
+  #f
+  'last-arg
+  '())
+ (assignment
+  '%arg2
+  '(terminal-growth)
+  '()
+  '%e2
+  (mutable-array 0.03)
+  #f
+  'arg
+  '())
+ (assignment
+  '%arg1
+  '(cash-flow)
+  '()
+  '%e1
+  (mutable-array #[-100 -50 150 500])
+  #f
+  'arg
+  '())
+ (assignment
+  '%arg0
+  '(years)
+  '()
+  '%e0
+  (mutable-array #[2010 2011 2012 2013])
+  #f
+  'arg
+  '())
+ (assignment
+  '%e3
+  '(discount-rate)
+  '()
+  (mutable-array 0.1)
+  (mutable-array 0.1)
+  #f
+  'body
+  '())
+ (assignment
+  '%e2
+  '(terminal-growth)
+  '()
+  (mutable-array 0.03)
+  (mutable-array 0.03)
+  #f
+  'body
+  '())
  (assignment
   '%e1
   '(cash-flow)
   '()
-  '#(-100 -50 150 500)
-  '#(-100 -50 150 500)
+  (mutable-array #[-100 -50 150 500])
+  (mutable-array #[-100 -50 150 500])
   #f
   'body
   '())
@@ -215,8 +355,8 @@
   '%e0
   '(years)
   '()
-  '#(2010 2011 2012 2013)
-  '#(2010 2011 2012 2013)
+  (mutable-array #[2010 2011 2012 2013])
+  (mutable-array #[2010 2011 2012 2013])
   #f
   'body
   '())))

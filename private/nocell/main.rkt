@@ -9,6 +9,8 @@
          "parameters.rkt"
          racket/syntax
          syntax/id-table
+         ;; gamble redefines arrays: sometimes we want to be able to
+         ;; refer to core math/array functions
          (prefix-in m: math/array)
          (for-syntax racket/syntax
                      (only-in racket make-list)))
@@ -76,7 +78,7 @@
                  (stack-push
                   (make-assignment
                    #:id      res-name
-                   #:expr    `([f-symb ,(shape arg-vals) ...] ,arg-ids ...)
+                   #:expr    `([f-symb ,(vector->list (m:array-shape arg-vals)) ...] ,arg-ids ...)
                    #:val     result
                    #:sampler result-sampler)
                   args-stack))))))]))
@@ -387,12 +389,12 @@
                      [sampler
                       (λ ()
                         (define dist
-                          (distribution-kind ((sampler (stack-top a)))
-                                             ((sampler (stack-top b)))))
+                          (distribution-kind (m:array-ref ((sampler (stack-top a))) #[])
+                                             (m:array-ref ((sampler (stack-top b))) #[])))
                         (unless (null? observations)
-                          (for ([obs (stack-top-val observations)])
+                          (for ([obs (m:in-array (stack-top-val observations))])
                             (observe-sample dist obs)))
-                        (sample dist))])))
+                        (m:array (sample dist)))])))
 
 (define ~normal (distribution-2-parameter normal-dist))
 (define ~uniform (distribution-2-parameter uniform-dist))

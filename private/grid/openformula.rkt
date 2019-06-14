@@ -124,6 +124,13 @@ TODO
     ['truncate          (fmt-fn "TRUNC" fmt-args)]
     ['floor             (fmt-fn "FLOOR" fmt-args)]
     ['ceiling           (fmt-fn "CEILING" fmt-args)]
+    ;; Comparison
+    ['=                 (apply fmt-binary-op "=" fmt-args)]
+    ['<                 (apply fmt-binary-op "<" fmt-args)]
+    ['>                 (apply fmt-binary-op ">" fmt-args)]
+    ['<=                (apply fmt-binary-op "<=" fmt-args)]
+    ['>=                (apply fmt-binary-op ">=" fmt-args)]
+    ['if                (fmt-fn "IF" fmt-args)]
     ;; Multiple arity
     ['sum               (error "sum not yet defined")]
     ['min               (error "min not yet defined")]
@@ -161,6 +168,7 @@ TODO
        [(= (length fmt-args) 0) (fmt-fn "RAND" fmt-args)]
        [(= (length fmt-args) 1) (format "RANDBETWEEN(0,(~a-1))" (car fmt-args))]
        [else (format "RANDBETWEEN(~a,(~a-1))" (car fmt-args) (cadr fmt-args))])]
+    ['halt (format "NA()")]
     ))
 
 

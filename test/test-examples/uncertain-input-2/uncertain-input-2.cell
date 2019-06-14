@@ -4,31 +4,39 @@
 (provide result)
 (define result
 (list
- (assignment '%total-daily-hours0 '(result) '() '%sum1 18.0 #f 'result '())
  (assignment
-  '%total-daily-hours2
+  '%total-daily-hours0
+  '(result)
   '()
-  '()
-  18.811650422691937
-  18.811650422691937
+  '%sum1
+  (array 18.0)
   #f
-  'result-mean
+  'result
   '())
  (assignment
   '%total-daily-hours1
   '()
   '()
-  2.110226970845971
-  2.110226970845971
+  (mutable-array 14.865613516853116)
+  (mutable-array 14.865613516853116)
   #f
-  'result-stdev
+  'result-mean
+  '())
+ (assignment
+  '%total-daily-hours2
+  '()
+  '()
+  (array 13.445622853104737)
+  (array 13.445622853104737)
+  #f
+  'result-var
   '())
  (assignment
   '%sum1
   '()
   '((1 . %total-daily-hours0))
   '((+ () ()) %daily-hours/person0 %sum0)
-  18.0
+  (array 18.0)
   #f
   'body
   '())
@@ -37,7 +45,7 @@
   '()
   '((1 . %total-daily-hours0))
   '((+ () ()) %daily-hours/person3 %daily-hours/person6)
-  12.0
+  (array 12.0)
   #f
   'body
   '())
@@ -46,34 +54,34 @@
   '()
   '((1 . %total-daily-hours0))
   '%e18
-  6.0
+  (mutable-array 6.0)
   #f
   'result
-  '())
- (assignment
-  '%daily-hours/person8
-  '()
-  '((1 . %total-daily-hours0))
-  4.041498500265284
-  4.041498500265284
-  #f
-  'result-mean
   '())
  (assignment
   '%daily-hours/person7
   '()
   '((1 . %total-daily-hours0))
-  0.25165182739250785
-  0.25165182739250785
+  (mutable-array 8.0742488905776)
+  (mutable-array 8.0742488905776)
   #f
-  'result-stdev
+  'result-mean
+  '())
+ (assignment
+  '%daily-hours/person8
+  '()
+  '((1 . %total-daily-hours0))
+  (array 0.33631370885711603)
+  (array 0.33631370885711603)
+  #f
+  'result-var
   '())
  (assignment
   '%e18
   '(mean)
   '((2 . %daily-hours/person6) (1 . %total-daily-hours0))
-  6.0
-  6.0
+  (mutable-array 6.0)
+  (mutable-array 6.0)
   #f
   'body
   '())
@@ -82,7 +90,7 @@
   '(ts)
   '((1 . %total-daily-hours0))
   '%e3
-  '#(4.2 4.0 4.0 4.2 3.9 4.0 4.0 4.1 4.1 4.0)
+  (mutable-array #[4.2 4.0 4.0 4.2 3.9 4.0 4.0 4.1 4.1 4.0])
   #f
   'last-arg
   '())
@@ -90,8 +98,8 @@
   '%e3
   '(timesheet-3)
   '()
-  '#(4.2 4.0 4.0 4.2 3.9 4.0 4.0 4.1 4.1 4.0)
-  '#(4.2 4.0 4.0 4.2 3.9 4.0 4.0 4.1 4.1 4.0)
+  (mutable-array #[4.2 4.0 4.0 4.2 3.9 4.0 4.0 4.1 4.1 4.0])
+  (mutable-array #[4.2 4.0 4.0 4.2 3.9 4.0 4.0 4.1 4.1 4.0])
   #f
   'body
   '())
@@ -100,34 +108,34 @@
   '()
   '((1 . %total-daily-hours0))
   '%e12
-  6.0
+  (mutable-array 6.0)
   #f
   'result
-  '())
- (assignment
-  '%daily-hours/person5
-  '()
-  '((1 . %total-daily-hours0))
-  7.363004867192112
-  7.363004867192112
-  #f
-  'result-mean
   '())
  (assignment
   '%daily-hours/person4
   '()
   '((1 . %total-daily-hours0))
-  1.798057351965663
-  1.798057351965663
+  (mutable-array 9.110296490670411)
+  (mutable-array 9.110296490670411)
   #f
-  'result-stdev
+  'result-mean
+  '())
+ (assignment
+  '%daily-hours/person5
+  '()
+  '((1 . %total-daily-hours0))
+  (array 5.736409442110658e-07)
+  (array 5.736409442110658e-07)
+  #f
+  'result-var
   '())
  (assignment
   '%e12
   '(mean)
   '((2 . %daily-hours/person3) (1 . %total-daily-hours0))
-  6.0
-  6.0
+  (mutable-array 6.0)
+  (mutable-array 6.0)
   #f
   'body
   '())
@@ -136,7 +144,7 @@
   '(ts)
   '((1 . %total-daily-hours0))
   '%e2
-  '#(7.4 9.4 8.0 3.6 7.5 7.5 7.0 9.0 9.8 4.9)
+  (mutable-array #[7.4 9.4 8.0 3.6 7.5 7.5 7.0 9.0 9.8 4.9])
   #f
   'last-arg
   '())
@@ -144,8 +152,8 @@
   '%e2
   '(timesheet-2)
   '()
-  '#(7.4 9.4 8.0 3.6 7.5 7.5 7.0 9.0 9.8 4.9)
-  '#(7.4 9.4 8.0 3.6 7.5 7.5 7.0 9.0 9.8 4.9)
+  (mutable-array #[7.4 9.4 8.0 3.6 7.5 7.5 7.0 9.0 9.8 4.9])
+  (mutable-array #[7.4 9.4 8.0 3.6 7.5 7.5 7.0 9.0 9.8 4.9])
   #f
   'body
   '())
@@ -154,34 +162,34 @@
   '()
   '((1 . %total-daily-hours0))
   '%e6
-  6.0
+  (mutable-array 6.0)
   #f
   'result
-  '())
- (assignment
-  '%daily-hours/person2
-  '()
-  '((1 . %total-daily-hours0))
-  7.514640573876508
-  7.514640573876508
-  #f
-  'result-mean
   '())
  (assignment
   '%daily-hours/person1
   '()
   '((1 . %total-daily-hours0))
-  1.222017871035681
-  1.222017871035681
+  (mutable-array 9.110296490670411)
+  (mutable-array 9.110296490670411)
   #f
-  'result-stdev
+  'result-mean
+  '())
+ (assignment
+  '%daily-hours/person2
+  '()
+  '((1 . %total-daily-hours0))
+  (array 5.736409442110658e-07)
+  (array 5.736409442110658e-07)
+  #f
+  'result-var
   '())
  (assignment
   '%e6
   '(mean)
   '((2 . %daily-hours/person0) (1 . %total-daily-hours0))
-  6.0
-  6.0
+  (mutable-array 6.0)
+  (mutable-array 6.0)
   #f
   'body
   '())
@@ -190,7 +198,7 @@
   '(ts)
   '((1 . %total-daily-hours0))
   '%e1
-  '#(8.0 8.0 6.6 7.8 8.0 9.3 8.1 6.9 6.7 5.9)
+  (mutable-array #[8.0 8.0 6.6 7.8 8.0 9.3 8.1 6.9 6.7 5.9])
   #f
   'last-arg
   '())
@@ -198,8 +206,8 @@
   '%e1
   '(timesheet-1)
   '()
-  '#(8.0 8.0 6.6 7.8 8.0 9.3 8.1 6.9 6.7 5.9)
-  '#(8.0 8.0 6.6 7.8 8.0 9.3 8.1 6.9 6.7 5.9)
+  (mutable-array #[8.0 8.0 6.6 7.8 8.0 9.3 8.1 6.9 6.7 5.9])
+  (mutable-array #[8.0 8.0 6.6 7.8 8.0 9.3 8.1 6.9 6.7 5.9])
   #f
   'body
   '())))

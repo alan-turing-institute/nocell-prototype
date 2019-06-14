@@ -1,5 +1,5 @@
 ; -*- racket -*-
-#lang s-exp "../../private/nocell/main.rkt"
+#lang s-exp "../../main.rkt"
 
 (provide dcf)
 
