@@ -1,7 +1,8 @@
 #lang gamble
 
 (require (except-in racket #%module-begin #%top-interaction)
-         (only-in "../cell/assignment.rkt" stack-print)
+         (only-in "../cell/assignment.rkt"
+                  stack-print assignment? stack-top-val)
          "main.rkt")
 
 (provide @
@@ -37,3 +38,10 @@
 
          require
          provide)
+
+(let ([printer (current-print)])
+  (current-print
+   (lambda (a) (printer
+                (if (and (list? a) (andmap assignment? a))
+                    (stack-top-val a)
+                    a)))))
