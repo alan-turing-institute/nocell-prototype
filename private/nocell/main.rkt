@@ -304,7 +304,10 @@
   (define top (stack-top expr))
   (stack-push
    (struct-copy assignment top
-                [note (cons (string-join (map stack-top-val note-strs) "\n")
+                [note (cons (string-join
+                             (map (λ (s) (m:array-ref (stack-top-val s) #[]))
+                                  note-strs)
+                             "\n")
                             (note top))])
    (cdr expr)))
 
