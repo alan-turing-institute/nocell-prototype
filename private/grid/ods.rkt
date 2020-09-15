@@ -28,12 +28,12 @@ TODO and LIMITATIONS
 (define *MIMETYPE* "application/vnd.oasis.opendocument.spreadsheet")
 
 ;; ---------------------------------------------------------------------------------------------------
-;; Export sheet to a directory; zip the directory; and delete the original directory
+;; Export sheet to a flat ODS file (conventionally having a .fods extension)
 
 ;; sheet? path-string? -> void
 ;; `path` should not be the name of an existing directory.  
 (define (sheet-write-ods sheet path)
-  (call-with-output-file "content.xml" #:exists 'replace
+  (call-with-output-file path #:exists 'replace
     (λ (out) (srl:sxml->xml (ods sheet) out))))
 
 ;; ---------------------------------------------------------------------------------------------------
