@@ -1,6 +1,6 @@
 # nocell (prototype)
 
-[![Build Status](https://travis-ci.com/alan-turing-institute/nocell.svg?token=ZPDxx69KHKrd5gefprNs&branch=develop)](https://travis-ci.com/alan-turing-institute/nocell-prototype)
+[![Build Status](https://travis-ci.com/alan-turing-institute/nocell-prototype.svg?branch=master)](https://travis-ci.com/alan-turing-institute/nocell-prototype)
 
 **Note: This repository is no longer actively maintained.  Current development of nocell is in https://github.com/alan-turing-institute/nocell.**
 
