@@ -18,7 +18,7 @@ Development is on the develop branch. Design thoughts are in the wiki.
 
 To install the package, run `raco pkg install` in this directory.
 
-Run `raco doc nocell` to open the nocell documentation in your web browser.
+After installation, running `raco doc nocell` will open the nocell documentation in your web browser.
 
 The [discounted cash flow calculator](https://github.com/alan-turing-institute/discounted-cash-flow-calculator) is an extended example written in nocell.
 
