@@ -35,7 +35,6 @@ Branches
 
 Style 
 
-* main.rkt in each subdirectory
 * Explcitly provide rather than all defined out
 * Use contract-out on provides
 * No owners, but let people know what you are working on (slack, grabbing an issue)
