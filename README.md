@@ -1,6 +1,10 @@
-# nocell
+# nocell (prototype)
 
 [![Build Status](https://travis-ci.com/alan-turing-institute/nocell.svg?token=ZPDxx69KHKrd5gefprNs&branch=develop)](https://travis-ci.com/alan-turing-institute/nocell-prototype)
+
+**Note: Current development of nocell is in https://github.com/alan-turing-institute/nocell.**
+
+**This repository is no longer actively maintained**
 
 A language for building probabilistic spreadsheets
 
