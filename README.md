@@ -10,6 +10,8 @@ A language for building probabilistic spreadsheets
 
 * [Racket](https://racket-lang.org)
 
+Racket package dependencies are specified in [`info.rkt`](info.rkt): these will be installed automatically when following the instructions below.
+
 ## Installation and getting started
 
 To install the package, run `raco pkg install` in this directory.
