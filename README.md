@@ -9,8 +9,6 @@ A language for building probabilistic spreadsheets
 ## Dependencies
 
 * [Racket](https://racket-lang.org)
-* zip
-* diff (testing only)
 
 ## Installation and getting started
 
