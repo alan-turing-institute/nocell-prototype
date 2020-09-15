@@ -10,18 +10,28 @@ Development is on the develop branch. Design thoughts are in the wiki.
 
 ## Dependencies
 
-* Racket
+* [Racket](https://racket-lang.org)
 * zip
 * diff (testing only)
+
+## Installation and getting started
+
+To install the package, run `raco pkg install` in this directory.
+
+Run `raco doc nocell` to open the nocell documentation in your web browser.
+
+The [discounted cash flow calculator](https://github.com/alan-turing-institute/discounted-cash-flow-calculator) is an extended example written in nocell.
+
+You might also like to browse the examples in this repository: [examples](examples) and [test-examples](test/test-examples).
 
 ## How we work together
 
 Branches
 
-* Master - is demo-able
-* Develop - the tests pass
-* Feature branches
-* Pull requests - If you want a review, ALWAYS if you change a defines, as you see fit
+* `master` - is demo-able
+* `develop` - the tests pass
+* `feature/xy` - Feature branches
+* Pull requests - Mandatory, if you change an interface; Optional, if you want a review.
 
 Style 
 
