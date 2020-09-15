@@ -1,1 +1,1 @@
-See also the examples in (../test-examples)[../test-examples].
+See also the examples in [../test-examples](../test-examples).
