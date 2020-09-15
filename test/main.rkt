@@ -17,6 +17,22 @@
 (define attempt-load-result
   (lift/maybe (λ (path) (dynamic-require path 'result))))
 
+(define (within-tol? a b tol)
+  (define (equal-proc a b)
+    (cond
+      [(and (real? a) (nan? a) (real? b) (nan? b)) #t]
+      [(and (number? a) (number? b)) (<= (magnitude (- a b)) tol)]
+      [else (equal?/recur a b equal-proc)]))
+  (equal-proc a b))
+
+(define-check (check-within-tol a b tol)
+  (with-check-info*
+   (list (make-check-actual a)
+         (make-check-expected b))
+   (lambda ()
+     (unless (within-tol? a b tol)
+       (fail-check)))))
+
 ;; Check that conv correctly converts from the data read from
 ;; maybe-input-path (if not missing) to the data read from
 ;; maybe-expected-path.  If the expected path is missing, attempt the
@@ -25,7 +41,7 @@
   (define maybe-input  (attempt-load-result maybe-input-path))
   (define maybe-expect (attempt-load-result maybe-expect-path))
   (define maybe-actual ((lift/maybe conv) maybe-input))
-  ((lift/maybe (λ (v1 v2) (check-within v1 v2 1e-8))) maybe-actual maybe-expect))
+  ((lift/maybe (λ (v1 v2) (check-within-tol v1 v2 1e-8))) maybe-actual maybe-expect))
 
 ;; Check conversions nocell -> cell -> grid -> sxml, grid -> fods
 ;;
