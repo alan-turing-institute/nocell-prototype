@@ -6,8 +6,6 @@
 
 A language for building probabilistic spreadsheets
 
-Development is on the develop branch. Design thoughts are in the wiki.
-
 ## Dependencies
 
 * [Racket](https://racket-lang.org)
@@ -23,6 +21,8 @@ After installation, running `raco doc nocell` will open the nocell documentation
 The [discounted cash flow calculator](https://github.com/alan-turing-institute/discounted-cash-flow-calculator) is an extended example written in nocell.
 
 You might also like to browse the examples in this repository: [examples](examples) and [test-examples](test/test-examples).
+
+Design thoughts are in the [wiki](https://github.com/alan-turing-institute/nocell-prototype/wiki).
 
 ## How we work together
 
