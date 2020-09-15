@@ -1,0 +1,90 @@
+; -*- racket -*-
+#lang racket
+(provide result)
+(define result
+  '(*TOP*
+    (@
+     (*NAMESPACES*
+      (office "urn:oasis:names:tc:opendocument:xmlns:office:1.0")
+      (table "urn:oasis:names:tc:opendocument:xmlns:table:1.0")
+      (text "urn:oasis:names:tc:opendocument:xmlns:text:1.0")))
+    (*PI* xml "version=\"1.0\" encoding=\"UTF-8\"")
+    (office:document
+     (@
+      (office:version "1.2")
+      (office:mimetype "application/vnd.oasis.opendocument.spreadsheet"))
+     (office:body
+      (office:spreadsheet
+       (table:table
+        (@ (table:style-name "ta1") (table:name "unnamed-sheet"))
+        (table:table-column
+         (@ (table:style-name "co1") (table:default-cell-style-name "Default")))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (office:value-type "float")
+           (office:value "100"))
+          (text:p "100")))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$A$1]")
+           (office:value-type "float")
+           (office:value "100"))
+          (text:p "100")))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$A$2]")
+           (office:value-type "float")
+           (office:value "100"))
+          (text:p "100")))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$A$3]")
+           (office:value-type "float")
+           (office:value "100"))
+          (text:p "100")))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$A$4]")
+           (office:value-type "float")
+           (office:value "100"))
+          (text:p "100")))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (office:value-type "float")
+           (office:value "1"))
+          (text:p "1")))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$A$5]+[.$A$6]")
+           (office:value-type "float")
+           (office:value "101"))
+          (text:p "101"))))
+       (table:named-expressions))))))

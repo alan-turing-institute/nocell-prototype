@@ -1,0 +1,776 @@
+; -*- racket -*-
+#lang racket
+(provide result)
+(define result
+  '(*TOP*
+    (@
+     (*NAMESPACES*
+      (office "urn:oasis:names:tc:opendocument:xmlns:office:1.0")
+      (table "urn:oasis:names:tc:opendocument:xmlns:table:1.0")
+      (text "urn:oasis:names:tc:opendocument:xmlns:text:1.0")))
+    (*PI* xml "version=\"1.0\" encoding=\"UTF-8\"")
+    (office:document
+     (@
+      (office:version "1.2")
+      (office:mimetype "application/vnd.oasis.opendocument.spreadsheet"))
+     (office:body
+      (office:spreadsheet
+       (table:table
+        (@ (table:style-name "ta1") (table:name "unnamed-sheet"))
+        (table:table-column
+         (@
+          (table:style-name "co1")
+          (table:number-columns-repeated "4")
+          (table:default-cell-style-name "Default")))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (office:value-type "float")
+           (office:value "2010"))
+          (text:p "2010"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (office:value-type "float")
+           (office:value "2011"))
+          (text:p "2011"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (office:value-type "float")
+           (office:value "2012"))
+          (text:p "2012"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (office:value-type "float")
+           (office:value "2013"))
+          (text:p "2013")))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (office:value-type "float")
+           (office:value "-100"))
+          (text:p "-100"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (office:value-type "float")
+           (office:value "-50"))
+          (text:p "-50"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (office:value-type "float")
+           (office:value "150"))
+          (text:p "150"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (office:value-type "float")
+           (office:value "500"))
+          (text:p "500")))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (office:value-type "float")
+           (office:value "0.03"))
+          (text:p "0.03"))
+         (table:table-cell (@ (table:number-columns-repeated "3"))))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (office:value-type "float")
+           (office:value "0.1"))
+          (text:p "0.1"))
+         (table:table-cell (@ (table:number-columns-repeated "3"))))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$A$1]")
+           (office:value-type "float")
+           (office:value "2010"))
+          (text:p "2010"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$B$1]")
+           (office:value-type "float")
+           (office:value "2011"))
+          (text:p "2011"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$C$1]")
+           (office:value-type "float")
+           (office:value "2012"))
+          (text:p "2012"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$D$1]")
+           (office:value-type "float")
+           (office:value "2013"))
+          (text:p "2013")))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$A$2]")
+           (office:value-type "float")
+           (office:value "-100"))
+          (text:p "-100"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$B$2]")
+           (office:value-type "float")
+           (office:value "-50"))
+          (text:p "-50"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$C$2]")
+           (office:value-type "float")
+           (office:value "150"))
+          (text:p "150"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$D$2]")
+           (office:value-type "float")
+           (office:value "500"))
+          (text:p "500")))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$A$3]")
+           (office:value-type "float")
+           (office:value "0.03"))
+          (text:p "0.03"))
+         (table:table-cell (@ (table:number-columns-repeated "3"))))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$A$4]")
+           (office:value-type "float")
+           (office:value "0.1"))
+          (text:p "0.1"))
+         (table:table-cell (@ (table:number-columns-repeated "3"))))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (office:value-type "float")
+           (office:value "1"))
+          (text:p "1"))
+         (table:table-cell (@ (table:number-columns-repeated "3"))))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$A$9]+[.$A$8]")
+           (office:value-type "float")
+           (office:value "1.1"))
+          (text:p "1.1"))
+         (table:table-cell (@ (table:number-columns-repeated "3"))))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (office:value-type "float")
+           (office:value "1"))
+          (text:p "1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:number-columns-repeated "3")
+           (office:value-type "float")
+           (office:value "0"))
+          (text:p "0")))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$A$11]*[.$A$5]")
+           (office:value-type "float")
+           (office:value "2010"))
+          (text:p "2010"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$B$11]*[.$B$5]")
+           (office:value-type "float")
+           (office:value "0"))
+          (text:p "0"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$C$11]*[.$C$5]")
+           (office:value-type "float")
+           (office:value "0"))
+          (text:p "0"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$D$11]*[.$D$5]")
+           (office:value-type "float")
+           (office:value "0"))
+          (text:p "0")))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$A$12]+[.$B$12]+[.$C$12]+[.$D$12]")
+           (office:value-type "float")
+           (office:value "2010"))
+          (text:p "2010"))
+         (table:table-cell (@ (table:number-columns-repeated "3"))))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$A$5]-[.$A$13]")
+           (office:value-type "float")
+           (office:value "0"))
+          (text:p "0"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$B$5]-[.$A$13]")
+           (office:value-type "float")
+           (office:value "1"))
+          (text:p "1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$C$5]-[.$A$13]")
+           (office:value-type "float")
+           (office:value "2"))
+          (text:p "2"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$D$5]-[.$A$13]")
+           (office:value-type "float")
+           (office:value "3"))
+          (text:p "3")))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=POWER([.$A$10];[.$A$14])")
+           (office:value-type "float")
+           (office:value "1"))
+          (text:p "1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=POWER([.$A$10];[.$B$14])")
+           (office:value-type "float")
+           (office:value "1.1"))
+          (text:p "1.1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=POWER([.$A$10];[.$C$14])")
+           (office:value-type "float")
+           (office:value "1.21"))
+          (text:p "1.21"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=POWER([.$A$10];[.$D$14])")
+           (office:value-type "float")
+           (office:value "1.331"))
+          (text:p "1.331")))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$A$6]/[.$A$15]")
+           (office:value-type "float")
+           (office:value "-100"))
+          (text:p "-100"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$B$6]/[.$B$15]")
+           (office:value-type "float")
+           (office:value "-45.4545454545455"))
+          (text:p "-45.4545454545455"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$C$6]/[.$C$15]")
+           (office:value-type "float")
+           (office:value "123.96694214876"))
+          (text:p "123.96694214876"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$D$6]/[.$D$15]")
+           (office:value-type "float")
+           (office:value "375.657400450789"))
+          (text:p "375.657400450789")))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$A$16]+[.$B$16]+[.$C$16]+[.$D$16]")
+           (office:value-type "float")
+           (office:value "354.169797145004"))
+          (text:p "354.169797145004"))
+         (table:table-cell (@ (table:number-columns-repeated "3"))))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:number-columns-repeated "3")
+           (office:value-type "float")
+           (office:value "0"))
+          (text:p "0"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (office:value-type "float")
+           (office:value "1"))
+          (text:p "1")))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:number-columns-repeated "3")
+           (office:value-type "float")
+           (office:value "0"))
+          (text:p "0"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (office:value-type "float")
+           (office:value "1"))
+          (text:p "1")))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$A$19]*[.$A$6]")
+           (office:value-type "float")
+           (office:value "-0"))
+          (text:p "0"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$B$19]*[.$B$6]")
+           (office:value-type "float")
+           (office:value "-0"))
+          (text:p "0"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$C$19]*[.$C$6]")
+           (office:value-type "float")
+           (office:value "0"))
+          (text:p "0"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$D$19]*[.$D$6]")
+           (office:value-type "float")
+           (office:value "500"))
+          (text:p "500")))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$A$20]+[.$B$20]+[.$C$20]+[.$D$20]")
+           (office:value-type "float")
+           (office:value "500"))
+          (text:p "500"))
+         (table:table-cell (@ (table:number-columns-repeated "3"))))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (office:value-type "float")
+           (office:value "1"))
+          (text:p "1"))
+         (table:table-cell (@ (table:number-columns-repeated "3"))))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$A$7]+[.$A$22]")
+           (office:value-type "float")
+           (office:value "1.03"))
+          (text:p "1.03"))
+         (table:table-cell (@ (table:number-columns-repeated "3"))))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$A$21]*[.$A$23]")
+           (office:value-type "float")
+           (office:value "515"))
+          (text:p "515"))
+         (table:table-cell (@ (table:number-columns-repeated "3"))))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$A$8]-[.$A$7]")
+           (office:value-type "float")
+           (office:value "0.07"))
+          (text:p "0.07"))
+         (table:table-cell (@ (table:number-columns-repeated "3"))))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$A$24]/[.$A$25]")
+           (office:value-type "float")
+           (office:value "7357.14285714286"))
+          (text:p "7357.14285714286"))
+         (table:table-cell (@ (table:number-columns-repeated "3"))))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (office:value-type "float")
+           (office:value "1"))
+          (text:p "1"))
+         (table:table-cell (@ (table:number-columns-repeated "3"))))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$A$27]+[.$A$8]")
+           (office:value-type "float")
+           (office:value "1.1"))
+          (text:p "1.1"))
+         (table:table-cell (@ (table:number-columns-repeated "3"))))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (office:value-type "float")
+           (office:value "1"))
+          (text:p "1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:number-columns-repeated "3")
+           (office:value-type "float")
+           (office:value "0"))
+          (text:p "0")))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$A$29]*[.$A$5]")
+           (office:value-type "float")
+           (office:value "2010"))
+          (text:p "2010"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$B$29]*[.$B$5]")
+           (office:value-type "float")
+           (office:value "0"))
+          (text:p "0"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$C$29]*[.$C$5]")
+           (office:value-type "float")
+           (office:value "0"))
+          (text:p "0"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$D$29]*[.$D$5]")
+           (office:value-type "float")
+           (office:value "0"))
+          (text:p "0")))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$A$30]+[.$B$30]+[.$C$30]+[.$D$30]")
+           (office:value-type "float")
+           (office:value "2010"))
+          (text:p "2010"))
+         (table:table-cell (@ (table:number-columns-repeated "3"))))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$A$5]-[.$A$31]")
+           (office:value-type "float")
+           (office:value "0"))
+          (text:p "0"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$B$5]-[.$A$31]")
+           (office:value-type "float")
+           (office:value "1"))
+          (text:p "1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$C$5]-[.$A$31]")
+           (office:value-type "float")
+           (office:value "2"))
+          (text:p "2"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$D$5]-[.$A$31]")
+           (office:value-type "float")
+           (office:value "3"))
+          (text:p "3")))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=POWER([.$A$28];[.$A$32])")
+           (office:value-type "float")
+           (office:value "1"))
+          (text:p "1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=POWER([.$A$28];[.$B$32])")
+           (office:value-type "float")
+           (office:value "1.1"))
+          (text:p "1.1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=POWER([.$A$28];[.$C$32])")
+           (office:value-type "float")
+           (office:value "1.21"))
+          (text:p "1.21"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=POWER([.$A$28];[.$D$32])")
+           (office:value-type "float")
+           (office:value "1.331"))
+          (text:p "1.331")))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$A$26]/[.$A$33]")
+           (office:value-type "float")
+           (office:value "7357.14285714286"))
+          (text:p "7357.14285714286"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$A$26]/[.$B$33]")
+           (office:value-type "float")
+           (office:value "6688.31168831169"))
+          (text:p "6688.31168831169"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$A$26]/[.$C$33]")
+           (office:value-type "float")
+           (office:value "6080.28335301063"))
+          (text:p "6080.28335301063"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$A$26]/[.$D$33]")
+           (office:value-type "float")
+           (office:value "5527.53032091875"))
+          (text:p "5527.53032091875")))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$A$18]*[.$A$34]")
+           (office:value-type "float")
+           (office:value "0"))
+          (text:p "0"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$B$18]*[.$B$34]")
+           (office:value-type "float")
+           (office:value "0"))
+          (text:p "0"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$C$18]*[.$C$34]")
+           (office:value-type "float")
+           (office:value "0"))
+          (text:p "0"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$D$18]*[.$D$34]")
+           (office:value-type "float")
+           (office:value "5527.53032091875"))
+          (text:p "5527.53032091875")))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$A$35]+[.$B$35]+[.$C$35]+[.$D$35]")
+           (office:value-type "float")
+           (office:value "5527.53032091875"))
+          (text:p "5527.53032091875"))
+         (table:table-cell (@ (table:number-columns-repeated "3"))))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$A$17]+[.$A$36]")
+           (office:value-type "float")
+           (office:value "5881.70011806375"))
+          (text:p "5881.70011806375"))
+         (table:table-cell (@ (table:number-columns-repeated "3"))))
+        (table:table-row
+         (@ (table:style-name "ro1"))
+         (table:table-cell
+          (@
+           (urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0:value-type
+            "float")
+           (table:formula "of:=[.$A$37]")
+           (office:value-type "float")
+           (office:value "5881.70011806375"))
+          (text:p "5881.70011806375"))
+         (table:table-cell (@ (table:number-columns-repeated "3")))))
+       (table:named-expressions))))))

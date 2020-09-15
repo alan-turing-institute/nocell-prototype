@@ -1,0 +1,39 @@
+; -*- racket -*-
+#lang racket
+(require math/array
+         "../../../private/grid/sheet.rkt")
+(provide result)
+(define result
+(sheet
+ (mutable-array
+  #[#[(cell (cell-value (array #[#[100]])) '() '() '())]
+    #[(cell (cell-addr 0 0 #t #t) '() '() '())]
+    #[(cell (cell-addr 1 0 #t #t) '() '() '())]
+    #[(cell (cell-value (array #[#[0]])) '() '() '())]
+    #[(cell (cell-value (array #[#[100]])) '() '() '())]
+    #[(cell (cell-addr 2 0 #t #t) '() '() '())]
+    #[(cell (cell-value (array #[#[0]])) '() '() '())]
+    #[(cell (cell-value (array #[#[100]])) '() '() '())]
+    #[(cell (cell-addr 5 0 #t #t) '() '() '())]
+    #[(cell (cell-value (array #[#[1]])) '() '() '())]
+    #[(cell
+       (cell-app '+ (list (cell-addr 8 0 #t #t) (cell-addr 9 0 #t #t)))
+       '()
+       '()
+       '())]])
+ '()
+ '()
+ '()
+ '()
+ '((body 0 0 exact)
+   (last-arg 1 1 exact)
+   (body 2 2 exact)
+   (result-var 1 1 exact)
+   (result-mean 1 1 exact)
+   (result 1 1 exact)
+   (result-var 0 0 exact)
+   (result-mean 0 0 exact)
+   (result 0 0 exact)
+   (body 0 0 exact)
+   (body 0 0 exact))
+ "unnamed-sheet"))

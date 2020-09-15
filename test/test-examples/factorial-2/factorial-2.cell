@@ -1,0 +1,429 @@
+; -*- racket -*-
+#lang racket
+(require "../../../cell.rkt")
+(provide result)
+(define result
+(list
+ (assignment '%fact0 '(result) '() '%branch4 (array 24) #f 'result '())
+ (assignment
+  '%fact1
+  '()
+  '()
+  (mutable-array 24)
+  (mutable-array 24)
+  #f
+  'result-mean
+  '())
+ (assignment '%fact2 '() '() (array 0) (array 0) #f 'result-var '())
+ (assignment
+  '%branch4
+  '()
+  '((1 . %fact0))
+  '((if () () ()) %eq?0 %arg1 %fact3)
+  (array 24)
+  #f
+  'body
+  '())
+ (assignment '%fact3 '() '((1 . %fact0)) '%branch3 (array 24) #f 'result '())
+ (assignment
+  '%fact4
+  '()
+  '((1 . %fact0))
+  (mutable-array 24)
+  (mutable-array 24)
+  #f
+  'result-mean
+  '())
+ (assignment
+  '%fact5
+  '()
+  '((1 . %fact0))
+  (array 0)
+  (array 0)
+  #f
+  'result-var
+  '())
+ (assignment
+  '%branch3
+  '()
+  '((1 . %fact3) (1 . %fact0))
+  '((if () () ()) %eq?1 %arg3 %fact6)
+  (array 24)
+  #f
+  'body
+  '())
+ (assignment
+  '%fact6
+  '()
+  '((1 . %fact3) (1 . %fact0))
+  '%branch2
+  (array 24)
+  #f
+  'result
+  '())
+ (assignment
+  '%fact7
+  '()
+  '((1 . %fact3) (1 . %fact0))
+  (mutable-array 24)
+  (mutable-array 24)
+  #f
+  'result-mean
+  '())
+ (assignment
+  '%fact8
+  '()
+  '((1 . %fact3) (1 . %fact0))
+  (array 0)
+  (array 0)
+  #f
+  'result-var
+  '())
+ (assignment
+  '%branch2
+  '()
+  '((1 . %fact6) (1 . %fact3) (1 . %fact0))
+  '((if () () ()) %eq?2 %arg5 %fact9)
+  (array 24)
+  #f
+  'body
+  '())
+ (assignment
+  '%fact9
+  '()
+  '((1 . %fact6) (1 . %fact3) (1 . %fact0))
+  '%branch1
+  (array 24)
+  #f
+  'result
+  '())
+ (assignment
+  '%fact10
+  '()
+  '((1 . %fact6) (1 . %fact3) (1 . %fact0))
+  (mutable-array 24)
+  (mutable-array 24)
+  #f
+  'result-mean
+  '())
+ (assignment
+  '%fact11
+  '()
+  '((1 . %fact6) (1 . %fact3) (1 . %fact0))
+  (array 0)
+  (array 0)
+  #f
+  'result-var
+  '())
+ (assignment
+  '%branch1
+  '()
+  '((1 . %fact9) (1 . %fact6) (1 . %fact3) (1 . %fact0))
+  '((if () () ()) %eq?3 %arg7 %fact12)
+  (array 24)
+  #f
+  'body
+  '())
+ (assignment
+  '%fact12
+  '()
+  '((1 . %fact9) (1 . %fact6) (1 . %fact3) (1 . %fact0))
+  '%branch0
+  (array 24)
+  #f
+  'result
+  '())
+ (assignment
+  '%fact13
+  '()
+  '((1 . %fact9) (1 . %fact6) (1 . %fact3) (1 . %fact0))
+  (mutable-array 24)
+  (mutable-array 24)
+  #f
+  'result-mean
+  '())
+ (assignment
+  '%fact14
+  '()
+  '((1 . %fact9) (1 . %fact6) (1 . %fact3) (1 . %fact0))
+  (array 0)
+  (array 0)
+  #f
+  'result-var
+  '())
+ (assignment
+  '%branch0
+  '()
+  '((1 . %fact12) (1 . %fact9) (1 . %fact6) (1 . %fact3) (1 . %fact0))
+  '((if () () ()) %eq?4 %arg9 %halt0)
+  (array 24)
+  #f
+  'body
+  '())
+ (assignment
+  '%halt0
+  '()
+  '((1 . %fact12) (1 . %fact9) (1 . %fact6) (1 . %fact3) (1 . %fact0))
+  '((halt))
+  (array +nan.0)
+  #f
+  'body
+  '())
+ (assignment
+  '%eq?4
+  '()
+  '((1 . %fact12) (1 . %fact9) (1 . %fact6) (1 . %fact3) (1 . %fact0))
+  '((= () ()) %arg8 %e10)
+  (array #t)
+  #f
+  'body
+  '())
+ (assignment
+  '%e10
+  '()
+  '((1 . %fact12) (1 . %fact9) (1 . %fact6) (1 . %fact3) (1 . %fact0))
+  (mutable-array 0)
+  (mutable-array 0)
+  #f
+  'body
+  '())
+ (assignment
+  '%arg9
+  '(acc)
+  '((1 . %fact9) (1 . %fact6) (1 . %fact3) (1 . %fact0))
+  '%prod3
+  (array 24)
+  #f
+  'last-arg
+  '())
+ (assignment
+  '%arg8
+  '(n)
+  '((1 . %fact9) (1 . %fact6) (1 . %fact3) (1 . %fact0))
+  '%diff3
+  (array 0)
+  #f
+  'arg
+  '())
+ (assignment
+  '%prod3
+  '()
+  '((1 . %fact9) (1 . %fact6) (1 . %fact3) (1 . %fact0))
+  '((* () ()) %arg6 %arg7)
+  (array 24)
+  #f
+  'body
+  '())
+ (assignment
+  '%diff3
+  '()
+  '((1 . %fact9) (1 . %fact6) (1 . %fact3) (1 . %fact0))
+  '((- () ()) %arg6 %e9)
+  (array 0)
+  #f
+  'body
+  '())
+ (assignment
+  '%e9
+  '()
+  '((1 . %fact9) (1 . %fact6) (1 . %fact3) (1 . %fact0))
+  (mutable-array 1)
+  (mutable-array 1)
+  #f
+  'body
+  '())
+ (assignment
+  '%eq?3
+  '()
+  '((1 . %fact9) (1 . %fact6) (1 . %fact3) (1 . %fact0))
+  '((= () ()) %arg6 %e8)
+  (array #f)
+  #f
+  'body
+  '())
+ (assignment
+  '%e8
+  '()
+  '((1 . %fact9) (1 . %fact6) (1 . %fact3) (1 . %fact0))
+  (mutable-array 0)
+  (mutable-array 0)
+  #f
+  'body
+  '())
+ (assignment
+  '%arg7
+  '(acc)
+  '((1 . %fact6) (1 . %fact3) (1 . %fact0))
+  '%prod2
+  (array 24)
+  #f
+  'last-arg
+  '())
+ (assignment
+  '%arg6
+  '(n)
+  '((1 . %fact6) (1 . %fact3) (1 . %fact0))
+  '%diff2
+  (array 1)
+  #f
+  'arg
+  '())
+ (assignment
+  '%prod2
+  '()
+  '((1 . %fact6) (1 . %fact3) (1 . %fact0))
+  '((* () ()) %arg4 %arg5)
+  (array 24)
+  #f
+  'body
+  '())
+ (assignment
+  '%diff2
+  '()
+  '((1 . %fact6) (1 . %fact3) (1 . %fact0))
+  '((- () ()) %arg4 %e7)
+  (array 1)
+  #f
+  'body
+  '())
+ (assignment
+  '%e7
+  '()
+  '((1 . %fact6) (1 . %fact3) (1 . %fact0))
+  (mutable-array 1)
+  (mutable-array 1)
+  #f
+  'body
+  '())
+ (assignment
+  '%eq?2
+  '()
+  '((1 . %fact6) (1 . %fact3) (1 . %fact0))
+  '((= () ()) %arg4 %e6)
+  (array #f)
+  #f
+  'body
+  '())
+ (assignment
+  '%e6
+  '()
+  '((1 . %fact6) (1 . %fact3) (1 . %fact0))
+  (mutable-array 0)
+  (mutable-array 0)
+  #f
+  'body
+  '())
+ (assignment
+  '%arg5
+  '(acc)
+  '((1 . %fact3) (1 . %fact0))
+  '%prod1
+  (array 12)
+  #f
+  'last-arg
+  '())
+ (assignment
+  '%arg4
+  '(n)
+  '((1 . %fact3) (1 . %fact0))
+  '%diff1
+  (array 2)
+  #f
+  'arg
+  '())
+ (assignment
+  '%prod1
+  '()
+  '((1 . %fact3) (1 . %fact0))
+  '((* () ()) %arg2 %arg3)
+  (array 12)
+  #f
+  'body
+  '())
+ (assignment
+  '%diff1
+  '()
+  '((1 . %fact3) (1 . %fact0))
+  '((- () ()) %arg2 %e5)
+  (array 2)
+  #f
+  'body
+  '())
+ (assignment
+  '%e5
+  '()
+  '((1 . %fact3) (1 . %fact0))
+  (mutable-array 1)
+  (mutable-array 1)
+  #f
+  'body
+  '())
+ (assignment
+  '%eq?1
+  '()
+  '((1 . %fact3) (1 . %fact0))
+  '((= () ()) %arg2 %e4)
+  (array #f)
+  #f
+  'body
+  '())
+ (assignment
+  '%e4
+  '()
+  '((1 . %fact3) (1 . %fact0))
+  (mutable-array 0)
+  (mutable-array 0)
+  #f
+  'body
+  '())
+ (assignment '%arg3 '(acc) '((1 . %fact0)) '%prod0 (array 4) #f 'last-arg '())
+ (assignment '%arg2 '(n) '((1 . %fact0)) '%diff0 (array 3) #f 'arg '())
+ (assignment
+  '%prod0
+  '()
+  '((1 . %fact0))
+  '((* () ()) %arg0 %arg1)
+  (array 4)
+  #f
+  'body
+  '())
+ (assignment
+  '%diff0
+  '()
+  '((1 . %fact0))
+  '((- () ()) %arg0 %e3)
+  (array 3)
+  #f
+  'body
+  '())
+ (assignment
+  '%e3
+  '()
+  '((1 . %fact0))
+  (mutable-array 1)
+  (mutable-array 1)
+  #f
+  'body
+  '())
+ (assignment
+  '%eq?0
+  '()
+  '((1 . %fact0))
+  '((= () ()) %arg0 %e2)
+  (array #f)
+  #f
+  'body
+  '())
+ (assignment
+  '%e2
+  '()
+  '((1 . %fact0))
+  (mutable-array 0)
+  (mutable-array 0)
+  #f
+  'body
+  '())
+ (assignment '%arg1 '(acc) '() '%e1 (mutable-array 1) #f 'last-arg '())
+ (assignment '%arg0 '(n) '() '%e0 (mutable-array 4) #f 'arg '())
+ (assignment '%e1 '() '() (mutable-array 1) (mutable-array 1) #f 'body '())
+ (assignment '%e0 '() '() (mutable-array 4) (mutable-array 4) #f 'body '())))

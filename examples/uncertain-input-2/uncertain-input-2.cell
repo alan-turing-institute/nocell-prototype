@@ -1,0 +1,213 @@
+; -*- racket -*-
+#lang racket
+(require "../../../cell.rkt")
+(provide result)
+(define result
+(list
+ (assignment
+  '%total-daily-hours0
+  '(result)
+  '()
+  '%sum1
+  (array 18.0)
+  #f
+  'result
+  '())
+ (assignment
+  '%total-daily-hours1
+  '()
+  '()
+  (mutable-array 14.865613516853116)
+  (mutable-array 14.865613516853116)
+  #f
+  'result-mean
+  '())
+ (assignment
+  '%total-daily-hours2
+  '()
+  '()
+  (array 13.445622853104737)
+  (array 13.445622853104737)
+  #f
+  'result-var
+  '())
+ (assignment
+  '%sum1
+  '()
+  '((1 . %total-daily-hours0))
+  '((+ () ()) %daily-hours/person0 %sum0)
+  (array 18.0)
+  #f
+  'body
+  '())
+ (assignment
+  '%sum0
+  '()
+  '((1 . %total-daily-hours0))
+  '((+ () ()) %daily-hours/person3 %daily-hours/person6)
+  (array 12.0)
+  #f
+  'body
+  '())
+ (assignment
+  '%daily-hours/person6
+  '()
+  '((1 . %total-daily-hours0))
+  '%e18
+  (mutable-array 6.0)
+  #f
+  'result
+  '())
+ (assignment
+  '%daily-hours/person7
+  '()
+  '((1 . %total-daily-hours0))
+  (mutable-array 8.0742488905776)
+  (mutable-array 8.0742488905776)
+  #f
+  'result-mean
+  '())
+ (assignment
+  '%daily-hours/person8
+  '()
+  '((1 . %total-daily-hours0))
+  (array 0.33631370885711603)
+  (array 0.33631370885711603)
+  #f
+  'result-var
+  '())
+ (assignment
+  '%e18
+  '(mean)
+  '((2 . %daily-hours/person6) (1 . %total-daily-hours0))
+  (mutable-array 6.0)
+  (mutable-array 6.0)
+  #f
+  'body
+  '())
+ (assignment
+  '%arg2
+  '(ts)
+  '((1 . %total-daily-hours0))
+  '%e3
+  (mutable-array #[4.2 4.0 4.0 4.2 3.9 4.0 4.0 4.1 4.1 4.0])
+  #f
+  'last-arg
+  '())
+ (assignment
+  '%e3
+  '(timesheet-3)
+  '()
+  (mutable-array #[4.2 4.0 4.0 4.2 3.9 4.0 4.0 4.1 4.1 4.0])
+  (mutable-array #[4.2 4.0 4.0 4.2 3.9 4.0 4.0 4.1 4.1 4.0])
+  #f
+  'body
+  '())
+ (assignment
+  '%daily-hours/person3
+  '()
+  '((1 . %total-daily-hours0))
+  '%e12
+  (mutable-array 6.0)
+  #f
+  'result
+  '())
+ (assignment
+  '%daily-hours/person4
+  '()
+  '((1 . %total-daily-hours0))
+  (mutable-array 9.110296490670411)
+  (mutable-array 9.110296490670411)
+  #f
+  'result-mean
+  '())
+ (assignment
+  '%daily-hours/person5
+  '()
+  '((1 . %total-daily-hours0))
+  (array 5.736409442110658e-07)
+  (array 5.736409442110658e-07)
+  #f
+  'result-var
+  '())
+ (assignment
+  '%e12
+  '(mean)
+  '((2 . %daily-hours/person3) (1 . %total-daily-hours0))
+  (mutable-array 6.0)
+  (mutable-array 6.0)
+  #f
+  'body
+  '())
+ (assignment
+  '%arg1
+  '(ts)
+  '((1 . %total-daily-hours0))
+  '%e2
+  (mutable-array #[7.4 9.4 8.0 3.6 7.5 7.5 7.0 9.0 9.8 4.9])
+  #f
+  'last-arg
+  '())
+ (assignment
+  '%e2
+  '(timesheet-2)
+  '()
+  (mutable-array #[7.4 9.4 8.0 3.6 7.5 7.5 7.0 9.0 9.8 4.9])
+  (mutable-array #[7.4 9.4 8.0 3.6 7.5 7.5 7.0 9.0 9.8 4.9])
+  #f
+  'body
+  '())
+ (assignment
+  '%daily-hours/person0
+  '()
+  '((1 . %total-daily-hours0))
+  '%e6
+  (mutable-array 6.0)
+  #f
+  'result
+  '())
+ (assignment
+  '%daily-hours/person1
+  '()
+  '((1 . %total-daily-hours0))
+  (mutable-array 9.110296490670411)
+  (mutable-array 9.110296490670411)
+  #f
+  'result-mean
+  '())
+ (assignment
+  '%daily-hours/person2
+  '()
+  '((1 . %total-daily-hours0))
+  (array 5.736409442110658e-07)
+  (array 5.736409442110658e-07)
+  #f
+  'result-var
+  '())
+ (assignment
+  '%e6
+  '(mean)
+  '((2 . %daily-hours/person0) (1 . %total-daily-hours0))
+  (mutable-array 6.0)
+  (mutable-array 6.0)
+  #f
+  'body
+  '())
+ (assignment
+  '%arg0
+  '(ts)
+  '((1 . %total-daily-hours0))
+  '%e1
+  (mutable-array #[8.0 8.0 6.6 7.8 8.0 9.3 8.1 6.9 6.7 5.9])
+  #f
+  'last-arg
+  '())
+ (assignment
+  '%e1
+  '(timesheet-1)
+  '()
+  (mutable-array #[8.0 8.0 6.6 7.8 8.0 9.3 8.1 6.9 6.7 5.9])
+  (mutable-array #[8.0 8.0 6.6 7.8 8.0 9.3 8.1 6.9 6.7 5.9])
+  #f
+  'body
+  '())))

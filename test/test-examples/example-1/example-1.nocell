@@ -1,0 +1,12 @@
+; -*- racket -*-
+#lang s-exp "../../../main.rkt"
+(define (a x)
+  (define z 100)
+  (define (b)
+    (define c 1)
+    (+ x (+ z c)))
+  (define tmp (b))
+  (+ tmp 0))
+(define z 0)
+(define result (a (+ z 2)))
+(provide result)
