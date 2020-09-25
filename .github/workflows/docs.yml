@@ -22,14 +22,12 @@ jobs:
           variant: 'regular'
           version: '7.8'
 
-      - run: |
-          raco pkg install --auto || true
-          raco scribble --htmls --dest doc-scribble --redirect-main https://docs.racket-lang.org +m scribblings/nocell.scrbl
+      - run: raco pkg install --auto || true
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@3.6.1
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages
-          FOLDER: doc-scribble/nocell
+          FOLDER: doc/nocell
           CLEAN: true
