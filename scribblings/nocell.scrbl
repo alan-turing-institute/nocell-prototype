@@ -2,7 +2,7 @@
 @require[
   scribble/example
   racket/sandbox
-  @for-label["../main.rkt"]]
+  @for-label[nocell]]
 
 @(define nocell-evaluator
    (parameterize ([sandbox-output 'string]
