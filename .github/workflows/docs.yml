@@ -22,7 +22,9 @@ jobs:
           variant: 'regular'
           version: '7.8'
 
-      - run: raco scribble --htmls --dest doc --redirect-main https://docs.racket-lang.org +m scribblings/nocell.scrbl
+      - run: |
+          raco pkg install          
+          raco scribble --htmls --dest doc --redirect-main https://docs.racket-lang.org +m scribblings/nocell.scrbl
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@3.6.1
