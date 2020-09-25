@@ -23,7 +23,7 @@ jobs:
           version: '7.8'
 
       - run: |
-          raco pkg install --auto
+          raco pkg install --auto || true
           raco scribble --htmls --dest doc-scribble --redirect-main https://docs.racket-lang.org +m scribblings/nocell.scrbl
 
       - name: Deploy
