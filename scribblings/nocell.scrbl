@@ -501,4 +501,3 @@ introduced, being a reference to @racket[expr] and named @racket[id]}
 
 @section[#:tag "contributing"]{Contributing}
 
-
