@@ -1,6 +1,6 @@
 ; -*- racket -*-
 #lang racket
-(require "../../../cell.rkt")
+(require "../../cell.rkt")
 (provide result)
 (define result
 (list
